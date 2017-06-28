@@ -112,7 +112,7 @@ var ImagesView = Backbone.View.extend({
 
     getEntries: function() {
         var entries = [];
-        var i = 0;
+       var i = 0;
             for (var index in this.model.models) {
             var image = this.model.models[index];
             if (image.get('server') !== undefined || image.get('container_format') === 'ari' || image.get('container_format') === 'aki') {
@@ -127,13 +127,16 @@ var ImagesView = Backbone.View.extend({
             if (visibility === undefined) {
                 visibility = image.get('is_public') ? "public":"private";
             }
+            var type = "~";
+            if (image.get("type")) type = image.get("type");
+            if (image.get("properties") && image.get("properties").type) type = image.get("properties").type;
             var entry = {
                 id: image.get('id'),
                 cells: [{
                     value: image.get("name"),
                     link: "#nova/images/" + image.id
                 }, {
-                    value: image.get("properties").type ? image.get("properties").type:  "~"
+                    value: type
                 }, {
                     value: image.get("status")
                 }, {

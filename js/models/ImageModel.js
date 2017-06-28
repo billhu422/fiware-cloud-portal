@@ -46,7 +46,7 @@ var Images = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Glance.getimagelist(true, options.success, options.error, this.getRegion());
+//            JSTACK.Glance.getimagelist(true, options.success, options.error, this.getRegion());
         }
     },
 

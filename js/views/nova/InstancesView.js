@@ -3,7 +3,6 @@ var NovaInstancesView = Backbone.View.extend({
     _template: _.itemplate($('#novaInstancesTemplate').html()),
 
     tableView: undefined,
-
     initialize: function() {
         this.options.projects = UTILS.GlobalModels.get("projects");
         this.options.keypairs = UTILS.GlobalModels.get("keypairsModel");
@@ -80,7 +79,8 @@ var NovaInstancesView = Backbone.View.extend({
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
                     if (entry.get("status") !== "SHUTOFF") {
-                        return false;
+              //          return false;
+                        return true;
                     }
                 }
                 return true;
@@ -185,16 +185,74 @@ var NovaInstancesView = Backbone.View.extend({
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
-        }, {
+        }/*,
+ {
             name: "Power State",
             tooltip: "Server's power state",
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
-        }];
+        }*/
+      ];
     },
 
     getEntries: function() {
+               //qcloud
+        var VM_STATUS = {
+            1: "Error",
+            2: "RUNNING",
+            3: "BUILDING",
+            4: "SHUTOFF",
+            5: "RETURNED",
+            6: "RETURNING",
+            7: "REBOOTING",
+            8: "STARTING",
+            9: "SHUTING OFF",
+           10: "PASSWD RESETING",
+           11: "FORMATING",
+           12: "BUILDING IMG",
+           13: "SETTING BANDWIDTH",
+           14: "REINSTALLING",
+           15: "BINGDING DN",
+           16: "UNBINGDING DN",
+           17: "BINGDING LB",
+           18: "UNBINGDING LB",
+           19: "UPGRADING",
+           20: "ISSUING KEY"
+         };
+       var entries = [];
+       var entry = {};
+       for (var instance_idx1 in this.model.models) {
+            console.log("got it ........");     
+            var instance1 = this.model.models[instance_idx1];
+            console.log(instance1.cid);
+       
+            entry = {
+                id: instance1.cid,
+                cells: [{
+                    value: instance1.get("unInstanceId"),
+                    link: "#nova/instances/" + "112233" + "/detail",
+                    tooltip: "InsName"
+                }, {
+                    value: instance1.get("lanIp")
+                }, {
+                    value: instance1.get("cpu") + " VCPU" + "|" + instance1.get("mem") + "GB RAM"   
+                }, {
+                    value: "key"
+                }, {
+                    value: VM_STATUS[instance1.get("status")]
+                }, {
+                    value:  "None"
+                }
+              /* , {
+                    value: "powner stateaaa"
+                }*/
+               ]
+            };
+        }
+        entries.push(entry);
+        return entries;
+
         var flavorlist = {};
         for (var index in this.options.flavors.models) {
             var flavor = this.options.flavors.models[index];
@@ -213,9 +271,9 @@ var NovaInstancesView = Backbone.View.extend({
             9: "BUILDING"
         };
         // entries: [{id:id, cells: [{value: value, link: link}] }]
-        var entries = [];
+        //var entries = [];
         for (var instance_idx in this.model.models) {
-            var instance = this.model.models[instance_idx];
+             var instance = this.model.models[instance_idx];
             var addresses;
             var address = "";
 
@@ -242,7 +300,8 @@ var NovaInstancesView = Backbone.View.extend({
                     }
                 }
             }
-            var entry = {
+            //var entry = {
+             entry = {
                 id: instance.get('id'),
                 cells: [{
                     value: instance.get("name"),
@@ -275,6 +334,10 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     onAction: function(action, instanceIds) {
+        console.log("action 1 ....");
+        console.log(instanceIds);
+        console.log(instanceIds[0]);
+        console.log("action 2 ....");
         var instance, inst, subview;
         var self = this;
         if (instanceIds.length === 1) {
@@ -345,8 +408,13 @@ var NovaInstancesView = Backbone.View.extend({
                     btn_message: "Stop Instances",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
+                            console.log("eeeeeeeeeeeeech");
+                            console.log(instance);
                             inst = self.model.get(instance);
-                            inst.stopserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " stopped.", "Error stopping instance "+inst.get("name")));
+                            console.log(inst);
+                            //inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("name") + " stopped.", "Error stopping instance "+inst.get("name")));
+                            console.log("view stop!!!!");
+                            inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " stopped.", "Error stopping instance "+inst.get("unInstanceId")));
                         });
                     }
                 });
@@ -359,8 +427,10 @@ var NovaInstancesView = Backbone.View.extend({
                     btn_message: "Start Instances",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
+                            console.log("start vm ...");
                             inst = self.model.get(instance);
-                            inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " started.", "Error starting instance "+inst.get("name")));
+                            //inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " started.", "Error starting instance "+inst.get("name")));
+                            inst.startserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " started.", "Error starting instance "+inst.get("unInstanceId")));
                         });
                     }
                 });
@@ -446,6 +516,9 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     render: function() {
+	console.log("renderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+        console.log(this.model.models);
+	console.log("renderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }

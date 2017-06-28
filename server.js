@@ -8,6 +8,8 @@ var express = require('express'),
     config = require('./config')
     cluster = require ('cluster');
 
+var Capi = require('/qcloud/qcloudapi-sdk');
+
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
 var keystone_config = config.keystone;
@@ -297,8 +299,10 @@ app.all('/keystone/*', function(req, resp) {
         method: req.method,
         headers: getClientIp(req, req.headers)
     };
+
     sendData("http", options, req.body, resp);
 });
+
 
 app.all('/keystone-admin/*', function(req, resp) {
 
@@ -357,7 +361,7 @@ if (useIDM) {
 }
 
 app.all('/:reg/:service/:v/*', function(req, resp) {
-
+    return;
     if (config.time_stats_logger) {
         resp.time_stats  = {serv: req.params.service, reg:req.params.reg, initT: (new Date()).getTime()};
     }
@@ -390,6 +394,95 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
     var protocol = isSecure ? "https": "http";
     sendData(protocol, options, req.body, resp);
 });
+
+app.get('/cloud',function(req, res) {
+    var url =  config.oauth.account_server + '/user';
+    // Using the access token asks the IDM for the user info
+    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response) {
+    if(e){
+	console.log(e);
+        res.redirect('/');
+    }
+    else { 
+        console.log(response);
+        var capi = new Capi({
+                SecretId: config.qcloud.SecretId,
+                SecretKey: config.qcloud.SecretKey,
+                serviceType: 'account'
+        })
+
+        capi.request({
+                Region: 'bj',
+                Action: 'DescribeInstances'
+        }, {
+                serviceType: 'cvm'
+        }, function(error, data) {
+                console.log(data);
+                res.send(data);
+           })
+        }
+    });
+});
+
+app.all('/cloud/:id/stop',function(req,resp){
+    console.log("server stop!!!!");
+    var url =  config.oauth.account_server + '/user';
+    // Using the access token asks the IDM for the user info
+    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response){
+    if(e){
+        console.log(e);
+        res.redirect('/');
+    }
+    else {
+    var capi = new Capi({
+                SecretId: config.qcloud.SecretId,
+                SecretKey: config.qcloud.SecretKey,
+                serviceType: 'account'
+    })
+    
+    capi.request({
+            Region: 'bj',
+            Action: 'StopInstances',
+            'instanceIds.0': req.params.id 
+    }, {
+             serviceType: 'cvm'
+    }, function(error, data) {
+             console.log(data)
+    })
+    }
+   });
+});
+
+
+app.all('/cloud/:id/start',function(req,resp){
+    console.log("server start!!!!");
+    var url =  config.oauth.account_server + '/user';
+    // Using the access token asks the IDM for the user info
+    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response){
+    if(e){
+        console.log(e);
+        res.redirect('/');
+    }
+    else {
+    var capi = new Capi({
+                SecretId: config.qcloud.SecretId,
+                SecretKey: config.qcloud.SecretKey,
+                serviceType: 'account'
+    })
+  
+    capi.request({
+                Region: 'bj',
+                Action: 'StartInstances',
+                'instanceIds.0': req.params.id  
+    }, {
+                serviceType: 'cvm'
+    }, function(error, data) {
+                console.log(data)
+    })
+    }
+   });
+});
+
 
 app.all('/*', function(req, res) {
     console.log("------ Unknown request ", req.url);
@@ -581,7 +674,6 @@ if (cluster.isMaster) {
             console.log('WARNING: The server has too much privileges. Change config file to set an unprivileged user.');
         }
     });
-
 
 
     getCatalog(true);

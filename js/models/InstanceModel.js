@@ -179,10 +179,14 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.revertresizedserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "stop":
-                JSTACK.Nova.stopserver(model.get("id"), options.success, options.error, this.getRegion());
+//                JSTACK.Nova.stopserver(model.get("id"), options.success, options.error, this.getRegion());
+                console.log("model stop!!!!");
+                OTHERCLOUD.API.stopInstance(model.get("unInstanceId"),options.success,options.error);
                 break;
             case "start":
-                JSTACK.Nova.startserver(model.get("id"), options.success, options.error, this.getRegion());
+                console.log("model start!!!!");
+                //JSTACK.Nova.startserver(model.get("id"), options.success, options.error, this.getRegion());
+                OTHERCLOUD.API.startInstance(model.get("unInstanceId"),options.success,options.error);
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error, this.getRegion());
@@ -267,13 +271,21 @@ var Instances = Backbone.Collection.extend({
     },
 
     sync: function(method, model, options) {
+	callback = function(resp){
+                console.log("callback start..."); 
+                console.log(resp[0]);
+                console.log("callback end...");
+        };
         if (method === "read") {
-            JSTACK.Nova.getserverlist(true, this.alltenants, options.success, options.error, this.getRegion());
+//            JSTACK.Nova.getserverlist(true, this.alltenants, options.success, options.error, this.getRegion());
+//            OTHERCLOUD.API.describeInstance(callback,options.error);
+            OTHERCLOUD.API.describeInstance(options.success,options.error);
         }
     },
 
     parse: function(resp) {
-        return resp.servers;
+        //return resp.servers;
+        return resp.instanceSet;
     }
 
 });
