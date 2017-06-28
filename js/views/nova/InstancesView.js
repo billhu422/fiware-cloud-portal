@@ -225,7 +225,7 @@ var NovaInstancesView = Backbone.View.extend({
        for (var instance_idx1 in this.model.models) {
             console.log("got it ........");     
             var instance1 = this.model.models[instance_idx1];
-            console.log(instance1.cid);
+            console.log(instance1);
        
             entry = {
                 id: instance1.cid,
@@ -414,7 +414,8 @@ var NovaInstancesView = Backbone.View.extend({
                             console.log(inst);
                             //inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("name") + " stopped.", "Error stopping instance "+inst.get("name")));
                             console.log("view stop!!!!");
-                            inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " stopped.", "Error stopping instance "+inst.get("unInstanceId")));
+                            //inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " stopped.", "Error stopping instance "+inst.get("unInstanceId")));
+                            inst.stopserver(undefined);
                         });
                     }
                 });
@@ -430,7 +431,8 @@ var NovaInstancesView = Backbone.View.extend({
                             console.log("start vm ...");
                             inst = self.model.get(instance);
                             //inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " started.", "Error starting instance "+inst.get("name")));
-                            inst.startserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " started.", "Error starting instance "+inst.get("unInstanceId")));
+                            //inst.startserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " started.", "Error starting instance "+inst.get("unInstanceId")));
+                            inst.startserver(undefined);
                         });
                     }
                 });

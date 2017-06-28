@@ -181,12 +181,14 @@ var Instance = Backbone.Model.extend({
             case "stop":
 //                JSTACK.Nova.stopserver(model.get("id"), options.success, options.error, this.getRegion());
                 console.log("model stop!!!!");
-                OTHERCLOUD.API.stopInstance(model.get("unInstanceId"),options.success,options.error);
+                //OTHERCLOUD.API.stopInstance(model.get("unInstanceId"),options.success,options.error);
+                OTHERCLOUD.API.stopInstance(model.get("id"),options.success,options.error);
                 break;
             case "start":
                 console.log("model start!!!!");
                 //JSTACK.Nova.startserver(model.get("id"), options.success, options.error, this.getRegion());
-                OTHERCLOUD.API.startInstance(model.get("unInstanceId"),options.success,options.error);
+                //OTHERCLOUD.API.startInstance(model.get("unInstanceId"),options.success,options.error);
+                OTHERCLOUD.API.startInstance(model.get("id"),options.success,options.error);
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error, this.getRegion());
@@ -252,6 +254,8 @@ var Instance = Backbone.Model.extend({
         if (resp.server !== undefined) {
             return resp.server;
         } else {
+            console.log("return message");
+            console.log(resp);
             return resp;
         }
     }
@@ -285,6 +289,12 @@ var Instances = Backbone.Collection.extend({
 
     parse: function(resp) {
         //return resp.servers;
+        resp.instanceSet.forEach(function(instance){
+              instance.id = instance.unInstanceId;
+              console.log("iiiiiiiiiiiiiiiiid");
+              console.log(instance);
+              console.log("iiiiiiiiiiiiiiiiid");
+        });
         return resp.instanceSet;
     }
 
