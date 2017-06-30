@@ -435,24 +435,24 @@ UTILS.Auth = (function(U, undefined) {
         var _tryTenant = function(tenants) {
             console.log("trying for Tenants...");
             console.log(tenants);
-        //    if (tenants.length > 0) {
-        //        if (!tenant_ || tenants.indexOf(tenant_) !== -1) {
-        //            tenant_ = tenants.pop().id;
-                    tenant_ = "02406a83814b45d28f69f70ad5edca7a"; 
-        //        }
+            if (tenants.length > 0) {
+                if (!tenant_ || tenants.indexOf(tenant_) !== -1) {
+                    tenant_ = tenants.pop().id;
+        //            tenant_ = "02406a83814b45d28f69f70ad5edca7a"; 
+                }
                 console.log("Authenticating for tenant " + tenant_);
                 JSTACK.Keystone.authenticate(undefined, undefined, access_token, tenant_, _authenticatedWithTenant, _credError);
-        //    } 
-           //else {
+            } 
+          else {
 
-           //     $('#no_orgs_modal').on('hide.bs.modal', function (e) {
-           //         window.location.href = "https://account.lab.fiware.org";
-           //     });
-           //     $('#no_orgs_modal').modal();
+                $('#no_orgs_modal').on('hide.bs.modal', function (e) {
+                    window.location.href = "https://account.lab.fiware.org";
+                });
+                $('#no_orgs_modal').modal();
 
-           //     console.log("Error authenticating");
-           //     error(-1);
-           // }
+                console.log("Error authenticating");
+                error(-1);
+            }
         };
 
 
