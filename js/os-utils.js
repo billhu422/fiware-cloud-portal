@@ -665,7 +665,8 @@ UTILS.i18n = (function(U, undefined) {
             return func;
         }});
         if (localStorage.i18nlang === undefined) {
-            localStorage.i18nlang = 'en';
+//            localStorage.i18nlang = 'en';
+            localStorage.i18nlang = 'cn';
         }
         UTILS.i18n.setlang(localStorage.i18nlang);
         console.log("Language: " + localStorage.i18nlang);
