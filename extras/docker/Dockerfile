@@ -13,11 +13,15 @@ RUN sudo apt-get update && \
 	sudo gem install sass -v 3.2.12 -y
 
 # Download latest version of the code and install npm dependencies
-RUN git clone https://github.com/ging/fiware-cloud-portal.git && \
+RUN git clone https://github.com/billhu422/fiware-cloud-portal.git && \
 	cd fiware-cloud-portal && \
 	git checkout tags/5.4 && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt
+
+RUN git clone https://github.com/billhu422/qcloudapi-sdk.git && \
+        cd qcloudapi-sdk &&\
+        npm install
 
 # Run Cloud Portal
 WORKDIR /opt/fiware-cloud-portal

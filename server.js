@@ -8,7 +8,7 @@ var express = require('express'),
     config = require('./config')
     cluster = require ('cluster');
 
-var Capi = require('/qcloud/qcloudapi-sdk');
+var Capi = require('/opt/qcloudapi-sdk');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
