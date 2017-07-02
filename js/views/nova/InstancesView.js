@@ -15,7 +15,8 @@ var NovaInstancesView = Backbone.View.extend({
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
         return [{
-            label: "Launch New Instance",
+            //label: "Launch New Instance",
+            label: "创建新实例",
             url: "#nova/images/"
         }];
     },
@@ -87,57 +88,59 @@ var NovaInstancesView = Backbone.View.extend({
             }
         };
         return [{
-            label: "Edit Instance",
+            //label: "Edit Instance",
+            label: "编辑实例",
             action: "edit",
             activatePattern: oneSelected
         }, {
-            label: "Connect to Instance",
+            //label: "Connect to Instance",
+            label: "连接到实例",
             action: "vnc",
             activatePattern: oneSelected
         }, {
-            label: "View Log",
+            label: "查看日志",
             action: "log",
             activatePattern: oneSelected
         }, {
-            label: "Create Snapshot",
+            label: "创建镜像",
             action: "snapshot",
             activatePattern: oneSelected
         }, {
-            label: "Pause Instance",
+            label: "暂停实例",
             action: "pause",
             activatePattern: activeGroupSelected
         }, {
-            label: "Unpause Instance",
+            label: "(挂起)恢复实例",
             action: "unpause",
             activatePattern: pausedSelected
         }, {
-            label: "Suspend Instance",
+            label: "挂起实例",
             action: "suspend",
             activatePattern: activeGroupSelected
         }, {
-            label: "Resume Instance",
+            label: "(挂起)恢复实例",
             action: "resume",
             activatePattern: suspendedSelected
         }, {
-            label: "Stop Instance",
+            label: "关闭实例",
             action: "stop",
             activatePattern: activeGroupSelected
         }, {
-            label: "Start Instance",
+            label: "启动实例",
             action: "start",
             activatePattern: stoppedSelected
         },{
-            label: "Change Password",
+            label: "更改密码",
             action: "password",
             warn: true,
             activatePattern: activeSelected
         }, {
-            label: "Reboot Instance",
+            label: "重启实例",
             action: "reboot",
             warn: true,
             activatePattern: groupSelected
         }, {
-            label: "Terminate Instance",
+            label: "删除实例",
             action: "terminate",
             warn: true,
             activatePattern: groupSelected
@@ -151,37 +154,40 @@ var NovaInstancesView = Backbone.View.extend({
             size: "5%"
         }, {
             name: "Instance Name",
-            tooltip: "Server's name",
+            tooltip: "实例名称",
             size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "IP Address",
-            tooltip: "IP Address",
+            tooltip: "IP 地址",
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
         }, {
             name: "Size",
-            tooltip: "Server's RAM, number of virtual CPUs, and user disk",
+            //tooltip: "Server's RAM, number of virtual CPUs, and user disk",
+            tooltip: "实例的内存，VCPU数量以及硬盘空间",
             size: "25%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Keypair",
-            tooltip: "ssh credentials for the instance",
+            name: "秘钥对",
+            //tooltip: "ssh credentials for the instance",
+            tooltip: "实例的ssh信任凭证",
             size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Status",
-            tooltip: "Current server status",
+            tooltip: "实例当前状态",
             size: "10%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
             name: "Task",
-            tooltip: "Current tasks performed on the server",
+            //tooltip: "Current tasks performed on the server",
+            tooltip: "实例当前执行的任务",
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
@@ -198,6 +204,7 @@ var NovaInstancesView = Backbone.View.extend({
 
     getEntries: function() {
                //qcloud
+/*
         var VM_STATUS = {
             1: "Error",
             2: "RUNNING",
@@ -220,6 +227,30 @@ var NovaInstancesView = Backbone.View.extend({
            19: "UPGRADING",
            20: "ISSUING KEY"
          };
+*/
+        var VM_STATUS = {
+            1: "故障",
+            2: "运行中",
+            3: "创建中",
+            4: "已关机",
+            5: "已退还",
+            6: "退还中",
+            7: "重启中",
+            8: "开机中",
+            9: "关机中",
+           10: "密码重置中",
+           11: "格式化中",
+           12: "镜像制作中",
+           13: "宽带设置中",
+           14: "重装系统中",
+           15: "域名绑定中",
+           16: "域名解绑中",
+           17: "负载均衡绑定中",
+           18: "负载均衡解绑中",
+           19: "升级中",
+           20: "秘钥下发中"
+         };
+
        var entries = [];
        var entry = {};
        for (var instance_idx1 in this.model.models) {
@@ -232,17 +263,17 @@ var NovaInstancesView = Backbone.View.extend({
                 cells: [{
                     value: instance1.get("unInstanceId"),
                     link: "#nova/instances/" + "112233" + "/detail",
-                    tooltip: "InsName"
+                    tooltip: "实例名称"
                 }, {
                     value: instance1.get("lanIp")
                 }, {
                     value: instance1.get("cpu") + " VCPU" + "|" + instance1.get("mem") + "GB RAM"   
                 }, {
-                    value: "key"
+                    value: "空"
                 }, {
                     value: VM_STATUS[instance1.get("status")]
                 }, {
-                    value:  "None"
+                    value:  "空"
                 }
               /* , {
                     value: "powner stateaaa"
@@ -376,8 +407,10 @@ var NovaInstancesView = Backbone.View.extend({
             case 'pause':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Pause Instances",
-                    btn_message: "Pause Instances",
+                    //title: "Pause Instances",
+                    title: "暂停实例",
+                    //btn_message: "Pause Instances",
+                    btn_message: "暂停实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
@@ -390,8 +423,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'unpause':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Unpause Instances",
-                    btn_message: "Unpause Instances",
+                    title: "(暂停)恢复实例",
+                    btn_message: "(暂停)恢复实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
@@ -404,8 +437,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'stop':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Stop Instances",
-                    btn_message: "Stop Instances",
+                    title: "关闭实例",
+                    btn_message: "关闭实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             console.log("eeeeeeeeeeeeech");
@@ -424,8 +457,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'start':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Start Instances",
-                    btn_message: "Start Instances",
+                    title: "启动实例",
+                    btn_message: "启动实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             console.log("start vm ...");
@@ -441,8 +474,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'suspend':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Suspend Instances",
-                    btn_message: "Suspend Instances",
+                    title: "挂起实例",
+                    btn_message: "挂起实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
@@ -455,8 +488,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'resume':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Resume Instances",
-                    btn_message: "Resume Instances",
+                    title: "挂起恢复实例",
+                    btn_message: "挂起恢复实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
@@ -469,8 +502,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'reboot':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Reboot Instances",
-                    btn_message: "Reboot Instances",
+                    title: "重启实例",
+                    btn_message: "重启实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
@@ -483,8 +516,8 @@ var NovaInstancesView = Backbone.View.extend({
             case 'terminate':
                 subview = new ConfirmView({
                     el: 'body',
-                    title: "Terminate Instances",
-                    btn_message: "Terminate Instances",
+                    title: "删除实例",
+                    btn_message: "删除实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);

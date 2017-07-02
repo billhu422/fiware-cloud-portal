@@ -5,7 +5,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <title>FIWARE Cloud Portal</title>
+<!--        <title>FIWARE Cloud Portal</title>-->
+        <title>云控制台</title>
 
         
 
@@ -158,7 +159,8 @@
 
             <div class="logo-header">
               <a href="<%=portals['Help&info']%>" class="brand logo-header">
-                <img alt="FI-LAB" class="fiware-logo" src="images/header/Fi-lab.png">
+                <!--<img alt="FI-LAB" class="fiware-logo" src="images/header/Fi-lab.png">-->
+                <img alt="FI-LAB" class="fiware-logo" src="images/header/21vianet_logo2.png">
               </a>
             </div>
 
@@ -170,7 +172,7 @@
               <ul class="dropdown-menu dropdown-menu-header">
                 <li class="cloud active">
                   <a href="<%=portals['Cloud']%>">
-                    Cloud
+                    云控制台
                   </a>
                 </li>
                 <%for (var p in portals) {
@@ -184,12 +186,12 @@
                 <%}}%>
                 <li class="idm">
                   <a href="<%=portals['Account']%>">
-                    Account
+                    账户
                   </a>
                 </li>
                 <li class="help">
                   <a href="<%=portals['Help&info']%>">
-                    Help&info
+                    帮助
                   </a>
                 </li>
               </ul>
@@ -199,7 +201,7 @@
             <ul class="oil-portal hidden-phone hidden-tablet">
               <li class="cloud active">
                   <a href="<%=portals['Cloud']%>">
-                    Cloud
+                    云控制台
                   </a>
                 </li>
                 <%for (var p in portals) {
@@ -213,12 +215,12 @@
                 <%}}%>
                 <li class="idm">
                   <a href="<%=portals['Account']%>">
-                    Account
+                    账户
                   </a>
                 </li>
                 <li class="help">
                   <a href="<%=portals['Help&info']%>">
-                    Help&info
+                    帮助
                   </a>
                 </li>
             </ul>
@@ -244,7 +246,7 @@
 
                   <li class="settings-menu">
                     <a href="<%=portals['Account']%>/settings">
-                      Settings
+                      设置
                     </a>
                   </li>
 
@@ -253,7 +255,7 @@
 
                   <li>
                     <a href="#" onclick="Fiware.signOut('cloud'); return false">
-                      Sign Out
+                      退出
                     </a>
                   </li>
                 </ul>
@@ -275,7 +277,7 @@
             <div class="bar" style="width: 0%;"></div>
         </div>
 
-        <div id="my_mo_modal" style="top: 20%; display: none;" class="modal fade">
+<!--        <div id="my_mo_modal" style="top: 20%; display: none;" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -283,16 +285,12 @@
                 <h3>Important info</h3>
               </div>
               <div class="modal-body">
-                <!--<p>Dear User, <br><br>
-Please select the Spanish Region for deploying your virtual machines. The rest of the regions may be accessible, but they are under configuration and testing. Therefore, they may exhibit some problems until current configuration and testing is finished.<br><br>
-Please don't hesitate to contact us reporting any problem you may experience on FIWARE Lab by sending an email to <a href="mailto:fiware-lab-help@lists.fi-ware.org">fiware-lab-help@lists.fi-ware.org</a><br><br>
-Thanks</p>-->
 <p>Dear User, <br><br>
 By clicking the “I accept” link below, you declare to accept the new defined policies.  Otherwise, you can still work with your account but note that it will be removed by the defined deadline and the FIWARE Lab providers will not be responsible for creating a copy of the data you stored on the FIWARE Lab.<br><br>
 <a href="http://terms.lab.fiware.org/accept">I Accept</a><br><br>
 Thanks</p>
 
-              </div>
+              </div> -->
               <div class="modal-footer">
                 <button data-dismiss="modal" type="button" class="btn btn-blue">Continue</button>
               </div>
