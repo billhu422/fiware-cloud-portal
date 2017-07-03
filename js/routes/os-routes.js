@@ -2,7 +2,7 @@ var OSRouter = Backbone.Router.extend({
 
     rootView: undefined,
 
-    tabs: new NavTabModels([{name: 'Menu', active: false, url: '#nova'}, {name: 'Admin', active: true, url: '#syspanel'}]),
+    tabs: new NavTabModels([{name: '菜单', active: false, url: '#nova'}, {name: 'Admin', active: true, url: '#syspanel'}]),
     top: new TopBarModel({title:'Overview:', subtitle: ''}),
     navs:  new NavTabModels([]),
     next: undefined,
@@ -71,8 +71,11 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
+        //this.route('nova/instances/', '实例', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "softwares"]));
+        //this.route('nova/instances/:id/detail', '实例', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "softwares"]));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
+        //this.route('nova/instances/:id/detail?view=:subview', '实例', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
         // Add when cinder v2 is available (for volume backups)
@@ -204,7 +207,7 @@ var OSRouter = Backbone.Router.extend({
         this.topBarView.renderTitle();
 
 
-        var showTenants = (self.tabs.getActive() == 'Menu');
+        var showTenants = (self.tabs.getActive() == '菜单');
         if (this.sideBarView === undefined) {
             this.sideBarView = new SideBarView({el: '#sidebar', model: self.navs});
             this.sideBarView.el = '#sidebar';
@@ -329,26 +332,26 @@ var OSRouter = Backbone.Router.extend({
         var tabsArray = [
             //{name: 'Overview', active: true, url: '#nova/'},
             //{name: 'Virtual Data Centers', active: false, url: '#nova/vdcs/'},
-            {name: 'Blueprint', type: 'title'},
-            {name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
-            {name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
+            //{name: 'Blueprint', type: 'title'},
+            //{name: 'Blueprint Instances',  iconcss: "icon_nav-blueprintInstances", css:"small", active: false, url: '#nova/blueprints/instances/'},
+            //{name: 'Blueprint Templates',  iconcss: "icon_nav-blueprintTemplates", css:"small", active: false, url: '#nova/blueprints/templates/'},
             //{name: 'Software',  iconcss: "icon_nav-software", css:"small", active: false, url: '#nova/software/'},
-            {name: 'Region', type: 'title'},
+            {name: '区域', type: 'title'},
             {type: 'regions'},
-            {name: 'Compute', type: 'title'},
-            {name: 'Instances', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
+            {name: '计算', type: 'title'},
+            {name: '实例', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
             {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
-            {name: 'Security', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
-            {name: 'Snapshots', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
-            {name: 'Storage', type: 'title'}
+            {name: '安全', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+            {name: '快照', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
+            {name: '存储', type: 'title'}
         ];
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "object-store") !== undefined) {
             tabsArray.push({name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'});
         }
 
-        tabsArray.push({name: 'Volumes', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
+        tabsArray.push({name: '存储卷', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
 
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
@@ -358,7 +361,7 @@ var OSRouter = Backbone.Router.extend({
         
         self.navs = new NavTabModels(tabsArray);
         self.navs.setActive(option);
-        self.tabs.setActive('Menu');
+        self.tabs.setActive('菜单');
         self.showRoot(self, 'Project');
     },
 
@@ -513,13 +516,15 @@ var OSRouter = Backbone.Router.extend({
     },
 
     nova_instances: function(self) {
-        self.showNovaRoot(self, 'Instances');
+        //self.showNovaRoot(self, 'Instances');
+        self.showNovaRoot(self, '实例');
         var view = new NovaInstancesView({model: UTILS.GlobalModels.get("instancesModel"), el: '#content'});
         self.newContentView(self,view);
     },
 
     nova_instance: function(self, id, subview, subsubview) {
-        self.showNovaRoot(self, 'Instances');
+        //self.showNovaRoot(self, 'Instances');
+        self.showNovaRoot(self, '实例');
         var instance = new Instance();
         instance.set({"id": id});
         subview =  subview || 'overview';
