@@ -9,9 +9,12 @@ var ConfirmView = Backbone.View.extend({
             'click #closeModalConfirm': 'close',
             'click .modal-backdrop': 'close'
         });
-        this.options.title = this.options.title || "Are you sure?";
-        this.options.message = this.options.message || "Please confirm your selection. This action cannot be undone.";
-        this.options.btn_message = this.options.btn_message || "Confirm";
+        //this.options.title = this.options.title || "Are you sure?";
+        this.options.title = this.options.title || "确定吗？";
+        //this.options.message = this.options.message || "Please confirm your selection. This action cannot be undone.";
+        this.options.message = this.options.message || "请确认，这个操作不能被撤销";
+        //this.options.btn_message = this.options.btn_message || "Confirm";
+        this.options.btn_message = this.options.btn_message || "确认";
     },
 
     onClose: function() {

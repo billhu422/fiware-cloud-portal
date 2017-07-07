@@ -110,7 +110,7 @@ var NovaInstancesView = Backbone.View.extend({
             action: "pause",
             activatePattern: activeGroupSelected
         }, {
-            label: "(挂起)恢复实例",
+            label: "(暂停)恢复实例",
             action: "unpause",
             activatePattern: pausedSelected
         }, {
