@@ -68,7 +68,7 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
         this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuthAndTimers));
 
-        this.route('nova/gaofangip/', 'gaofangip', this.wrap(this.nova_gaofangip, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
+        this.route('nova/gaofangip/', 'gaofangip', this.wrap(this.nova_gaofangip, this.checkAuthAndTimers, ["keypairsModel", "gaoFangIPsModel", "floatingIPsModel"]));
 
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));

@@ -25,6 +25,7 @@ UTILS.GlobalModels = (function(U, undefined) {
         quotas: undefined,
         quota: undefined,
         securityGroupsModel: undefined,
+        gaoFangIPsModel: undefined,
         floatingIPsModel: undefined,
         floatingIPPoolsModel: undefined,
         networks: undefined,
@@ -55,6 +56,7 @@ UTILS.GlobalModels = (function(U, undefined) {
         models.containers = new Containers();
         models.quotas = new Quota();
         models.securityGroupsModel = new SecurityGroups();
+        models.gaoFangIPsModel = new GaoFangIPs();
         models.floatingIPsModel = new FloatingIPs();
         models.floatingIPPoolsModel = new FloatingIPPools();
         models.networks = new Networks();
@@ -106,6 +108,7 @@ UTILS.GlobalModels = (function(U, undefined) {
             add_fetch("volumeBackupsModel", seconds);
             add_fetch("containers", seconds);
             add_fetch("securityGroupsModel", seconds);
+            add_fetch("gaoFangIPsModel", seconds);
             add_fetch("keypairsModel", seconds);
             add_fetch("floatingIPsModel", seconds);
             add_fetch("floatingIPPoolsModel", seconds);
