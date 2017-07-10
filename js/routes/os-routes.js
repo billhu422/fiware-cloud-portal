@@ -68,6 +68,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/access_and_security/', 'access_and_security', this.wrap(this.nova_access_and_security, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
         this.route('nova/access_and_security/keypairs/:name/download/', 'keypair_download', this.wrap(this.nova_keypair_download, this.checkAuthAndTimers));
 
+        this.route('nova/gaofangip/', 'gaofangip', this.wrap(this.nova_gaofangip, this.checkAuthAndTimers, ["keypairsModel", "securityGroupsModel", "floatingIPsModel"]));
+
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
@@ -343,6 +345,7 @@ var OSRouter = Backbone.Router.extend({
             {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
             {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
             {name: '安全', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
+            {name: 'GaoFangIP', iconcss: "icon_nav-security", active: false, url: '#nova/gaofangip/'},
             {name: '快照', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
             {name: '存储', type: 'title'}
         ];
@@ -453,6 +456,13 @@ var OSRouter = Backbone.Router.extend({
         var view = new AccessAndSecurityView({el: '#content'});
         self.newContentView(self,view);
     },
+
+    nova_gaofangip: function(self) {
+        self.showNovaRoot(self, 'GaoFangIP');
+        var view = new GaoFangIPView({el: '#content'});
+        self.newContentView(self,view);
+    },
+
 
     nova_keypair_download: function(self, name) {
         self.showNovaRoot(self, 'Download Keypair');
