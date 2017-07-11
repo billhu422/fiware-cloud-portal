@@ -115,12 +115,14 @@ var EditGaoFangIPRulesView = Backbone.View.extend({
     },
 
     render: function() {
-    /*    $(this.el).append(this._template({
+        console.log(this.model);
+        console.log(this.options.securityGroupId);
+        $(this.el).append(this._template({
             model: this.model,
             securityGroupId: this.options.securityGroupId
-        }));*/
+        }));
         $('.modal:last').modal();
-//        $('.modal-backdrop').addClass("editSecGroup");
+        $('.modal-backdrop').addClass("editSecGroup");
         this.tableView = new TableView({
             model: this.model,
             el: '#edit_gaofangip_rules',
