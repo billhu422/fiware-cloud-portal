@@ -12,7 +12,6 @@
 
         <div id="messHeader" class="modal-body clearfix">
 
-            <%var securityGroupsModel = model.get(securityGroupId);%>
 
     	    <div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
 
@@ -49,15 +48,7 @@
     				 	<select id="container_switcher" tabindex="1">
     				 		<option value="CIDR">CIDR</option>
     				 		<optgroup label='Security Group'>
-    				 		<% var securityGroupName, securityGroupId;
-    					 		for (var index in model.models) {
-    					 		var secGroupName = model.models[index].get('name');
-    					 		if (secGroupName !== securityGroupsModel.get('name')) {
-    			 					securityGroupName = secGroupName;
-    			 					securityGroupId = model.models[index].get('id');
-    					 	%>
-    				 		<option value="<%= securityGroupId%>"><%= securityGroupName%></option>
-    				 		<% } } %>
+
     				 		</optgroup>
     				   	</select>
     			</div>
@@ -77,7 +68,6 @@
 
         <div class="modal-footer">
             <p class="mandatoryMess">* Mandatory fields.</p>
-            <input type="submit" class="btn btn-blue pull-right" name='<%= securityGroupsModel.get('id')%>' value="Add Rule">
             <a id="cancel" class="close btn seconday cancel close" data-dismiss="modal">Close</a>
         </div>
     </form>

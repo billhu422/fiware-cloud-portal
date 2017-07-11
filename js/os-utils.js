@@ -315,7 +315,7 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var checkGravatar = function (callback) {
-
+/*
         var token = UTILS.Auth.getAccessToken();
 
         $.ajax({
@@ -331,6 +331,7 @@ UTILS.Auth = (function(U, undefined) {
         }).error(function(xhr, status) {
             callback(false);
         });
+*/
     };
 
 
@@ -408,7 +409,7 @@ UTILS.Auth = (function(U, undefined) {
         var tenant_ = tenant;
 
         var check_user = function () {
-
+/*
             $.ajax({
                 type: "GET",
                 url: 'terms_app/api/v1/accepted?version=1.1&userid=' + JSTACK.Keystone.params.access.user.id,
@@ -420,6 +421,7 @@ UTILS.Auth = (function(U, undefined) {
             }).error(function(xhr, status) {
                 $('#my_mo_modal').modal();
             });
+*/
         };
 
         var _authenticatedWithTenant = function (resp) {
