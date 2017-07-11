@@ -49,7 +49,7 @@ var NovaGaoFangIPsView = Backbone.View.extend({
             type: "checkbox",
             size: "5%"
         }, {
-            name: "ID/Name",
+            name: "ID",
             tooltip: "gaofangIP's ID/Name",
             size: "16%",
             hidden_phone: false,
@@ -89,7 +89,7 @@ var NovaGaoFangIPsView = Backbone.View.extend({
 
     getEntries: function() {
         var entries = [];
-        var sec_group, descr;
+       /* var sec_group, descr;
         for (var i in this.model.models) {
             sec_group = this.model.models[i];
             descr = sec_group.get("description");
@@ -105,8 +105,24 @@ var NovaGaoFangIPsView = Backbone.View.extend({
                 }]
             };
             entries.push(entry);
-        }
-
+        }*/
+     entry = {
+         id: "123",
+         cells:[{
+              value: "mygaofangip"
+         },{
+              value: "123.123.123.123"
+         },{
+              value: "0"
+         },{
+              value: "not qcloud"
+         },{
+              value: "20Gbps"
+         },{
+              value: "0"
+         }]     
+     }; 
+      entries.push(entry);
         return entries;
     },
 
