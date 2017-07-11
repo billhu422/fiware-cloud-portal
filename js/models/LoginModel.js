@@ -135,17 +135,17 @@ var LoginStatus = Backbone.Model.extend({
                         self.set({gravatar: md5(UTILS.Auth.getName())});
                     }
                 });
- //               UTILS.Auth.getTenants(function(tenants) {
- //                   self.set({tenant_id: tenant.id});
- //                   self.set({tenants: tenants.tenants});
+                UTILS.Auth.getTenants(function(tenants) {
+                    self.set({tenant_id: tenant.id});
+                    self.set({tenants: tenants.tenants});
                     self.set({'loggedIn': true});
- //                   localStorage.setItem('tenant_id', tenant.id);
- //                   localStorage.setItem('tenant-id', tenant.id);
-                    localStorage.setItem('tenant-id', "02406a83814b45d28f69f70ad5edca7a");
-        //            var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
-                    var subview = new MessagesView({state: "Info", title: "Connected to project " + "xxx" + " (ID " + "02406a83814b45d28f69f70ad5edca7a" + ")"});
+                    localStorage.setItem('tenant_id', tenant.id);
+                    localStorage.setItem('tenant-id', tenant.id);
+        //            localStorage.setItem('tenant-id', "02406a83814b45d28f69f70ad5edca7a");
+                    var subview = new MessagesView({state: "Info", title: "Connected to project " + tenant.name + " (ID " + tenant.id + ")"});
+        //            var subview = new MessagesView({state: "Info", title: "Connected to project " + "xxx" + " (ID " + "02406a83814b45d28f69f70ad5edca7a" + ")"});
                     subview.render();
-      //          });
+                });
       //          self.updateRegions();
             }, function(msg) {
                 if (msg === -1) {

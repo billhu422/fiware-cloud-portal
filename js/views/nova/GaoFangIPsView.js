@@ -139,7 +139,8 @@ var NovaGaoFangIPsView = Backbone.View.extend({
                 subview.render();
                 break;
             case 'edit':
-                subview = new EditSecurityGroupRulesView({el: 'body', securityGroupId: securityGroup, model: this.model});
+                console.log("push edit action");
+                subview = new EditGaoFangIPRulesView({el: 'body', securityGroupId: securityGroup, model: this.model});
                 subview.render();
             break;
             case 'delete':
