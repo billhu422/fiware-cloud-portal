@@ -398,18 +398,18 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
 });
 
 app.get('/hybrid/qcloud/bgpip',function(req, res) {
-/*    var url =  config.oauth.account_server + '/user';
+    var url =  config.oauth.account_server + '/user';
     // Using the access token asks the IDM for the user info
-    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response) {
+    var accessToken =  decrypt(req.cookies.oauth_token);
+    oauth_client.get(url, accessToken, function (e, response) {
     if(e){
         console.log(e);
         res.redirect('/');
     }
-    else {*/
+    else {
         //provider == qcloud / aliyun
-//req.params.token
         request.get({
-                headers: {'content-type' : 'application/json','Authorization': 'Bearer xr1WTsHTnoiCp5TfI3QeDep716HBeK'},
+                headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + accessToken },
                 url:     config.delivery.baseUrl + '/v1/hybrid/instance?provider=qcloud&productName=bgpip',
                 }, function(writedberr, response, body){
                         var instanceInfos=[];
@@ -436,8 +436,8 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                         });
                         //res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
              });
-       // }
-   // });
+        }
+    });
 });
 
 app.get('/cloud',function(req, res) {

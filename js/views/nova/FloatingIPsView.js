@@ -83,28 +83,28 @@ var NovaFloatingIPsView = Backbone.View.extend({
     getHeaders: function() {
         var btns = [
         {
-            name: "IP Address1",
+            name: "ID/IP地址",
             tooltip: "IP Address",
             size: "25%",
             hidden_phone: false,
             hidden_tablet: false
         },
         {
-            name: "Instance",
+            name: "转发目标",
             tooltip: "Instance the IP is attached to",
             size: "25%",
             hidden_phone: true,
             hidden_tablet: false
         },
         {
-            name: "Fixed Address",
+            name: "固定IP",
             tooltip: "Fixed address the IP is attached to",
             size: "20%",
             hidden_phone: true,
             hidden_tablet: false
         },
         {
-            name: "Floating IP Pool",
+            name: "外部IP池",
             tooltip: "Corresponding Floating Pool",
             size: "25%",
             hidden_phone: false,
@@ -120,6 +120,10 @@ var NovaFloatingIPsView = Backbone.View.extend({
     },
 
     getEntries: function() {
+	var TARGET = {
+		nqcloud : "非腾讯云",
+		qcloud: "腾讯云"
+	}
         var entries = [];
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];
@@ -157,17 +161,30 @@ var NovaFloatingIPsView = Backbone.View.extend({
                     }
                 }
             }
-            
+/*            
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
-                    value: floating_ip.get("boundIP")
+                    value: floating_ip.get("ip")
                 }, {
                     value:  instance_name
                 }, {
                     value:  fixed_ip
                 },{
                     value: floating_ip.get("pool")
+                }]
+            };
+*/
+            var entry = {
+                id: floating_ip.get('id'),
+                cells: [{
+                    value: floating_ip.get('id') + '/' +floating_ip.get("boundIP")
+                }, {
+                    value:  TARGET[floating_ip.get("transTarget")]
+                }, {
+                    value:  '-'
+                },{
+                    value: '-'
                 }]
             };
             entries.push(entry);
