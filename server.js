@@ -413,8 +413,38 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                 url:     config.delivery.baseUrl + '/v1/hybrid/instance?provider=qcloud&productName=bgpip',
                 }, function(writedberr, response, body){
                         var instanceInfos=[];
+                        console.log("###");
 			console.log(body);
-                        JSON.parse(body).instances.forEach(function(el){
+                        console.log("###");
+			var capi = new Capi({
+                                        SecretId: config.qcloud.SecretId,
+                                        SecretKey: config.qcloud.SecretKey,
+                                        serviceType: 'account'
+                                });
+
+                        var params = assign({Region:'sh',
+                                        Action: 'NS.BGPIP.GetServicePacks',
+					'region':'sh'
+                                        })
+                        console.log(params);
+                        capi.request(params, {
+                                        serviceType: 'csec'
+                                }, function(error, data) {
+                                        console.log(JSON.stringify(data));
+					JSON.parse(body).instances.forEach(function(el){
+						var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
+						console.log("xxx");
+						console.log(el.intanceId);
+                                                console.log(JSON.stringify(data.data.servicePacks,4,4));
+						console.log(ins);
+						console.log("xxx");
+						instanceInfos.push(ins);
+					});
+                                        res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                                });
+
+                      /*  
+			JSON.parse(body).instances.forEach(function(el){
                                 //instanceList.push(el.instanceId);
 				var capi = new Capi({
 			                SecretId: config.qcloud.SecretId,
@@ -434,7 +464,7 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                         		res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
 				});
                         });
-                        //res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                     */
              });
         }
     });
