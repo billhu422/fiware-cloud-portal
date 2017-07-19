@@ -88,17 +88,23 @@ var FloatingIPs = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            JSTACK.Nova.getfloatingIPs(options.success, options.error, this.getRegion());
+            //JSTACK.Nova.getfloatingIPs(options.success, options.error, this.getRegion());
+            OTHERCLOUD.API.describeBgpip(options.success,options.error);
         }
     },
 
     parse: function(resp) {
         var list = [];
-        for (var index in resp.floating_ips) {
+        /*for (var index in resp.floating_ips) {
             var floating_ip = resp.floating_ips[index];
             list.push(floating_ip);
-        }
-        return list;
+        }*/
+        resp.instanceInfos.forEach(function(instance){
+              instance.id = instance.id;
+              console.log("------------fetched gaofangip---------------");
+        });
+        //return list;
+        return resp.instanceInfos;
     }
 
 });

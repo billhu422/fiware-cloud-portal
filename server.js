@@ -9,6 +9,8 @@ var express = require('express'),
     cluster = require ('cluster');
 
 var Capi = require('/opt/qcloudapi-sdk');
+var request = require('request');
+var assign = require('object-assign');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -393,6 +395,49 @@ app.all('/:reg/:service/:v/*', function(req, resp) {
     };
     var protocol = isSecure ? "https": "http";
     sendData(protocol, options, req.body, resp);
+});
+
+app.get('/hybrid/qcloud/bgpip',function(req, res) {
+/*    var url =  config.oauth.account_server + '/user';
+    // Using the access token asks the IDM for the user info
+    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response) {
+    if(e){
+        console.log(e);
+        res.redirect('/');
+    }
+    else {*/
+        //provider == qcloud / aliyun
+//req.params.token
+        request.get({
+                headers: {'content-type' : 'application/json','Authorization': 'Bearer xr1WTsHTnoiCp5TfI3QeDep716HBeK'},
+                url:     config.delivery.baseUrl + '/v1/hybrid/instance?provider=qcloud&productName=bgpip',
+                }, function(writedberr, response, body){
+                        var instanceInfos=[];
+			console.log(body);
+                        JSON.parse(body).instances.forEach(function(el){
+                                //instanceList.push(el.instanceId);
+				var capi = new Capi({
+			                SecretId: config.qcloud.SecretId,
+			                SecretKey: config.qcloud.SecretKey,
+			                serviceType: 'account'
+			        });
+
+				var params = assign({Region:el.region,
+    					Action: 'NS.BGPIP.ServicePack.GetInfo',
+    					'bgpId':el.instanceId})
+				console.log(params);
+				capi.request(params, {
+    					serviceType: 'csec'
+				}, function(error, data) {
+					instanceInfos.push(data.data);
+					console.log(data);
+                        		res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+				});
+                        });
+                        //res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+             });
+       // }
+   // });
 });
 
 app.get('/cloud',function(req, res) {

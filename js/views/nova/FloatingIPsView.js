@@ -83,7 +83,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
     getHeaders: function() {
         var btns = [
         {
-            name: "IP Address",
+            name: "IP Address1",
             tooltip: "IP Address",
             size: "25%",
             hidden_phone: false,
@@ -161,7 +161,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
             var entry = {
                 id: floating_ip.get('id'),
                 cells: [{
-                    value: floating_ip.get("ip")
+                    value: floating_ip.get("boundIP")
                 }, {
                     value:  instance_name
                 }, {
