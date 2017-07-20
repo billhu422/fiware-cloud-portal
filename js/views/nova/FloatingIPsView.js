@@ -17,7 +17,8 @@ var NovaFloatingIPsView = Backbone.View.extend({
 
         UTILS.GlobalModels.get("quotas");
         btns.push({
-            label:  "Allocate IP to Project",
+            //label:  "Allocate IP to Project",
+			label:  "分配IP",
             action: "allocate"
         });
         return btns;
@@ -123,7 +124,7 @@ var NovaFloatingIPsView = Backbone.View.extend({
 	var TARGET = {
 		nqcloud : "非腾讯云",
 		qcloud: "腾讯云"
-	}
+	};
         var entries = [];
         for (var index in this.model.models) {
             var floating_ip = this.model.models[index];

@@ -413,9 +413,9 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                 url:     config.delivery.baseUrl + '/v1/hybrid/instance?provider=qcloud&productName=bgpip',
                 }, function(writedberr, response, body){
                         var instanceInfos=[];
-                        console.log("###");
+                        console.log('###query instances by userid###');
 			console.log(body);
-                        console.log("###");
+                        console.log('###query instances by userid###');
 			var capi = new Capi({
                                         SecretId: config.qcloud.SecretId,
                                         SecretKey: config.qcloud.SecretKey,
@@ -426,20 +426,26 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                                         Action: 'NS.BGPIP.GetServicePacks',
 					'region':'sh'
                                         })
+			console.log('###qcloud params###');
                         console.log(params);
+                        console.log('###qcloud params###');
                         capi.request(params, {
                                         serviceType: 'csec'
                                 }, function(error, data) {
-                                        console.log(JSON.stringify(data));
-					JSON.parse(body).instances.forEach(function(el){
+                                       console.log('###qcloud response###');
+                                       console.log(JSON.stringify(data));
+                                       console.log('###qcloud response###');
+				       JSON.parse(body).instances.forEach(function(el){
 						var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
-						console.log("xxx");
-						console.log(el.intanceId);
-                                                console.log(JSON.stringify(data.data.servicePacks,4,4));
-						console.log(ins);
-						console.log("xxx");
-						instanceInfos.push(ins);
+						var merge;
+						if(ins != undefined) {merge = assign(el,ins);}
+						console.log('###merged###');
+						console.log(merge);
+						console.log('###merged###');
+                                                instanceInfos.push(merge);
+
 					});
+             				console.log('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
                                         res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
                                 });
 
@@ -481,8 +487,8 @@ app.get('/cloud',function(req, res) {
     else { 
         console.log(response);
         var capi = new Capi({
-                SecretId: config.qcloud.SecretId,
-                SecretKey: config.qcloud.SecretKey,
+                SecretId: config.qcloud.SecretIdc,
+                SecretKey: config.qcloud.SecretKeyc,
                 serviceType: 'account'
         })
 
@@ -510,8 +516,8 @@ app.all('/cloud/:id/stop',function(req,resp){
     }
     else {
     var capi = new Capi({
-                SecretId: config.qcloud.SecretId,
-                SecretKey: config.qcloud.SecretKey,
+                SecretId: config.qcloud.SecretIdc,
+                SecretKey: config.qcloud.SecretKeyc,
                 serviceType: 'account'
     })
     
@@ -540,8 +546,8 @@ app.all('/cloud/:id/start',function(req,resp){
     }
     else {
     var capi = new Capi({
-                SecretId: config.qcloud.SecretId,
-                SecretKey: config.qcloud.SecretKey,
+                SecretId: config.qcloud.SecretIdc,
+                SecretKey: config.qcloud.SecretKeyc,
                 serviceType: 'account'
     })
   
