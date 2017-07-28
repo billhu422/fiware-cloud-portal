@@ -11,6 +11,8 @@ var express = require('express'),
 var Capi = require('../qcloudapi-sdk');
 var request = require('request');
 var assign = require('object-assign');
+var querystring = require('querystring');
+var qs = require("qs");
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -407,71 +409,74 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
         res.redirect('/');
     }
     else {
-        //provider == qcloud / aliyun
-        request.get({
-                headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + accessToken },
-                url:     config.delivery.baseUrl + '/v1/hybrid/instance?provider=qcloud&productName=bgpip',
-                }, function(writedberr, response, body){
-                        var instanceInfos=[];
-                        console.log('###query instances by userid###');
-			console.log(body);
-                        console.log('###query instances by userid###');
-			var capi = new Capi({
-                                        SecretId: config.qcloud.SecretId,
-                                        SecretKey: config.qcloud.SecretKey,
-                                        serviceType: 'account'
-                                });
+        //1. fetch productAdminAccessToken
+        var userId = JSON.parse(response).id;
+        var headers = {
+            'Authorization' : 'Basic ' + encodeClientCredentials(config.productAdminOauth.client_id,config.productAdminOauth.client_secret),
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
 
-                        var params = assign({Region:'sh',
-                                        Action: 'NS.BGPIP.GetServicePacks',
-					'region':'sh'
-                                        })
-			console.log('###qcloud params###');
-                        console.log(params);
-                        console.log('###qcloud params###');
-                        capi.request(params, {
-                                        serviceType: 'csec'
-                                }, function(error, data) {
-                                       console.log('###qcloud response###');
-                                       console.log(JSON.stringify(data));
-                                       console.log('###qcloud response###');
-				       JSON.parse(body).instances.forEach(function(el){
-						var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
-						var merge;
-						if(ins != undefined) {merge = assign(el,ins);}
-						console.log('###merged###');
-						console.log(merge);
-						console.log('###merged###');
-                                                instanceInfos.push(merge);
+        var form_data = qs.stringify({
+				grant_type: 'password',
+				username: config.productAdminOauth.username,
+                password: config.productAdminOauth.password
+			});
 
-					});
-             				console.log('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
-                                        res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
-                                });
+ //       console.log(headers);
+ //       console.log(form_data);
+        var productAdminAccessToken=undefined;
+        request.post({url:config.oauth.account_server + '/oauth2/token',
+			body: form_data,
+			headers: headers},function(adminTokenError,resp,body){
+            if(adminTokenError){
+                console.log(adminTokenError);
+                res.redirect('/');
+            }else {
+                    productAdminAccessToken = JSON.parse(body).access_token;
+                    console.log(body);
 
-                      /*  
-			JSON.parse(body).instances.forEach(function(el){
-                                //instanceList.push(el.instanceId);
-				var capi = new Capi({
-			                SecretId: config.qcloud.SecretId,
-			                SecretKey: config.qcloud.SecretKey,
-			                serviceType: 'account'
-			        });
+                    //2.get instance list
+                    request.get({
+                        headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + productAdminAccessToken },
+                        url:     config.delivery.baseUrl + '/v1/hybrid/instance?userId='+ userId + '&provider=qcloud&productName=bgpip',
+                        }, function(writedberr, response, body){
+                                var instanceInfos=[];
+                                //console.log('###query instances by userid###');
+                                //console.log(body);
+                                //console.log('###query instances by userid###');
+                                //3. retrieve gaofangip list by qcloudsdk-api
+                                var capi = new Capi({
+                                                SecretId: config.qcloud.SecretId,
+                                                SecretKey: config.qcloud.SecretKey,
+                                                serviceType: 'account'
+                                        });
 
-				var params = assign({Region:el.region,
-    					Action: 'NS.BGPIP.ServicePack.GetInfo',
-    					'bgpId':el.instanceId})
-				console.log(params);
-				capi.request(params, {
-    					serviceType: 'csec'
-				}, function(error, data) {
-					instanceInfos.push(data.data);
-					console.log(data);
-                        		res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
-				});
-                        });
-                     */
-             });
+                                var params = assign({Region:'sh',
+                                                Action: 'NS.BGPIP.GetServicePacks',
+                                                'region':'sh'});
+                                capi.request(params, {
+                                                serviceType: 'csec'
+                                        }, function(error, data) {
+                                               //console.log('###qcloud response###');
+                                               //console.log(JSON.stringify(data));
+                                               //console.log('###qcloud response###');
+                                               JSON.parse(body).instances.forEach(function(el){
+                                                    var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
+                                                    var merge;
+                                                    if(ins != undefined) {
+                                                        merge = assign(el,ins);
+                                                        instanceInfos.push(merge);
+                                                        //console.log('###merged###');
+                                                        //console.log(merge);
+                                                        //console.log('###merged###');
+                                                    }
+                                                });
+                                                console.log('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                                                res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                                        });
+                    });
+            }
+        });
         }
     });
 });
@@ -759,3 +764,8 @@ if (cluster.isMaster) {
 
     getCatalog(true);
 }
+
+
+var encodeClientCredentials = function(clientId, clientSecret) {
+	return new Buffer(querystring.escape(clientId) + ':' + querystring.escape(clientSecret)).toString('base64');
+};
