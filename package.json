@@ -35,8 +35,8 @@
     }
   ],
   "scripts": {
-    "postinstall": "./node_modules/grunt-cli/bin/grunt",
-    "build": "./node_modules/grunt-cli/bin/grunt",
+    "postinstall": "./node_modules/grunt-cli/bin/grunt debug --force",
+    "build": "./node_modules/grunt-cli/bin/grunt  debug --force",
     "test": "mocha test/testZombie.js -R spec -t 10000"
   },
   "dependencies": {

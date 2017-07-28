@@ -8,7 +8,7 @@ var express = require('express'),
     config = require('./config')
     cluster = require ('cluster');
 
-var Capi = require('/opt/qcloudapi-sdk');
+var Capi = require('../qcloudapi-sdk');
 var request = require('request');
 var assign = require('object-assign');
 
