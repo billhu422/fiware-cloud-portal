@@ -6,7 +6,7 @@
   "devDependencies": {
     "mocha": "1.8.1",
     "should": "1.2.2",
-    "express": "3.1.0",
+    "express":"^4.15.3",
     "ejs": "0.8.4",
     "zombie": "1.4.1",
     "grunt": "~0.4.0",
@@ -43,6 +43,11 @@
     "object-assign": "^4.1.1",
     "request": "^2.81.0",
     "querystring":"^0.2.0",
-    "qs":"^6.5.0"
+    "qs":"^6.5.0",
+    "cookie-parser":"^1.4.3",
+    "express-session":"^1.15.5",
+    "errorhandler":"^1.5.0",
+    "morgan":"^1.8.2",
+    "serve-static":"^1.12.3"
   }
 }

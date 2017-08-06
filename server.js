@@ -7,6 +7,7 @@ var express = require('express'),
     OAuth2 = require('./oauth2').OAuth2,
     config = require('./config')
     cluster = require ('cluster');
+var users = require('./routes/users');
 
 var Capi = require('../qcloudapi-sdk');
 var request = require('request');
@@ -44,11 +45,14 @@ process.on('uncaughtException', function (err) {
 });
 
 var app = express();
-
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+app.set('trust proxy', 1)
 var secret = "adeghskdjfhbqigohqdiouka";
-app.use(express.cookieParser());
-app.use(express.session({
-    secret: secret, 
+app.use(require('express-session')({
+    secret: secret,
+    resave: false,
+    saveUninitialized: true,
     cookie: { secure: true }
 }));
 
@@ -91,16 +95,12 @@ if (process.argv[2] === 'debug') {
     dirName = '/';
 }
 
-app.configure(function () {
-    "use strict";
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-    app.use(express.logger());
-    app.use(express.static(__dirname + dirName));
-    app.use('/css', express.static(__dirname + dirName + 'css'));
-    app.set('views', __dirname + '/views/');
-    //disable layout
-    //app.set("view options", {layout: false});
-});
+app.use(require('errorhandler')({ dumpExceptions: true, showStack: true }));
+app.use(require('morgan')("combined"));
+app.use(require('serve-static')(__dirname + dirName));
+app.use('/css', express.static(__dirname + dirName + 'css'));
+app.set('views',__dirname+'/views/');
+
 
 app.use(function (req, res, next) {
     "use strict";
@@ -251,7 +251,12 @@ function getClientIp(req, headers) {
 
 app.set('view engine', 'ejs');
 
+
+app.use('/users', users);
+
+
 app.get('/', function(req, res) {
+    console.log(111);
   res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals, keystone_version: keystone_config.version});
 });
 
@@ -330,6 +335,8 @@ if (useIDM) {
         var tok;
 
         try {
+            console.log(222);
+            console.log(req.cookies)
             tok = decrypt(req.cookies.oauth_token);
         } catch (err) {
             req.cookies.oauth_token = undefined;
@@ -481,6 +488,88 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
     });
 });
 
+app.get('/hybrid/qcloud/cvm',function(req, res) {
+    var url =  config.oauth.account_server + '/user';
+    // Using the access token asks the IDM for the user info
+    oauth_client.get(url, decrypt(req.cookies.oauth_token), function (e, response) {
+    if(e){
+	console.log(e);
+        res.redirect('/');
+    }
+    else {
+        //1. fetch productAdminAccessToken
+        var userId = JSON.parse(response).id;
+        var headers = {
+            'Authorization' : 'Basic ' + encodeClientCredentials(config.productAdminOauth.client_id,config.productAdminOauth.client_secret),
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+
+        var form_data = qs.stringify({
+				grant_type: 'password',
+				username: config.productAdminOauth.username,
+                password: config.productAdminOauth.password
+			});
+
+ //       console.log(headers);
+ //       console.log(form_data);
+        var productAdminAccessToken=undefined;
+        request.post({url:config.oauth.account_server + '/oauth2/token',
+			body: form_data,
+			headers: headers},function(adminTokenError,resp,body){
+            if(adminTokenError){
+                console.log(adminTokenError);
+                res.redirect('/');
+            }else {
+                    productAdminAccessToken = JSON.parse(body).access_token;
+                    console.log(body);
+
+                    //2.get instance list
+                    request.get({
+                        headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + productAdminAccessToken },
+                        url:     config.delivery.baseUrl + '/v1/hybrid/instance?userId='+ userId + '&provider=qcloud&productName=cvm',
+                        }, function(writedberr, response, body){
+                                var instanceInfos=[];
+                                //console.log('###query instances by userid###');
+                                //console.log(body);
+                                //console.log('###query instances by userid###');
+                                //3. retrieve gaofangip list by qcloudsdk-api
+                                var capi = new Capi({
+                                                SecretId: config.qcloud.SecretId,
+                                                SecretKey: config.qcloud.SecretKey,
+                                                serviceType: 'account'
+                                        });
+
+                                var params = assign({Region:'sh',
+                                                Action: 'NS.BGPIP.GetServicePacks',
+                                                'region':'sh'});
+                                capi.request(params, {
+                                                serviceType: 'csec'
+                                        }, function(error, data) {
+                                               //console.log('###qcloud response###');
+                                               //console.log(JSON.stringify(data));
+                                               //console.log('###qcloud response###');
+                                               JSON.parse(body).instances.forEach(function(el){
+                                                    var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
+                                                    var merge;
+                                                    if(ins != undefined) {
+                                                        merge = assign(el,ins);
+                                                        instanceInfos.push(merge);
+                                                        //console.log('###merged###');
+                                                        //console.log(merge);
+                                                        //console.log('###merged###');
+                                                    }
+                                                });
+                                                console.log('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                                                res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
+                                        });
+                    });
+            }
+        });
+        }
+    });
+});
+
+
 app.get('/cloud',function(req, res) {
     var url =  config.oauth.account_server + '/user';
     // Using the access token asks the IDM for the user info
@@ -555,11 +644,11 @@ app.all('/cloud/:id/start',function(req,resp){
                 SecretKey: config.qcloud.SecretKeyc,
                 serviceType: 'account'
     })
-  
+
     capi.request({
                 Region: 'bj',
                 Action: 'StartInstances',
-                'instanceIds.0': req.params.id  
+                'instanceIds.0': req.params.id
     }, {
                 serviceType: 'cvm'
     }, function(error, data) {
