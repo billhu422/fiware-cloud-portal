@@ -62,11 +62,11 @@ var NovaKeypairsView = Backbone.View.extend({
         for (var index in this.model.models) {
             var keypair = this.model.models[index];
             var entry = {
-                id: keypair.get('name'),
+                id: keypair.get('id'),
                 cells: [{
-                    value: keypair.get("name")
+                    value: keypair.get("KeyId") + '/' + keypair.get("KeyName")
                 }, {
-                    value: keypair.get("fingerprint")
+                    value: keypair.get("Description")
                 }]
             };
             entries.push(entry);
@@ -75,6 +75,7 @@ var NovaKeypairsView = Backbone.View.extend({
     },
 
     onAction: function(action, keypairIds) {
+        console.log(JSON.stringify(keypairIds));
         var keypair, kp, subview;
         var self = this;
         if (keypairIds.length === 1) {
@@ -98,7 +99,7 @@ var NovaKeypairsView = Backbone.View.extend({
                     onAccept: function() {
                         keypairIds.forEach(function(keypair) {
                             kp = self.model.get(keypair);
-                            kp.destroy(UTILS.Messages.getCallbacks("Keypair "+kp.get("name") + " deleted.", "Error deleting keypair "+ kp.get("name")));
+                            kp.destroy(UTILS.Messages.getCallbacks("Keypair "+kp.get("instanceId") + " deleted.", "Error deleting keypair "+ kp.get("instanceId")));
                         });
                     }
                 });
