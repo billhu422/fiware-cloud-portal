@@ -51,7 +51,8 @@ var InstanceOverviewView = Backbone.View.extend({
             self.checkAll();
         }, this);
         this.options.image = new ImageVM();
-        this.options.image.set({id: this.model.get("image").id});
+        //this.options.image.set({id: this.model.get("image").id});
+        this.options.image.set({id: this.model.get("instanceName")});
         this.options.image.bind("change", function() {
             self.imageResp = true;
             self.checkAll();

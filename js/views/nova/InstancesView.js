@@ -185,9 +185,9 @@ var NovaInstancesView = Backbone.View.extend({
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Task",
+            name: "云服务商",
             //tooltip: "Current tasks performed on the server",
-            tooltip: "实例当前执行的任务",
+            tooltip: "提供云服务的厂商",
             size: "10%",
             hidden_phone: true,
             hidden_tablet: false
@@ -203,7 +203,7 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     getEntries: function() {
-               //qcloud
+        //qcloud
 /*
         var VM_STATUS = {
             1: "Error",
@@ -259,9 +259,9 @@ var NovaInstancesView = Backbone.View.extend({
             console.log(instance1);
        
             entry = {
-                id: instance1.cid,
+                id: instance1.id,
                 cells: [{
-                    value: instance1.get("unInstanceId"),
+                    value: instance1.get("id"),
                     link: "#nova/instances/" + "112233" + "/detail",
                     tooltip: "实例名称"
                 }, {
@@ -273,15 +273,16 @@ var NovaInstancesView = Backbone.View.extend({
                 }, {
                     value: VM_STATUS[instance1.get("status")]
                 }, {
-                    value:  "空"
+                    value:  instance1.get('provider')
                 }
               /* , {
                     value: "powner stateaaa"
                 }*/
                ]
             };
+            entries.push(entry);
         }
-        entries.push(entry);
+
         return entries;
 
         var flavorlist = {};
@@ -302,7 +303,6 @@ var NovaInstancesView = Backbone.View.extend({
             9: "BUILDING"
         };
         // entries: [{id:id, cells: [{value: value, link: link}] }]
-        //var entries = [];
         for (var instance_idx in this.model.models) {
              var instance = this.model.models[instance_idx];
             var addresses;
@@ -335,9 +335,9 @@ var NovaInstancesView = Backbone.View.extend({
              entry = {
                 id: instance.get('id'),
                 cells: [{
-                    value: instance.get("name"),
+                    value: instance.get("id"),
                     link: "#nova/instances/" + instance.id + "/detail",
-                    tooltip: instance.get("name")
+                    tooltip: instance.get("id")
                 }, {
                     value: address
                 }, {

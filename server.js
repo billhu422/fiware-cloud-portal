@@ -7,13 +7,14 @@ var express = require('express'),
     OAuth2 = require('./oauth2').OAuth2,
     config = require('./config')
     cluster = require ('cluster');
-var users = require('./routes/users');
-
 var Capi = require('../qcloudapi-sdk');
 var request = require('request');
 var assign = require('object-assign');
 var querystring = require('querystring');
 var qs = require("qs");
+
+var users = require('./routes/users');
+var qcloud = require('./routes/qcloud');
 
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
@@ -253,10 +254,10 @@ app.set('view engine', 'ejs');
 
 
 app.use('/users', users);
-
+app.use('/hybrid/qcloud/',qcloud);
 
 app.get('/', function(req, res) {
-    console.log(111);
+
   res.render('index', {useIDM: useIDM, account_server: oauth_config.account_server, portals: config.fiportals, keystone_version: keystone_config.version});
 });
 

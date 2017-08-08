@@ -163,11 +163,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "reboot":
-                if (options.soft !== undefined && options.soft) {
-                    JSTACK.Nova.rebootserversoft(model.get("id"), options.success, options.error, this.getRegion());
-                } else {
-                    JSTACK.Nova.rebootserverhard(model.get("id"), options.success, options.error, this.getRegion());
-                }
+                OTHERCLOUD.API.rebootQcloudIns(model.get("unInstanceId"),options.success,options.error);
                 break;
             case "resize":
                 JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success, options.error, this.getRegion());
@@ -179,16 +175,10 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.revertresizedserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "stop":
-//                JSTACK.Nova.stopserver(model.get("id"), options.success, options.error, this.getRegion());
-                console.log("model stop!!!!");
-                //OTHERCLOUD.API.stopInstance(model.get("unInstanceId"),options.success,options.error);
-                OTHERCLOUD.API.stopInstance(model.get("id"),options.success,options.error);
+                OTHERCLOUD.API.stopQcloudIns(model.get("unInstanceId"),options.success,options.error);
                 break;
             case "start":
-                console.log("model start!!!!");
-                //JSTACK.Nova.startserver(model.get("id"), options.success, options.error, this.getRegion());
-                //OTHERCLOUD.API.startInstance(model.get("unInstanceId"),options.success,options.error);
-                OTHERCLOUD.API.startInstance(model.get("id"),options.success,options.error);
+                OTHERCLOUD.API.startQcloudIns(model.get("unInstanceId"),options.success,options.error);
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error, this.getRegion());
@@ -275,27 +265,16 @@ var Instances = Backbone.Collection.extend({
     },
 
     sync: function(method, model, options) {
-	callback = function(resp){
-                console.log("callback start..."); 
-                console.log(resp[0]);
-                console.log("callback end...");
-        };
         if (method === "read") {
-//            JSTACK.Nova.getserverlist(true, this.alltenants, options.success, options.error, this.getRegion());
-//            OTHERCLOUD.API.describeInstance(callback,options.error);
-            OTHERCLOUD.API.describeInstance(options.success,options.error);
+            OTHERCLOUD.API.describeQcloudIns(options.success,options.error);
         }
     },
 
     parse: function(resp) {
-        //return resp.servers;
-        resp.instanceSet.forEach(function(instance){
-              instance.id = instance.unInstanceId;
-              console.log("iiiiiiiiiiiiiiiiid");
-              console.log(instance);
-              console.log("iiiiiiiiiiiiiiiiid");
+        resp.instanceInfos.forEach(function(instance){
+              instance.id = instance.orderId + '-' + instance.orderItemId + '-' + instance.unInstanceId;
         });
-        return resp.instanceSet;
+        return resp.instanceInfos;
     }
 
 });
