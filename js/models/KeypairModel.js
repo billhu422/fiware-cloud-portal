@@ -41,9 +41,9 @@ var Keypair = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "create":
-                   JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
-                   console.log('create keypair:' + model.get("name"));
-                   OTHERCLOUD.API.createQcloudKeypair(model.get("name"),'bj',options.success, options.error);
+                   //JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
+                   console.log('create keypair:' + model.get("name") + '/' + model.get("public_key"));
+                   OTHERCLOUD.API.createQcloudKeypair(model.get("name"),'bj',model.get("public_key"),options.success, options.error);
                    break;
                case "delete":
                    //JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error, this.getRegion());

@@ -333,4 +333,54 @@ router.post('/keypair',function (req,res) {
     });
 })
 
+router.post('/keypair/import',function (req,res) {
+    console.log('keypair body:' + JSON.stringify(JSON.parse(req.body)));
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa");
+    var adminAccessToken = req.adminAccessToken;
+    var form= {
+        userId:req.userId,
+        projectId:config.qcloud.projectId,
+        region:JSON.parse(req.body).regionId,
+        keyName:JSON.parse(req.body).keyName,
+        publicKey:JSON.parse(req.body).publicKey
+    }
+    console.log(JSON.stringify(form));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    var options = {
+        headers:{'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+        url:    config.delivery.baseUrl + '/v1/hybrid/qcloud/keypair/import',
+        form:   form
+    }
+    /*
+    body example:
+    {
+    "code": 0,
+    "keyId": "skey-7zemjxq7"
+}
+ */
+    console.log(JSON.stringify(options));
+    request.post(options, function(e, response, body) {
+        console.log(body);
+        if(e){
+            console.log(JSON.stringify(e));
+        }
+        else{
+            if(response.statusChanged == 201){
+                var rbody = {
+                    'keyId':JSON.parse(body).keyId,
+                };
+                console.log(JSON.stringify(rbody));
+                res.status(201);
+                res.send(JSON.stringify(rbody));
+            }
+            else{
+                res.status(response.statusCode);
+                res.send(body);
+            }
+        }
+    });
+})
+
 module.exports = router;
