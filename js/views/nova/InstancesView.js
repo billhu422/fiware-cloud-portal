@@ -441,14 +441,9 @@ var NovaInstancesView = Backbone.View.extend({
                     btn_message: "关闭实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
-                            console.log("eeeeeeeeeeeeech");
-                            console.log(instance);
                             inst = self.model.get(instance);
-                            console.log(inst);
-                            //inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("name") + " stopped.", "Error stopping instance "+inst.get("name")));
-                            console.log("view stop!!!!");
-                            //inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " stopped.", "Error stopping instance "+inst.get("unInstanceId")));
-                            inst.stopserver(undefined);
+                            inst.stopserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("id") + " stopped.", "Error stopping instance "+inst.get("id")));
+
                         });
                     }
                 });
@@ -463,9 +458,7 @@ var NovaInstancesView = Backbone.View.extend({
                         instanceIds.forEach(function(instance) {
                             console.log("start vm ...");
                             inst = self.model.get(instance);
-                            //inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " started.", "Error starting instance "+inst.get("name")));
-                            //inst.startserver(UTILS.Messages.getCallbacks("Instance a "+inst.get("unInstanceId") + " started.", "Error starting instance "+inst.get("unInstanceId")));
-                            inst.startserver(undefined);
+                            inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("id") + " started.", "Error starting instance "+inst.get("id")));
                         });
                     }
                 });
@@ -507,7 +500,7 @@ var NovaInstancesView = Backbone.View.extend({
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
                             inst = self.model.get(instance);
-                            inst.reboot(true, UTILS.Messages.getCallbacks("Instance "+inst.get("name") + " rebooted.", "Error rebooting instance "+inst.get("name")));
+                            inst.reboot(true, UTILS.Messages.getCallbacks("Instance "+inst.get("id") + " rebooted.", "Error rebooting instance "+inst.get("id")));
                         });
                     }
                 });

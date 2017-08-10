@@ -68,7 +68,11 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var securityGroupsModel = this.model.get(this.options.securityGroupId);
+        console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
+        console.log(this.options.securityGroupId);
+        console.log(securityGroupsModel);
         var securityGroupRules;
+        securityGroupsModel.readSecurityGroupRuleDetails();
         for (var i in securityGroupsModel.get('rules')) {
             securityGroupRules = securityGroupsModel.get('rules')[i];
             if (securityGroupRules.from_port === null || securityGroupRules.ip_protocol === null) {

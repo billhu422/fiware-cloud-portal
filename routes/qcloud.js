@@ -91,8 +91,58 @@ function  asyncDescribeKeypair(item) {
     return bd;
 }
 
+function asyncDescribeSecurityGroup(item){
+    var bd = new Promise(function (resolve, reject) {
+        var params = assign({
+            Region: item.region,
+            Action: 'DescribeSecurityGroupEx',
+            Version:'2017-03-12',
+            sgId:item.instanceId
+        });
+        //console.log(params);
+        capi.request(params, {serviceType: 'dfw'}, function (err, data) {
+            //console.log(data);
+
+            if(err){
+                reject(data);
+            }else if(data.codeDesc != 'Success'|| data.data.detail.length == 0) {
+                resolve(undefined);
+            } else {
+                resolve(assign(item,data.data.detail[0]));
+            }
+        });
+    });
+    return bd;
+}
+
+
+function asyncDescribeSGRule(item){
+    var bd = new Promise(function (resolve, reject) {
+        var params = assign({
+            Region: item.region,
+            Action: 'DescribeSecurityGroupPolicys',
+            Version:'2017-03-12',
+            sgId:item.instanceId
+        });
+        //console.log(params);
+        capi.request(params, {serviceType: 'dfw'}, function (err, data) {
+            //console.log(data);
+
+            if(err){
+                reject(data);
+            }else if(data.codeDesc != 'Success') {
+                resolve(undefined);
+            } else {
+                resolve(assign(item,data.data));
+            }
+        });
+    });
+    return bd;
+}
+
+
 router.get('/region',function (req,res) {
-    var options = {
+/*    var options = {
         Region: 'bj',
         Action: 'DescribeRegions'
     }
@@ -102,8 +152,12 @@ router.get('/region',function (req,res) {
     }, function(error, data) {
         //console.log(data);
         res.send(data)
-    })
-});
+    })*/
+
+    res.send(JSON.stringify(config.qcloud.region));
+})
+
+
 
 //validate userToken
 router.use(function (req,res,next) {
@@ -134,6 +188,7 @@ router.post('/cvm/:id/start',function (req,res) {
         serviceType: 'cvm'
     }, function(error, data) {
         console.log(data);
+        res.send({code:0});
     })
 });
 
@@ -149,6 +204,7 @@ router.post('/cvm/:id/stop',function (req,res) {
         serviceType: 'cvm'
     }, function(error, data) {
         console.log(data);
+        res.send({code:0});
     })
 });
 
@@ -164,8 +220,34 @@ router.post('/cvm/:id/reboot',function (req,res) {
         serviceType: 'cvm'
     }, function(error, data) {
         console.log(data);
+        res.send({code:0});
     })
 });
+
+
+
+router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
+    var reqForm= {
+        Region: JSON.parse(req.body).regionId,
+        Action: 'DescribeSecurityGroupPolicys',
+        sgId: req.params.sgId
+    }
+    //console.log(reqForm);
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+            console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+});
+
 
 //fetch adminAccessToken
 router.use(function (req,res,next) {
@@ -282,13 +364,12 @@ router.delete('/keypair/:id',function(req, res) {
         }
         else{
             console.log(body);
-            res.status(204);
+            res.status(200).send({name:keypairId})
         }
     });
 });
 
 router.post('/keypair',function (req,res) {
-    console.log('keypair body:' + JSON.stringify(JSON.parse(req.body)));
     var adminAccessToken = req.adminAccessToken;
     var form= {
         userId:req.userId,
@@ -334,8 +415,6 @@ router.post('/keypair',function (req,res) {
 })
 
 router.post('/keypair/import',function (req,res) {
-    console.log('keypair body:' + JSON.stringify(JSON.parse(req.body)));
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa");
     var adminAccessToken = req.adminAccessToken;
     var form= {
         userId:req.userId,
@@ -382,5 +461,138 @@ router.post('/keypair/import',function (req,res) {
         }
     });
 })
+
+router.get('/securityGroup',function(req, res) {
+    var adminAccessToken = req.adminAccessToken;
+    var reqForm= {
+        userId:req.userId,
+        provider:'qcloud',
+        productName:'securitygroup',
+        del:0
+    }
+    //console.log(reqForm);
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    var options = {
+        headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+        url:     config.delivery.baseUrl + '/v1/hybrid/instance?'+ qs.stringify(reqForm),
+    }
+    //console.log(options);
+    request.get(options, function(e, response, body) {
+            //console.log(body);
+            Promise.map(JSON.parse(body).instances, function (item) {
+            return asyncDescribeSecurityGroup(item);
+            })
+            .then(function(allResults){
+                var info=[];
+                for(r in allResults){
+                    if(allResults[r] != undefined) info.push(allResults[r]);
+                }
+                //console.log(info);
+                res.send({code:0,instanceInfos:info});
+            })
+    });
+});
+
+
+router.post('/securityGroup',function (req,res) {
+    var adminAccessToken = req.adminAccessToken;
+    //console.log(JSON.stringify(req.body));
+    var form= {
+        userId:req.userId,
+        projectId:config.qcloud.projectId,
+        region:JSON.parse(req.body).regionId,
+        sgName:JSON.parse(req.body).sgName,
+        sgRemark:JSON.parse(req.body).sgRemark,
+    }
+    console.log(JSON.stringify(form));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    var options = {
+        headers:{'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+        url:    config.delivery.baseUrl + '/v1/hybrid/qcloud/securityGroup',
+        form:   JSON.parse(JSON.stringify(form))
+    }
+    /*
+    body example:
+{ code: 0,
+  message: '',
+  codeDesc: 'Success',
+  data: { sgId: 'sg-4jnkhvn9', sgName: '001', sgRemark: 'xxx1' } }
+ */
+    console.log(JSON.stringify(options));
+    request.post(options, function(e, response, body) {
+        console.log(body);
+        if(e){
+            console.log(JSON.stringify(e));
+        }
+        else{
+            if(response.statusChanged == 201){
+                var rbody = {
+                    'sgId':JSON.parse(body).data.sgId,
+                };
+                console.log(JSON.stringify(rbody));
+                res.status(201);
+                res.send(JSON.stringify(rbody));
+            }
+            else{
+                res.status(response.statusCode);
+                res.send(body);
+            }
+        }
+    });
+})
+
+router.delete('/securityGroup/:id',function(req, res) {
+    var adminAccessToken = req.adminAccessToken;
+    var sgId = req.params.id;
+    var reqForm= {
+        userId:req.userId,
+        regionId:req.query.regionId,
+    }
+    console.log(JSON.stringify(reqForm));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    var options = {
+        headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+        url:     config.delivery.baseUrl + '/v1/hybrid/qcloud/securityGroup/'+ sgId + '?' + qs.stringify(reqForm),
+    }
+
+    request.delete(options, function(e, response, body) {
+        if(e){
+            console.log(JSON.stringify(e));
+        }
+        else{
+            console.log(body);
+            res.status(200).send({name:sgId});
+        }
+    });
+});
+
+router.get('/securityGroupRule',function(req, res) {
+    var reqForm= {
+        Region: JSON.parse(req.body).regionId,
+        Action: 'DescribeSecurityGroupPolicys',
+        sgId:JSON.parse(req.body).sgId
+    }
+    //console.log(reqForm);
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+            console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+});
+
 
 module.exports = router;

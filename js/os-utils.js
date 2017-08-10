@@ -340,6 +340,8 @@ UTILS.Auth = (function(U, undefined) {
         var _authenticatedWithTenant = function (resp) {
             console.log("Authenticated in tenant ", tenant);
 
+            initRegions();
+
             changeEndpoints();
 
             callback();
@@ -430,6 +432,8 @@ UTILS.Auth = (function(U, undefined) {
 
             check_user();
 
+            initRegions();
+
             changeEndpoints();
 
             var t = Object.create(resp.access.token.tenant);
@@ -477,6 +481,17 @@ UTILS.Auth = (function(U, undefined) {
             _tryTenant(resp.tenants);
         }, access_token_);
 
+    }
+
+    function initRegions(){
+        regions_=[];
+        OTHERCLOUD.API.getRegion(function (res) {
+            //console.log(res);
+            for( r in res){
+                regions_.push(res[r]);
+            }
+        },undefined);
+        console.log(regions_);
     }
 
     function changeEndpoints () {

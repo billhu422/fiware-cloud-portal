@@ -68,14 +68,15 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         var sec_group, descr;
         for (var i in this.model.models) {
             sec_group = this.model.models[i];
-            descr = sec_group.get("description");
+            console.log(sec_group);
+            descr = sec_group.get("sgRemark");
             if (descr === null || descr === undefined || descr === "null") {
                 descr = "-";
             }
             var entry = {
                 id: sec_group.get('id'),
                 cells: [{
-                    value: sec_group.get("name")
+                    value: sec_group.get('id') + '/' + sec_group.get('sgName')
                 }, {
                     value: descr
                 }]

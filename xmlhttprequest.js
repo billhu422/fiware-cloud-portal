@@ -17,14 +17,14 @@ var Url = require("url")
   , Agent = require('agentkeepalive')
   , HttpsAgent = require('agentkeepalive').HttpsAgent;
 
-GLOBAL.keepaliveAgent = GLOBAL.keepaliveAgent || new Agent({
+global.keepaliveAgent = global.keepaliveAgent || new Agent({
   maxSockets: 100,
   maxFreeSockets: 100,
   keepAlive: true,
   keepAliveMsecs: 15000 // keepalive for 30 seconds
 });
 
-GLOBAL.keepaliveSecureAgent = GLOBAL.keepaliveSecureAgent || new HttpsAgent({
+global.keepaliveSecureAgent = global.keepaliveSecureAgent || new HttpsAgent({
   maxSockets: 100,
   maxFreeSockets: 100,
   keepAlive: true,
@@ -390,7 +390,7 @@ exports.XMLHttpRequest = function() {
       headers: headers,
       rejectUnauthorized: false,
       requestCert: true,
-      agent: GLOBAL.keepaliveAgent
+      agent: global.keepaliveAgent
     };
 
     // Reset error flag
@@ -407,7 +407,7 @@ exports.XMLHttpRequest = function() {
       // As per spec, this is called here for historical reasons.
       self.dispatchEvent("readystatechange");
       if (ssl) { 
-        options.agent = GLOBAL.keepaliveSecureAgent;
+        options.agent = global.keepaliveSecureAgent;
       }
       // Create the requests
       request = doRequest(options, function(resp) {

@@ -14,7 +14,6 @@ var Keypair = Backbone.Model.extend({
         return UTILS.Auth.getCurrentRegion();
     },
     destroy: function(options) {
-        console.log('999999999999999999');
         return this._action('delete', options);
     },
 

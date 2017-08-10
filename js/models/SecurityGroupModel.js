@@ -30,6 +30,10 @@ var SecurityGroup = Backbone.Model.extend({
         return xhr;
     },
 
+    readSecurityGroupRuleDetails:function (options) {
+        return this._action('read',options);
+    }
+
     createSecurityGroupRule: function(ip_protocol, from_port, to_port, cidr, group_id, parent_group_id, options) {
         options = options || {};
         options.ip_protocol = ip_protocol;
@@ -58,14 +62,17 @@ var SecurityGroup = Backbone.Model.extend({
     sync: function(method, model, options) {
            switch(method) {
                case "read":
-                   JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success, options.error, this.getRegion());
+                   //JSTACK.Nova.getsecuritygroupdetail(model.get("id"), options.success, options.error, this.getRegion());
+                   OTHERCLOUD.API.describeSecurityGroupDetail(model.get('instanceId'),model.get('region'),options.success, options.error);
                    break;
                case "delete":
-                   JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error, this.getRegion());
+                   //JSTACK.Nova.deletesecuritygroup(model.get("id"), options.success, options.error, this.getRegion());
+                   OTHERCLOUD.API.delSecurityGroup(model.get("instanceId"),model.get("region"),options.success, options.error);
                    break;
                case "create":
                console.log("Creating, ", options.success);
-                   JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
+                   //JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
+                   OTHERCLOUD.API.createSecurityGroup(model.get("name"),'bj',model.get("description"),options.success, options.error);
                    break;
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
@@ -108,12 +115,16 @@ var SecurityGroups = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if(method === "read") {
-            JSTACK.Nova.getsecuritygrouplist(options.success, options.error, this.getRegion());
+            //JSTACK.Nova.getsecuritygrouplist(options.success, options.error, this.getRegion());
+            OTHERCLOUD.API.describeSecurityGroup(options.success, options.error);
         }
     },
 
     parse: function(resp) {
-        return resp.security_groups;
+        resp.instanceInfos.forEach(function(instance){
+            instance.id = instance.orderId + '-' + instance.orderItemId + '-' + instance.instanceId;
+        });
+        return resp.instanceInfos;
     }
 
 });
