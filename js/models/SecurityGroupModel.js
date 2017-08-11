@@ -76,10 +76,13 @@ var SecurityGroup = Backbone.Model.extend({
                    break;
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
-                   JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error, this.getRegion());
+                   //JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error, this.getRegion());
+                   OTHERCLOUD.API.createSecurityGroupRule(model.get('instanceId'),'bj','ingress',options.index,
+                       options.ipProtocol,options.cidrIp,options.from_port,options.to_port,options.action,options.success, options.error);
                    break;
                 case "deleteSecurityGroupRule":
-                   JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error, this.getRegion());
+                   //JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error, this.getRegion());
+                    OTHERCLOUD.API.delSecurityGroupRule(model.get('instanceId'),model.get('region'),'ingress',options.secGroupRuleId,options.success, options.error);
                    break;
                 case "getSecurityGroupforServer":
                     mySuccess = function(object) {

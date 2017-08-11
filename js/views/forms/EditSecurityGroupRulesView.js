@@ -101,7 +101,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 continue;
             }
 
-            if(rule.action != 'ACCEPT')
+            if(rule.action.toUpperCase() != 'ACCEPT')
                 continue;
 
             if(rule.portRange === '' || rule.portRange === null ) {
@@ -155,7 +155,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 }, {
                     value: securityGroupRules.cidrIp +" (CIDR)"
                 }, {
-                    value: '<button type="button" id="deleteRuleBtn" value="' + securityGroupRules.id + '" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>'
+                    value: '<button type="button" id="deleteRuleBtn" value="' + securityGroupRules.index + '" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>'
                 }]
             };
             entries.push(entry);
@@ -190,8 +190,8 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
 
     autoRender: function() {
 
-        /*$(this.el).find("#edit_security_group_rule").remove();
-        $(this.el).append(self._template({
+ /*          $(this.el).find("#edit_security_group_rule").remove();
+     $(this.el).append(self._template({
             model: this.model,
             securityGroupId: this.options.securityGroupId
         }));*/

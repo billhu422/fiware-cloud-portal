@@ -148,8 +148,6 @@ router.get('/region',function (req,res) {
     res.send(JSON.stringify(config.qcloud.region));
 })
 
-
-
 //validate userToken
 router.use(function (req,res,next) {
     var url = config.oauth.account_server + '/user';
@@ -239,6 +237,84 @@ router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
     })
 });
 
+router.get('/securityGroupRule',function(req, res) {
+    var reqForm= {
+        Region: JSON.parse(req.body).regionId,
+        Action: 'DescribeSecurityGroupPolicys',
+        sgId:JSON.parse(req.body).sgId
+    }
+    //console.log(reqForm);
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+           // console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+});
+
+router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
+    var reqForm = {
+        Region: JSON.parse(req.body).regionId,
+        Action: 'CreateSecurityGroupPolicy',
+        sgId: req.params.sgId,
+        direction: JSON.parse(req.body).direction,
+        index: JSON.parse(req.body).index,
+        policys: [{//Mandatory
+            ipProtocol: JSON.parse(req.body).ipProtocol,
+            cidrIp: JSON.parse(req.body).cidrIp,
+            portRange:  JSON.parse(req.body).from_port + '-' + JSON.parse(req.body).to_port,
+            desc: '',
+            action: JSON.parse(req.body).action
+        }]
+    }
+
+    console.log(JSON.stringify(reqForm,4,4));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+            console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+})
+
+router.delete('/securityGroup/:sgId/securityGroupRule/:id',function(req, res) {
+    var reqForm = {
+        Region: req.query.regionId,
+        Action: 'DeleteSecurityGroupPolicy',
+        sgId: req.params.sgId,
+        direction: req.query.direction,
+        indexes: [req.params.id]
+    }
+
+    console.log(JSON.stringify(reqForm));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+            console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+});
 
 //fetch adminAccessToken
 router.use(function (req,res,next) {
@@ -563,93 +639,6 @@ router.delete('/securityGroup/:id',function(req, res) {
     });
 });
 
-router.get('/securityGroupRule',function(req, res) {
-    var reqForm= {
-        Region: JSON.parse(req.body).regionId,
-        Action: 'DescribeSecurityGroupPolicys',
-        sgId:JSON.parse(req.body).sgId
-    }
-    //console.log(reqForm);
-    req.userId = undefined;
-    req.adminAccessToken = undefined;
 
-    capi.request(reqForm, {
-        serviceType: 'dfw'
-    }, function(error, data) {
-        if(error){
-            console.log(error);
-        }else{
-           // console.log(JSON.stringify(data,4,4));
-            res.send(data);
-        }
-    })
-});
-
-router.delete('/securityGroup/:sgId/securityGroupRule/:id',function(req, res) {
-    var reqForm = {
-        Region: req.query.regionId,
-        Action: 'DeleteSecurityGroupPolicy',
-        sgId: req.params.sgId,
-        direction: req.query.direction,
-        indexes: [req.params.id]
-    }
-
-    console.log(JSON.stringify(reqForm));
-    req.userId = undefined;
-    req.adminAccessToken = undefined;
-
-    capi.request(reqForm, {
-        serviceType: 'dfw'
-    }, function(error, data) {
-        if(error){
-            console.log(error);
-        }else{
-            console.log(JSON.stringify(data,4,4));
-            res.send(data);
-        }
-    })
-});
-
-
-router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
-
-    var form= {
-        userId:req.userId,
-        projectId:config.qcloud.projectId,
-        region:JSON.parse(req.body).regionId,
-        sgName:JSON.parse(req.body).sgName,
-        sgRemark:JSON.parse(req.body).sgRemark,
-    }
-
-    var reqForm = {
-        Region: JSON.parse(req.body).regionId,
-        Action: 'CreateSecurityGroupPolicy',
-        sgId: req.params.sgId,
-        direction: JSON.parse(req.body).direction,
-        index: JSON.parse(req.body).index,
-        policys: [{//Mandatory
-            ipProtocol: JSON.parse(req.body).ipProtocol,
-            cidrIp: JSON.parse(req.body).cidrIp,
-            portRange:  JSON.parse(req.body).from_port + '-' + JSON.parse(req.body).to_port,
-            desc: '',
-            action: JSON.parse(req.body).action
-        }]
-    }
-
-    console.log(JSON.stringify(reqForm));
-    req.userId = undefined;
-    req.adminAccessToken = undefined;
-
-    capi.request(reqForm, {
-        serviceType: 'dfw'
-    }, function(error, data) {
-        if(error){
-            console.log(error);
-        }else{
-            console.log(JSON.stringify(data,4,4));
-            res.send(data);
-        }
-    })
-})
 
 module.exports = router;
