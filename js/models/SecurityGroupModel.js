@@ -32,7 +32,7 @@ var SecurityGroup = Backbone.Model.extend({
 
     readSecurityGroupRuleDetails:function (options) {
         return this._action('read',options);
-    }
+    },
 
     createSecurityGroupRule: function(ip_protocol, from_port, to_port, cidr, group_id, parent_group_id, options) {
         options = options || {};

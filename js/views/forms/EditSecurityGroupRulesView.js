@@ -72,8 +72,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         console.log(this.options.securityGroupId);
         console.log(securityGroupsModel);
         var securityGroupRules;
-        securityGroupsModel.readSecurityGroupRuleDetails();
-        for (var i in securityGroupsModel.get('rules')) {
+/*        for (var i in securityGroupsModel.get('rules')) {
             securityGroupRules = securityGroupsModel.get('rules')[i];
             if (securityGroupRules.from_port === null || securityGroupRules.ip_protocol === null) {
                 continue;
@@ -93,8 +92,74 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                 }]
             };
             entries.push(entry);
-        }
+        }*/
+        var ingress_fmt = [];
+        for(var i in securityGroupsModel.get('ingress')){
 
+            var rule = securityGroupsModel.get('ingress')[i];
+            if (rule.portRange === null || rule.ipProtocol === null) {
+                continue;
+            }
+
+            if(rule.action != 'ACCEPT')
+                continue;
+
+            if(rule.portRange === '' || rule.portRange === null ) {
+                console.log("error");
+            }else if(rule.portRange.split(',')[1] != undefined) {
+                    //console.log(", 格式");
+                    for( j in rule.portRange.split(',')){
+                        var rule_j = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange.split(',')[j],
+                            to_port:rule.portRange.split(',')[j],
+                            ipProtocol: rule.ipProtocol
+                        }
+                        ingress_fmt.push(rule_j);
+                    }
+            } else if(rule.portRange.split('-')[1] != undefined){
+                //console.log("range");
+                var rule_j = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange.split('-')[0],
+                            to_port:rule.portRange.split('-')[1],
+                            ipProtocol: rule.ipProtocol
+                }
+                ingress_fmt.push(rule_j);
+            }else {
+                //console.log("unkown format");
+                var rule_j = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange,
+                            to_port:rule.portRange,
+                            ipProtocol: rule.ipProtocol
+                }
+                ingress_fmt.push(rule_j);
+            }
+        }
+        //console.log(ingress_fmt);
+        for (var i in ingress_fmt) {
+            securityGroupRules = ingress_fmt[i];
+
+            var entry = {
+                id: securityGroupRules.id,
+                cells: [{
+                    value: securityGroupRules.ipProtocol.toUpperCase()
+                }, {
+                    value: securityGroupRules.from_port
+                }, {
+                    value: securityGroupRules.to_port
+                }, {
+                    value: securityGroupRules.cidrIp +" (CIDR)"
+                }, {
+                    value: '<button type="button" id="deleteRuleBtn" value="' + securityGroupRules.id + '" class="ajax-modal btn btn-small btn-blue btn-delete btn-danger"  data-i18n="Delete Rule">Delete Rule</button>'
+                }]
+            };
+            entries.push(entry);
+        }
         return entries;
     },
 

@@ -101,45 +101,36 @@ function asyncDescribeSecurityGroup(item){
         });
         //console.log(params);
         capi.request(params, {serviceType: 'dfw'}, function (err, data) {
-            //console.log(data);
-
+            //console.log(JSON.stringify(data,4,4));
             if(err){
                 reject(data);
             }else if(data.codeDesc != 'Success'|| data.data.detail.length == 0) {
                 resolve(undefined);
             } else {
-                resolve(assign(item,data.data.detail[0]));
+                var opt = assign({
+                            Region: item.region,
+                            Action: 'DescribeSecurityGroupPolicys',
+                            Version:'2017-03-12',
+                            sgId:item.instanceId
+                        });
+                //console.log(opt);
+                capi.request(opt, {serviceType: 'dfw'}, function (err, ruledata) {
+                    //console.log(JSON.stringify(ruledata,4,4));
+                    if(err){
+                        reject(ruledata);
+                    }else if(ruledata.codeDesc != 'Success') {
+                        resolve(undefined);
+                    } else {
+                        resolve(assign(item,data,data.data.detail[0],ruledata.data));
+                    }
+                });
+
             }
+
         });
     });
     return bd;
 }
-
-
-function asyncDescribeSGRule(item){
-    var bd = new Promise(function (resolve, reject) {
-        var params = assign({
-            Region: item.region,
-            Action: 'DescribeSecurityGroupPolicys',
-            Version:'2017-03-12',
-            sgId:item.instanceId
-        });
-        //console.log(params);
-        capi.request(params, {serviceType: 'dfw'}, function (err, data) {
-            //console.log(data);
-
-            if(err){
-                reject(data);
-            }else if(data.codeDesc != 'Success') {
-                resolve(undefined);
-            } else {
-                resolve(assign(item,data.data));
-            }
-        });
-    });
-    return bd;
-}
-
 
 router.get('/region',function (req,res) {
 /*    var options = {
@@ -228,11 +219,11 @@ router.post('/cvm/:id/reboot',function (req,res) {
 
 router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
     var reqForm= {
-        Region: JSON.parse(req.body).regionId,
+        Region: req.query.regionId,
         Action: 'DescribeSecurityGroupPolicys',
         sgId: req.params.sgId
     }
-    //console.log(reqForm);
+    console.log(reqForm);
     req.userId = undefined;
     req.adminAccessToken = undefined;
 
@@ -450,7 +441,7 @@ router.post('/keypair/import',function (req,res) {
                 var rbody = {
                     'keyId':JSON.parse(body).keyId,
                 };
-                console.log(JSON.stringify(rbody));
+                //console.log(JSON.stringify(rbody));
                 res.status(201);
                 res.send(JSON.stringify(rbody));
             }
@@ -588,11 +579,77 @@ router.get('/securityGroupRule',function(req, res) {
         if(error){
             console.log(error);
         }else{
+           // console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+});
+
+router.delete('/securityGroup/:sgId/securityGroupRule/:id',function(req, res) {
+    var reqForm = {
+        Region: req.query.regionId,
+        Action: 'DeleteSecurityGroupPolicy',
+        sgId: req.params.sgId,
+        direction: req.query.direction,
+        indexes: [req.params.id]
+    }
+
+    console.log(JSON.stringify(reqForm));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
             console.log(JSON.stringify(data,4,4));
             res.send(data);
         }
     })
 });
 
+
+router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
+
+    var form= {
+        userId:req.userId,
+        projectId:config.qcloud.projectId,
+        region:JSON.parse(req.body).regionId,
+        sgName:JSON.parse(req.body).sgName,
+        sgRemark:JSON.parse(req.body).sgRemark,
+    }
+
+    var reqForm = {
+        Region: JSON.parse(req.body).regionId,
+        Action: 'CreateSecurityGroupPolicy',
+        sgId: req.params.sgId,
+        direction: JSON.parse(req.body).direction,
+        index: JSON.parse(req.body).index,
+        policys: [{//Mandatory
+            ipProtocol: JSON.parse(req.body).ipProtocol,
+            cidrIp: JSON.parse(req.body).cidrIp,
+            portRange:  JSON.parse(req.body).from_port + '-' + JSON.parse(req.body).to_port,
+            desc: '',
+            action: JSON.parse(req.body).action
+        }]
+    }
+
+    console.log(JSON.stringify(reqForm));
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    capi.request(reqForm, {
+        serviceType: 'dfw'
+    }, function(error, data) {
+        if(error){
+            console.log(error);
+        }else{
+            console.log(JSON.stringify(data,4,4));
+            res.send(data);
+        }
+    })
+})
 
 module.exports = router;
