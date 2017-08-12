@@ -368,7 +368,10 @@ if (useIDM) {
     app.get('/logout', function(req, res){
         res.clearCookie('oauth_token');
         res.clearCookie('expires_in');
-        res.send(200);
+//        req.clearCookie('oauth_token');
+//        req.clearCookie('expires_in');
+        //res.send(200);
+        res.redirect(config.oauth.account_server + '/auth/logout');
     });
 }
 

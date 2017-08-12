@@ -63,7 +63,7 @@
         <!--<script type="text/javascript" src="../lib/jquery.qtip.min.js"></script>-->
 
         <% if (useIDM) { %>
-        <script src="<%= account_server %>/assets/signOut.js" type="text/javascript"></script>
+        <!--<script src="<%= account_server %>/assets/signOut.js" type="text/javascript"></script>-->
 
         <script type="text/javascript">
             var regex = new RegExp("[\\#&]token=([^&#]*)");
@@ -254,7 +254,8 @@
                   </li>
 
                   <li>
-                    <a href="#" onclick="Fiware.signOut('cloud'); return false">
+                    <!--<a href="#" onclick="Fiware.signOut('cloud'); return false">-->
+                      <a href="<%=portals['Cloud']%>/logout">
                       退出
                     </a>
                   </li>
