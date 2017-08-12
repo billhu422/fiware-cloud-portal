@@ -146,7 +146,7 @@ var LoginStatus = Backbone.Model.extend({
         //            var subview = new MessagesView({state: "Info", title: "Connected to project " + "xxx" + " (ID " + "02406a83814b45d28f69f70ad5edca7a" + ")"});
                     subview.render();
                 });
-      //          self.updateRegions();
+                self.updateRegions();
             }, function(msg) {
                 if (msg === -1) {
                     window.location.href = '#not_auth';
@@ -235,7 +235,9 @@ var LoginStatus = Backbone.Model.extend({
     updateRegions: function() {
 
         UTILS.Auth.updateRegionsStatus();
-
+        console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+        console.log(UTILS.Auth.getRegions());
+        console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
         this.set('regions', UTILS.Auth.getRegions());
         if (this.get('current_region') === undefined || this.get('regions').indexOf(this.get('current_region')) === -1) {
             this.switchRegion(this.get('regions')[0]);

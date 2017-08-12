@@ -171,9 +171,9 @@ UTILS.GlobalModels = (function(U, undefined) {
             }
 
         } else {
-            console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
+            //console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
             console.log(modelName);
-            console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
+            //console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
             models[modelName].fetch();
         }
     };
@@ -255,11 +255,12 @@ UTILS.Auth = (function(U, undefined) {
         // }
 
         // ambos inclusive
-        var minId = 13693;
+/*        var minId = 13693;
 
         if (JSTACK.Keystone.params.access.user.actorId >= minId) {
             return ['Spain2'];
         }
+       */
         return regions_.sort();
     };
 
@@ -268,7 +269,8 @@ UTILS.Auth = (function(U, undefined) {
         var regions = getRegions();
 
         for (var r in regions) {
-            Sanity.API.getNodeStatus(regions[r], updateRegionStatus, undefined);
+            //Sanity.API.getNodeStatus(regions[r], updateRegionStatus, undefined);
+            regions_sanity_[regions[r]] = 'OK';
         }
     };
 
