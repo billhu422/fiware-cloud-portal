@@ -260,18 +260,20 @@ router.get('/securityGroupRule',function(req, res) {
 });
 
 router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
+    console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
+    console.log(req.body);
     var reqForm = {
-        Region: JSON.parse(req.body).regionId,
+        Region: JSON.parse(req.body).Region,
         Action: 'CreateSecurityGroupPolicy',
         sgId: req.params.sgId,
         direction: JSON.parse(req.body).direction,
         index: JSON.parse(req.body).index,
         policys: [{//Mandatory
-            ipProtocol: JSON.parse(req.body).ipProtocol,
-            cidrIp: JSON.parse(req.body).cidrIp,
-            portRange:  JSON.parse(req.body).from_port + '-' + JSON.parse(req.body).to_port,
+            ipProtocol: JSON.parse(req.body).policys[0].ipProtocol,
+            cidrIp: JSON.parse(req.body).policys[0].cidrIp,
+            portRange:  JSON.parse(req.body).policys[0].portRange,
             desc: '',
-            action: JSON.parse(req.body).action
+            action: JSON.parse(req.body).policys[0].action
         }]
     }
 

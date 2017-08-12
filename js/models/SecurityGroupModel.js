@@ -34,14 +34,18 @@ var SecurityGroup = Backbone.Model.extend({
         return this._action('read',options);
     },
 
-    createSecurityGroupRule: function(ip_protocol, from_port, to_port, cidr, group_id, parent_group_id, options) {
+    createSecurityGroupRule: function(ruleId,ip_protocol, from_port, to_port, cidr, options) {
         options = options || {};
-        options.ip_protocol = ip_protocol;
+        options.ipProtocol = ip_protocol;
         options.from_port = from_port;
         options.to_port = to_port;
-        options.cidr = cidr;
-        options.group_id = group_id;
-        options.parent_group_id = parent_group_id;
+        options.cidrIp = cidr;
+        options.ruleId = ruleId;
+        console.log('8888888888888888888');
+        console.log(options);
+//        options.sgId = sgId;
+        //options.group_id = group_id;
+        //options.parent_group_id = parent_group_id;
         return this._action('createSecurityGroupRule', options);
     },
 
@@ -77,8 +81,8 @@ var SecurityGroup = Backbone.Model.extend({
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
                    //JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error, this.getRegion());
-                   OTHERCLOUD.API.createSecurityGroupRule(model.get('instanceId'),'bj','ingress',options.index,
-                       options.ipProtocol,options.cidrIp,options.from_port,options.to_port,options.action,options.success, options.error);
+                   OTHERCLOUD.API.createSecurityGroupRule(model.get('instanceId'),'bj','ingress',options.ruleId,
+                       options.ipProtocol,options.cidrIp,options.from_port,options.to_port,'accept',options.success, options.error);
                    break;
                 case "deleteSecurityGroupRule":
                    //JSTACK.Nova.deletesecuritygrouprule(options.secGroupRuleId, options.success, options.error, this.getRegion());

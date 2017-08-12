@@ -306,7 +306,8 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         var toPort = $('input[name=toPort]').val();
         var sourceGroup = $('.secGroupSelect :selected').val();
         var cidr = $('input[name=cidr]').val();
-
+        console.log('9999999999999999999');
+        console.log(ipProtocol,fromPort,toPort,cidr);
         var subview;
 
         cidrOK = cidr_pattern.test(cidr);
@@ -314,22 +315,72 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         toPortOK = (toPort >= -1 && toPort <= 65535);
 
         var securityGroupsModel = self.model.get(this.options.securityGroupId);
+//////////////////////////////
+        var ingress_fmt = [];
+        for(var i in securityGroupsModel.get('ingress')){
 
-        for (var index in securityGroupsModel.get('rules')) {
-            var securityGroupRules = securityGroupsModel.get('rules')[index];
-            if (securityGroupRules.ip_protocol === null) {
+            var rule = securityGroupsModel.get('ingress')[i];
+            if (rule.portRange === null || rule.ipProtocol === null) {
                 continue;
             }
 
-            var thisIpProtocol = securityGroupRules.ip_protocol.toUpperCase();
+            if(rule.action.toUpperCase() != 'ACCEPT')
+                continue;
+
+            if(rule.portRange === '' || rule.portRange === null ) {
+                console.log("error");
+            }else if(rule.portRange.split(',')[1] != undefined) {
+                    //console.log(", 格式");
+                    for( j in rule.portRange.split(',')){
+                        var rule_j = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange.split(',')[j],
+                            to_port:rule.portRange.split(',')[j],
+                            ipProtocol: rule.ipProtocol
+                        }
+                        ingress_fmt.push(rule_j);
+                    }
+            } else if(rule.portRange.split('-')[1] != undefined){
+                //console.log("range");
+                var rule_a = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange.split('-')[0],
+                            to_port:rule.portRange.split('-')[1],
+                            ipProtocol: rule.ipProtocol
+                }
+                ingress_fmt.push(rule_a);
+            }else {
+                //console.log("unkown format");
+                var rule_b = {
+                            index:rule.index,
+                            cidrIp: rule.cidrIp,
+                            from_port: rule.portRange,
+                            to_port:rule.portRange,
+                            ipProtocol: rule.ipProtocol
+                }
+                ingress_fmt.push(rule_b);
+            }
+        }
+/////////////////////////////
+
+
+        for (var index in ingress_fmt) {
+            var securityGroupRules = ingress_fmt[index];
+            if (securityGroupRules.ip_protocol === null) {
+                continue;
+            }
+            var thisIpProtocol = securityGroupRules.ipProtocol.toUpperCase();
             var thisFromPort = securityGroupRules.from_port;
             var thisToPort = securityGroupRules.to_port;
-            var thisSourceGroup = securityGroupRules.group.name;
-            var thisCidr = securityGroupRules.ip_range.cidr;
+ //           var thisSourceGroup = securityGroupRules.group.name;
+            var thisCidr = securityGroupRules.cidrIp;
 
-            if ((ipProtocol == thisIpProtocol) && (fromPort == thisFromPort) && (toPort == thisToPort)) {
+            if ((ipProtocol === thisIpProtocol) && (fromPort === thisFromPort) && (toPort === thisToPort)) {
                 console.log("first three equal");
-                if ((sourceGroup == thisSourceGroup) || (cidr == thisCidr)) {
+                //if ((sourceGroup == thisSourceGroup) || (cidr == thisCidr)) {
+                if(cidr == thisCidr)
                     subview = new MessagesView({
                         state: "Error",
                         title: "Security Group Rule already exists. Please try again.",
@@ -338,12 +389,10 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                     subview.render();
                     return false;
                 }
-            }
-
         }
 
         if (cidrOK && fromPortOK && toPortOK) {
-            if ($('.secGroupSelect :selected').val() !== 'CIDR') {
+ /*           if ($('.secGroupSelect :selected').val() !== 'CIDR') {
                 securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, "", sourceGroup, parentGroupId, {
                     callback: function(resp) {
                         securityGroupsModel.fetch({
@@ -366,8 +415,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                         });
                     }
                 });
-            } else {
-                securityGroupsModel.createSecurityGroupRule(ipProtocol, fromPort, toPort, cidr, undefined, parentGroupId, {
+            } else {*/
+
+                securityGroupsModel.createSecurityGroupRule(ingress_fmt.length === 0?-1:ingress_fmt.length,ipProtocol, fromPort, toPort, cidr, {
                     callback: function(resp) {
                         securityGroupsModel.fetch({
                             success: function(resp) {
@@ -388,8 +438,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                         });
                     }
                 });
-            }
-
+           // }
 
         } else {
             subview = new MessagesView({
