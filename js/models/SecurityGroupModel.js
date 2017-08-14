@@ -30,9 +30,9 @@ var SecurityGroup = Backbone.Model.extend({
         return xhr;
     },
 
-    readSecurityGroupRuleDetails:function (options) {
+/*    readSecurityGroupRuleDetails:function (options) {
         return this._action('read',options);
-    },
+    },*/
 
     createSecurityGroupRule: function(ruleId,ip_protocol, from_port, to_port, cidr, options) {
         options = options || {};
@@ -100,11 +100,16 @@ var SecurityGroup = Backbone.Model.extend({
     },
 
     parse: function(resp) {
-        if (resp.security_group !== undefined) {
+        resp.id = resp.orderId + '-' + resp.orderItemId + '-' + resp.instanceId;
+        console.log('2222222222222222222222222222222222222222');
+        console.log(JSON.stringify(resp,4,4));
+        console.log('2222222222222222222222222222222222222222');
+/*        if (resp.security_group !== undefined) {
             return resp.security_group;
         } else {
             return resp;
-        }
+        }*/
+        return resp;
     }
 });
 

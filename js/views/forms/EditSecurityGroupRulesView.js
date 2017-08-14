@@ -68,9 +68,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
     getEntries: function() {
         var entries = [];
         var securityGroupsModel = this.model.get(this.options.securityGroupId);
-        console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
+/*        console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
         console.log(this.options.securityGroupId);
-        console.log(securityGroupsModel);
+        console.log(securityGroupsModel);*/
         var securityGroupRules;
 /*        for (var i in securityGroupsModel.get('rules')) {
             securityGroupRules = securityGroupsModel.get('rules')[i];
@@ -264,6 +264,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                     callback: function(resp) {
                         securityGroupsModel.fetch({
                             success: function(resp) {
+/*                                console.log('444444444444444444444444444');
+                                console.log(JSON.stringify(resp,4,4));
+                                console.log('444444444444444444444444444');*/
                                 self.autoRender();
                                 var subview2 = new MessagesView({
                                     state: "Success",
@@ -313,7 +316,7 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
         cidrOK = cidr_pattern.test(cidr);
         fromPortOK = (fromPort >= -1 && fromPort <= 65535);
         toPortOK = (toPort >= -1 && toPort <= 65535);
-
+        console.log(this.options.securityGroupId);
         var securityGroupsModel = self.model.get(this.options.securityGroupId);
 //////////////////////////////
         var ingress_fmt = [];
@@ -421,6 +424,9 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                     callback: function(resp) {
                         securityGroupsModel.fetch({
                             success: function(resp) {
+/*                                console.log('3333333333333333333333333');
+                                console.log(JSON.stringify(resp,4,4));
+                                console.log('3333333333333333333333333');*/
                                 self.autoRender();
                                 subview = new MessagesView({
                                     state: "Success",

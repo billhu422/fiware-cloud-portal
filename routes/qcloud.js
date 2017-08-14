@@ -121,7 +121,7 @@ function asyncDescribeSecurityGroup(item){
                     }else if(ruledata.codeDesc != 'Success') {
                         resolve(undefined);
                     } else {
-                        resolve(assign(item,data,data.data.detail[0],ruledata.data));
+                        resolve(assign(item,data.data.detail[0],ruledata.data));
                     }
                 });
 
@@ -210,30 +210,6 @@ router.post('/cvm/:id/reboot',function (req,res) {
     }, function(error, data) {
         console.log(data);
         res.send({code:0});
-    })
-});
-
-
-
-router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
-    var reqForm= {
-        Region: req.query.regionId,
-        Action: 'DescribeSecurityGroupPolicys',
-        sgId: req.params.sgId
-    }
-    console.log(reqForm);
-    req.userId = undefined;
-    req.adminAccessToken = undefined;
-
-    capi.request(reqForm, {
-        serviceType: 'dfw'
-    }, function(error, data) {
-        if(error){
-            console.log(error);
-        }else{
-            console.log(JSON.stringify(data,4,4));
-            res.send(data);
-        }
     })
 });
 
@@ -641,6 +617,48 @@ router.delete('/securityGroup/:id',function(req, res) {
     });
 });
 
+router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
+        var adminAccessToken = req.adminAccessToken;
+        var reqForm= {
+            userId:req.userId,
+            provider:'qcloud',
+            productName:'securitygroup',
+            instanceId:req.params.sgId,
+            region:req.query.regionId,
+            del:0
+        }
+        //console.log(reqForm);
+        req.userId = undefined;
+        req.adminAccessToken = undefined;
 
+        var options = {
+            headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+            url:     config.delivery.baseUrl + '/v1/hybrid/instance?'+ qs.stringify(reqForm),
+        }
+        console.log(options);
+        request.get(options, function(e, response, body) {
+/*            console.log('000000000000000000000000000000');
+            console.log(JSON.parse(body).instances[0]);
+            console.log('000000000000000000000000000000');*/
+            var opt = assign({
+                Region: req.query.regionId,
+                Action: 'DescribeSecurityGroupPolicys',
+                Version:'2017-03-12',
+                sgId:req.params.sgId
+            });
+            //console.log(opt);
+            capi.request(opt, {serviceType: 'dfw'}, function (err, ruledata) {
+                //console.log(JSON.stringify(ruledata,4,4));
+                if(err){
+                    console.log(err);
+                    res.status(500).send(err);
+                }else {
+/*                    console.log('111111111111111111111111111111111111111111111111');
+                    console.log(assign(JSON.parse(body).instances[0],ruledata.data));*/
+                    res.send(assign(JSON.parse(body).instances[0],ruledata.data));
+                }
+            });
+        });
+});
 
 module.exports = router;
