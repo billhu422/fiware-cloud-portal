@@ -339,19 +339,19 @@ var OSRouter = Backbone.Router.extend({
             {type: 'regions'},
             {name: '计算', type: 'title'},
             {name: '实例', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
-            //{name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
-            //{name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+            {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
+            {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
             {name: '安全', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
             //{name: 'GaoFangIP', iconcss: "icon_nav-security", active: false, url: '#nova/gaofangip/'},
-            //{name: '快照', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
-            //{name: '存储', type: 'title'}
+            {name: '快照', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
+            {name: '存储', type: 'title'}
         ];
         
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "object-store") !== undefined) {
             tabsArray.push({name: 'Containers', iconcss: "icon_nav-container", active: false, url: '#objectstorage/containers/'});
         }
 
-        //tabsArray.push({name: '存储卷', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
+        tabsArray.push({name: '存储卷', iconcss: "icon_nav-volumes", active: false, url: '#nova/volumes/'});
 
         if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
             tabsArray.push({name: 'Network', type: 'title'});
