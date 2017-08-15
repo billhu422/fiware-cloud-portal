@@ -364,17 +364,12 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     onAction: function(action, instanceIds) {
-        console.log("action 1 ....");
-        console.log(instanceIds);
-        console.log(instanceIds[0]);
-        console.log("action 2 ....");
         var instance, inst, subview;
         var self = this;
         if (instanceIds.length === 1) {
             instance = instanceIds[0];
             inst = this.model.get(instance);
         }
-        console.log('ACTIOOOOOOOOOOOn', action, instance);
         switch (action) {
             case 'edit':
                 subview = new UpdateInstanceView({
@@ -455,7 +450,7 @@ var NovaInstancesView = Backbone.View.extend({
                     btn_message: "启动实例",
                     onAccept: function() {
                         instanceIds.forEach(function(instance) {
-                            console.log("start vm ...");
+                            //console.log("start vm ...");
                             inst = self.model.get(instance);
                             inst.startserver(UTILS.Messages.getCallbacks("Instance "+inst.get("id") + " started.", "Error starting instance "+inst.get("id")));
                         });

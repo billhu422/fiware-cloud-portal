@@ -41,7 +41,7 @@ var Keypair = Backbone.Model.extend({
            switch(method) {
                case "create":
                    //JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
-                   console.log('create keypair:' + model.get("name") + '/' + model.get("public_key"));
+                   //console.log('create keypair:' + model.get("name") + '/' + model.get("public_key"));
                    OTHERCLOUD.API.createQcloudKeypair(model.get("name"),this.getRegion(),model.get("public_key"),options.success, options.error);
                    break;
                case "delete":
@@ -78,7 +78,7 @@ var Keypairs = Backbone.Collection.extend({
             keypair.id = keypair.orderId + '-' + keypair.orderItemId + '-' + keypair.instanceId;
         });
 
-        console.log(resp.instanceInfos);
+        //console.log(resp.instanceInfos);
         return resp.instanceInfos;
     }
 });

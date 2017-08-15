@@ -69,10 +69,10 @@ var SecurityGroup = Backbone.Model.extend({
                    OTHERCLOUD.API.delSecurityGroup(model.get("instanceId"),model.get("region"),options.success, options.error);
                    break;
                case "create":
-               console.log("Creating, ", options.success);
+/*               console.log("Creating, ", options.success);
                console.log('****************************************');
                console.log(this.getRegion());
-               console.log('****************************************');
+               console.log('****************************************');*/
                    //JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
                    OTHERCLOUD.API.createSecurityGroup(model.get("name"),this.getRegion(),model.get("description"),options.success, options.error);
                    break;

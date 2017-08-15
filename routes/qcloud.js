@@ -266,8 +266,8 @@ router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
     }, function(error, data) {
         if(error){
             console.log(error);
+            res.status(500).send(error);
         }else{
-            console.log(JSON.stringify(data,4,4));
             res.send(data);
         }
     })
@@ -343,7 +343,6 @@ function decrypt(str){
 
 router.get('/cvm', function(req, res) {
     var adminAccessToken = req.adminAccessToken;
-    console.log(req);
     var query = {
         userId : req.userId,
         provider: 'qcloud',
@@ -357,9 +356,6 @@ router.get('/cvm', function(req, res) {
         headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
         url:     config.delivery.baseUrl + '/v1/hybrid/instance?' + qs.stringify(query),
     }
-    console.log('99999999999999999999999');
-    console.log(options);
-    console.log('99999999999999999999999');
     request.get(options, function(e, response, body) {
             Promise.map(JSON.parse(body).instances, function (item) {
             return asyncDescribeCvm(item);

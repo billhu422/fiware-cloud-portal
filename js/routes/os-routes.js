@@ -51,14 +51,14 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/', 'nova', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
 
-        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
+/*        this.route('nova/blueprints/instances/', 'blueprint_instances', this.wrap(this.blueprint_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
         this.route('nova/blueprints/instances/:id', 'blueprint_instance', this.wrap(this.blueprint_instance, this.checkAuthAndTimers, ["bpInstancesModel"]));
         this.route('nova/blueprints/instances/:id/tiers/:tier_id/instances', 'blueprint_instance_tier_instances', this.wrap(this.blueprint_instance_tier_instances, this.checkAuthAndTimers, ["bpInstancesModel"]));
 
         this.route('nova/blueprints/templates/', 'blueprint_templates', this.wrap(this.blueprint_templates, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/templates/:id', 'blueprint_template', this.wrap(this.blueprint_template, this.checkAuthAndTimers, ["bpTemplatesModel"]));
         this.route('nova/blueprints/catalog/', 'blueprint_templates_catalog', this.wrap(this.blueprint_templates_catalog, this.checkAuthAndTimers, ["bpTemplatesModel"]));
-        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));
+        this.route('nova/blueprints/catalog/:id', 'blueprint_template_catalog', this.wrap(this.blueprint_template_catalog, this.checkAuthAndTimers));*/
 
         this.route('nova/software/', 'software', this.wrap(this.software, this.checkAuthAndTimers, ["softwareCatalogs"]));
 
@@ -73,11 +73,8 @@ var OSRouter = Backbone.Router.extend({
         this.route('nova/images/', 'images', this.wrap(this.nova_images, this.checkAuthAndTimers, ["images"]));
         this.route('nova/images/:id', 'images',  this.wrap(this.nova_image, this.checkAuthAndTimers));
         this.route('nova/instances/', 'instances', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
-        //this.route('nova/instances/', '实例', this.wrap(this.nova_instances, this.checkAuthAndTimers, ["instancesModel"]));
         this.route('nova/instances/:id/detail', 'instances', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "softwares"]));
-        //this.route('nova/instances/:id/detail', '实例', this.wrap(this.nova_instance, this.checkAuthAndTimers, ["instancesModel", "softwares"]));
         this.route('nova/instances/:id/detail?view=:subview', 'instance', this.wrap(this.nova_instance, this.checkAuthAndTimers));
-        //this.route('nova/instances/:id/detail?view=:subview', '实例', this.wrap(this.nova_instance, this.checkAuthAndTimers));
         this.route('nova/flavors/', 'flavors',  this.wrap(this.nova_flavors, this.checkAuthAndTimers, ["flavors"]));
 
         // Add when cinder v2 is available (for volume backups)

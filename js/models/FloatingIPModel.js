@@ -99,11 +99,11 @@ var FloatingIPs = Backbone.Collection.extend({
             var floating_ip = resp.floating_ips[index];
             list.push(floating_ip);
         }*/
-        console.log(resp.instanceInfos);
+        //console.log(resp.instanceInfos);
         resp.instanceInfos.forEach(function(instance){
               instance.id = instance.id + '-' + instance.orderId + '-' + instance.orderItemId;
-              console.log("------------fetched gaofangip---------------");
-              console.log(instance.id);
+/*              console.log("------------fetched gaofangip---------------");
+              console.log(instance.id);*/
         });
         //return list;
         return resp.instanceInfos;

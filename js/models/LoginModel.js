@@ -221,9 +221,6 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     switchRegion: function(regionId) {
-        console.log('333333333333333333333333');
-        console.log(regionId);
-        console.log('333333333333333333333333');
         UTILS.Auth.switchRegion(regionId);
       
         this.set('current_region', regionId);

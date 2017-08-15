@@ -42,7 +42,7 @@ UTILS.GlobalModels = (function(U, undefined) {
         models.loginModel = new LoginStatus();
         models.flavors = new Flavors();
         models.instancesModel = new Instances();
-        models.bpTemplatesModel = new BPTemplates();
+ //       models.bpTemplatesModel = new BPTemplates();
         models.bpInstancesModel = new BPInstances();
         models.softwares = new Softwares();
         models.softwareCatalogs = new SoftwareCatalogs();
@@ -96,7 +96,7 @@ UTILS.GlobalModels = (function(U, undefined) {
             add_fetch("instancesModel", seconds);
             add_fetch("softwares", seconds);
             add_fetch("softwareCatalogs", seconds);
-            add_fetch("bpTemplatesModel", seconds);
+ //           add_fetch("bpTemplatesModel", seconds);
             add_fetch("bpInstancesModel", seconds);
             add_fetch("volumesModel", seconds);
             add_fetch("images", seconds);
@@ -290,9 +290,6 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var switchRegion = function(regId) {
-        console.log('44444444444444444');
-        console.log(regId);
-        console.log('44444444444444444');
         current_region_ = regId;
     };
 
@@ -448,7 +445,7 @@ UTILS.Auth = (function(U, undefined) {
 
         var _tryTenant = function(tenants) {
             console.log("trying for Tenants...");
-            console.log(tenants);
+            //console.log(tenants);
             if (tenants.length > 0) {
                 if (!tenant_ || tenants.indexOf(tenant_) !== -1) {
                     tenant_ = tenants.pop().id;

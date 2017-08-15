@@ -267,9 +267,6 @@ var Instances = Backbone.Collection.extend({
     sync: function(method, model, options) {
         if (method === "read") {
             OTHERCLOUD.API.describeQcloudIns(this.getRegion(),options.success,options.error);
-            console.log('111111111111111111111111111');
-            console.log(this.getRegion());
-            console.log('111111111111111111111111111');
         }
     },
 

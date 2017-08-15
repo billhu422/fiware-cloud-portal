@@ -68,7 +68,7 @@ var NovaSecurityGroupsView = Backbone.View.extend({
         var sec_group, descr;
         for (var i in this.model.models) {
             sec_group = this.model.models[i];
-            console.log(sec_group);
+            //console.log(sec_group);
             descr = sec_group.get("sgRemark");
             if (descr === null || descr === undefined || descr === "null") {
                 descr = "-";
