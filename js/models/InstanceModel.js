@@ -193,7 +193,8 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.resumeserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "change-password":
-                JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success, options.error, this.getRegion());
+                //JSTACK.Nova.changepasswordserver(model.get("id"), options.adminPass, options.success, options.error, this.getRegion());
+                OTHERCLOUD.API.resetPWIns(model.get('unInstanceId'),this.getRegion(),options.adminPass,options.success, options.error);
                 break;
             case "create-image":
                 JSTACK.Nova.createimage(model.get("id"), options.name, undefined, options.success, options.error, this.getRegion());

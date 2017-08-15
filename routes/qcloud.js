@@ -219,6 +219,28 @@ router.post('/cvm/:id/reboot',function (req,res) {
     })
 });
 
+router.post('/cvm/:id/resetPassword',function (req,res) {
+    var options = {
+        Version: '2017-03-12',
+        Region: JSON.parse(req.body).regionId,
+        Action: 'ResetInstancesPassword',
+        InstanceIds: [req.params.id],
+        Password:JSON.parse(req.body).password,
+        ForceStop:true
+    };
+
+    capi.request(options, { serviceType: 'cvm' },
+        function(error, data) {
+            if (error || data.Response.Error !== undefined){
+                var msg = error==null ? data:error;
+                console.log(msg);
+                res.status(400).send(msg);
+            }else{
+                res.send(data);
+            }
+    });
+})
+
 router.get('/securityGroupRule',function(req, res) {
     var reqForm= {
         Region: JSON.parse(req.body).regionId,
@@ -454,6 +476,7 @@ router.post('/keypair',function (req,res) {
     request.post(options, function(e, response, body) {
         if(e){
             console.log(JSON.stringify(e));
+            res.status(500).send(e);
         }
         else{
             var rbody = {

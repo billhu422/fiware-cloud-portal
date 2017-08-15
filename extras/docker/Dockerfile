@@ -9,13 +9,13 @@ RUN apt-get update && \
 	apt-get install make g++ software-properties-common python-software-properties -y && \
 	apt-get install git ruby1.9.1 -y && \
 	gem install sass  &&\
-    apt-get install curl lrzsz && \
-    apt-get install vim -y
+    apt-get install curl && \
+    apt-get install lrzsz vim -y 
 
 # Download latest version of the code and install npm dependencies
 RUN git clone https://github.com/billhu422/fiware-cloud-portal.git && \
 	cd fiware-cloud-portal && \
-	git checkout -b hybrid tags/vh2.2 && \
+	git checkout -b hybrid tags/vh2.3 && \
 	npm install && \
 	./node_modules/grunt-cli/bin/grunt debug --force
 

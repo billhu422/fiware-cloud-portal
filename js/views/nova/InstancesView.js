@@ -79,15 +79,15 @@ var NovaInstancesView = Backbone.View.extend({
             if (size >= 1) {
                 for (var id in ids) {
                     var entry = self.model.get(ids[id]);
-                    if (entry.get("status") !== "SHUTOFF") {
-              //          return false;
+                    if (entry.get("status") !==  "SHUTOFF") {
+                        //return false;
                         return true;
                     }
                 }
                 return true;
             }
         };
-        return [{
+        return [/*{
             //label: "Edit Instance",
             label: "编辑实例",
             action: "edit",
@@ -121,7 +121,7 @@ var NovaInstancesView = Backbone.View.extend({
             label: "(挂起)恢复实例",
             action: "resume",
             activatePattern: suspendedSelected
-        }, {
+        },*/ {
             label: "关闭实例",
             action: "stop",
             activatePattern: activeGroupSelected
@@ -139,12 +139,12 @@ var NovaInstancesView = Backbone.View.extend({
             action: "reboot",
             warn: true,
             activatePattern: groupSelected
-        }, {
+        } /*,{
             label: "删除实例",
             action: "terminate",
             warn: true,
             activatePattern: groupSelected
-        }];
+        }*/];
     },
 
     getHeaders: function() {
