@@ -7,7 +7,6 @@ var TableView = Backbone.View.extend({
     orderBy: {},
 
     initialize: function() {
-        console.log("initializing TableView");
         // main_buttons: [{label:label, url: #url, action: action_name}]
         // dropdown_buttons: [{label:label, action: action_name}]
         // headers: [{name:name, tooltip: "tooltip", size:"15%", hidden_phone: true, hidden_tablet:false}]
@@ -383,7 +382,7 @@ var TableView = Backbone.View.extend({
     },
 
     render: function() {
-        console.log("tableview start render");
+        //console.log("tableview start render");
         var entries = this.getEntries();
         var new_template = this._template({
             cid: this.cid,
@@ -476,7 +475,7 @@ var TableView = Backbone.View.extend({
         this.changeActionButtons();
         $('.scrollable_' + this.cid).tinyscrollbar({offsetTop: 0, offsetBottom: 0, scrollTo: scrollTo});
         
-        console.log("tableview end render");
+        //console.log("tableview end render");
         return this;
     }
 });

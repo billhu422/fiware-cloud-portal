@@ -42,7 +42,7 @@ var Keypair = Backbone.Model.extend({
                case "create":
                    //JSTACK.Nova.createkeypair(model.get("name"), model.get("public_key"), options.success, options.error, this.getRegion());
                    console.log('create keypair:' + model.get("name") + '/' + model.get("public_key"));
-                   OTHERCLOUD.API.createQcloudKeypair(model.get("name"),'bj',model.get("public_key"),options.success, options.error);
+                   OTHERCLOUD.API.createQcloudKeypair(model.get("name"),this.getRegion(),model.get("public_key"),options.success, options.error);
                    break;
                case "delete":
                    //JSTACK.Nova.deletekeypair(model.get("name"), options.success, options.error, this.getRegion());
@@ -69,7 +69,7 @@ var Keypairs = Backbone.Collection.extend({
     sync: function(method, model, options) {
         if (method === "read") {
             //JSTACK.Nova.getkeypairlist(options.success, options.error, this.getRegion());
-            OTHERCLOUD.API.describeQcloudKeypair(options.success, options.error)
+            OTHERCLOUD.API.describeQcloudKeypair(this.getRegion(),options.success, options.error)
         }
     },
 

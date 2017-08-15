@@ -336,8 +336,7 @@ if (useIDM) {
         var tok;
 
         try {
-            console.log(222);
-            console.log(req.cookies)
+            //console.log(req.cookies)
             tok = decrypt(req.cookies.oauth_token);
         } catch (err) {
             req.cookies.oauth_token = undefined;
@@ -349,12 +348,9 @@ if (useIDM) {
         } else {
             res.redirect("/#token=" + tok + "&expires=" + req.cookies.expires_in);
         }
-        
     });
 
     app.get('/login', function(req, res){
-
-       
         oauth_client.getOAuthAccessToken(
             req.query.code,
             function (e, results){
@@ -362,7 +358,6 @@ if (useIDM) {
                 res.cookie('expires_in', results.expires_in);
                 res.redirect("/#token=" + results.access_token + "&expires=" + results.expires_in);
             });
-
     });
 
     app.get('/logout', function(req, res){
@@ -471,7 +466,8 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                                                //console.log('###qcloud response###');
                                                //console.log(JSON.stringify(data));
                                                //console.log('###qcloud response###');
-                                               JSON.parse(body).instances.forEach(function(el){
+                                                for( i in JSON.parse(body).instances){
+                                                    var el = JSON.parse(body).instances[i];
                                                     var ins = data.data.servicePacks.filter(function(x){return x.id==el.instanceId})[0];
                                                     var merge;
                                                     if(ins != undefined) {
@@ -481,7 +477,7 @@ app.get('/hybrid/qcloud/bgpip',function(req, res) {
                                                         //console.log(merge);
                                                         //console.log('###merged###');
                                                     }
-                                                });
+                                                }
                                                 console.log('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
                                                 res.send('{"code":0,"instanceInfos":'+ JSON.stringify(instanceInfos) + '}');
                                         });

@@ -163,7 +163,7 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "reboot":
-                OTHERCLOUD.API.rebootQcloudIns(model.get("unInstanceId"),options.success,options.error);
+                OTHERCLOUD.API.rebootQcloudIns(model.get("unInstanceId"),this.getRegion(),options.success,options.error);
                 break;
             case "resize":
                 JSTACK.Nova.resizeserver(model.get("id"), options.flavor.id, options.success, options.error, this.getRegion());
@@ -175,10 +175,10 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.revertresizedserver(model.get("id"), options.success, options.error, this.getRegion());
                 break;
             case "stop":
-                OTHERCLOUD.API.stopQcloudIns(model.get("unInstanceId"),options.success,options.error);
+                OTHERCLOUD.API.stopQcloudIns(model.get("unInstanceId"),this.getRegion(),options.success,options.error);
                 break;
             case "start":
-                OTHERCLOUD.API.startQcloudIns(model.get("unInstanceId"),options.success,options.error);
+                OTHERCLOUD.API.startQcloudIns(model.get("unInstanceId"),this.getRegion(),options.success,options.error);
                 break;
             case "pause":
                 JSTACK.Nova.pauseserver(model.get("id"), options.success, options.error, this.getRegion());
@@ -244,8 +244,8 @@ var Instance = Backbone.Model.extend({
         if (resp.server !== undefined) {
             return resp.server;
         } else {
-            console.log("return message");
-            console.log(resp);
+            //console.log("return message");
+            //console.log(resp);
             return resp;
         }
     }
@@ -266,7 +266,10 @@ var Instances = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
-            OTHERCLOUD.API.describeQcloudIns(options.success,options.error);
+            OTHERCLOUD.API.describeQcloudIns(this.getRegion(),options.success,options.error);
+            console.log('111111111111111111111111111');
+            console.log(this.getRegion());
+            console.log('111111111111111111111111111');
         }
     },
 

@@ -172,7 +172,7 @@ UTILS.GlobalModels = (function(U, undefined) {
 
         } else {
             //console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
-            console.log(modelName);
+            //console.log(modelName);
             //console.log("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnova");
             models[modelName].fetch();
         }
@@ -290,6 +290,9 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var switchRegion = function(regId) {
+        console.log('44444444444444444');
+        console.log(regId);
+        console.log('44444444444444444');
         current_region_ = regId;
     };
 
@@ -486,14 +489,32 @@ UTILS.Auth = (function(U, undefined) {
     }
 
     function initRegions(){
-        regions_=[];
-        OTHERCLOUD.API.getRegion(function (res) {
-            //console.log(res);
-            for( r in res){
-                regions_.push(res[r]);
+        regions_ = [];
+/*        OTHERCLOUD.API.getRegion(function (res) {
+            for( var r in res){
+                if (regions_.indexOf(res[r]) === -1) {
+                    regions_.push(res[r]);
+                }
             }
-        },undefined);
-        console.log(regions_);
+            console.log('911111111111111111');
+            console.log(regions_);
+            console.log('911111111111111111');
+            return regions_.sort();
+        },undefined);*/
+        regions_.push('ap-beijing');
+        regions_.push('ap-shangshai');
+        regions_.push('ap-guangzhou');
+        regions_.push('ap-shenzhen');
+        return regions_.sort();
+    }
+
+    function xyz() {
+        var x = [];
+        x.push('h');
+        x.push('e');
+        x.push('l');
+
+        return x;
     }
 
     function changeEndpoints () {
@@ -631,7 +652,8 @@ UTILS.Auth = (function(U, undefined) {
         switchTenant: switchTenant,
         isAdmin: isAdmin,
         isIDM: isIDM,
-        checkGravatar: checkGravatar
+        checkGravatar: checkGravatar,
+        xyz:xyz
     };
 
 })(UTILS);

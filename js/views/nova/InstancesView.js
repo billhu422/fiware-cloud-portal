@@ -254,10 +254,9 @@ var NovaInstancesView = Backbone.View.extend({
        var entries = [];
        var entry = {};
        for (var instance_idx1 in this.model.models) {
-            console.log("got it ........");     
+            //console.log("got it ........");
             var instance1 = this.model.models[instance_idx1];
-            console.log(instance1);
-       
+            //console.log(instance1);
             entry = {
                 id: instance1.id,
                 cells: [{
@@ -544,13 +543,9 @@ var NovaInstancesView = Backbone.View.extend({
     },
 
     render: function() {
-	console.log("renderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
-        console.log(this.model.models);
-	console.log("renderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         if ($(this.el).html() !== null) {
             this.tableView.render();
         }
         return this;
     }
-
 });

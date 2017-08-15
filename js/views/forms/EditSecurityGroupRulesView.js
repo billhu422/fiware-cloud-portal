@@ -424,9 +424,6 @@ var EditSecurityGroupRulesView = Backbone.View.extend({
                     callback: function(resp) {
                         securityGroupsModel.fetch({
                             success: function(resp) {
-/*                                console.log('3333333333333333333333333');
-                                console.log(JSON.stringify(resp,4,4));
-                                console.log('3333333333333333333333333');*/
                                 self.autoRender();
                                 subview = new MessagesView({
                                     state: "Success",

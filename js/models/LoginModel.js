@@ -12,7 +12,8 @@ var LoginStatus = Backbone.Model.extend({
         tenants: undefined,
         expired: true,
         current_region: undefined,
-        regions: undefined
+        regions: undefined,
+        x1:[]
     },
 
     initialize: function () {
@@ -117,13 +118,10 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     onAccessTokenChange: function (context, access_token) {
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
         var self = context;
         if (!UTILS.Auth.isAuthenticated() && access_token !== '' && (new Date().getTime()) < self.get('token-ts') + self.get('token-ex')) {
-            console.log('Auth with ', this.get('tenant_id'), access_token); 
-            console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+            console.log('Auth with ', this.get('tenant_id'), access_token);
             console.log(this.get('tenant_id'));
-            console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCc");
             UTILS.Auth.authenticate(this.get('tenant_id'), access_token, function(tenant) {
                 console.log("Authenticated with token: ", + self.get('token-ex') - (new Date().getTime())-self.get('token-ts'));
                 //console.log("New tenant: " + self.attributes.tenant.name);
@@ -223,6 +221,9 @@ var LoginStatus = Backbone.Model.extend({
     },
 
     switchRegion: function(regionId) {
+        console.log('333333333333333333333333');
+        console.log(regionId);
+        console.log('333333333333333333333333');
         UTILS.Auth.switchRegion(regionId);
       
         this.set('current_region', regionId);
@@ -232,12 +233,16 @@ var LoginStatus = Backbone.Model.extend({
         subview.render();
     },
 
-    updateRegions: function() {
+    ret:function () {
+        var x = [];
+        x.push('a');
+        x.push('b');
+        return x;
+    },
 
+    updateRegions: function() {
         UTILS.Auth.updateRegionsStatus();
-        console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
-        console.log(UTILS.Auth.getRegions());
-        console.log('rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+        //console.log(UTILS.Auth.getRegions());
         this.set('regions', UTILS.Auth.getRegions());
         if (this.get('current_region') === undefined || this.get('regions').indexOf(this.get('current_region')) === -1) {
             this.switchRegion(this.get('regions')[0]);

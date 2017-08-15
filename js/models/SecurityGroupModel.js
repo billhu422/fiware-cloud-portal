@@ -14,7 +14,7 @@ var SecurityGroup = Backbone.Model.extend({
         options = options || {};
         var error = options.error;
         options.success = function(resp) {
-          console.log("Success");
+          //console.log("Success");
             model.trigger('sync', model, resp, options);
             if (options.callback!==undefined) {
                 options.callback(resp);
@@ -41,23 +41,18 @@ var SecurityGroup = Backbone.Model.extend({
         options.to_port = to_port;
         options.cidrIp = cidr;
         options.ruleId = ruleId;
-        console.log('8888888888888888888');
-        console.log(options);
-//        options.sgId = sgId;
-        //options.group_id = group_id;
-        //options.parent_group_id = parent_group_id;
         return this._action('createSecurityGroupRule', options);
     },
 
     deleteSecurityGroupRule: function(sec_group_rule_id, options) {
-        console.log("Delete security group rule");
+        //console.log("Delete security group rule");
         options = options || {};
         options.secGroupRuleId = sec_group_rule_id;
         return this._action('deleteSecurityGroupRule', options);
     },
 
     getSecurityGroupforServer: function(server_id, options) {
-        console.log("Get security groups for server");
+       //console.log("Get security groups for server");
         options = options || {};
         options.serverId = server_id;
         return this._action('getSecurityGroupforServer', options);
@@ -75,13 +70,16 @@ var SecurityGroup = Backbone.Model.extend({
                    break;
                case "create":
                console.log("Creating, ", options.success);
+               console.log('****************************************');
+               console.log(this.getRegion());
+               console.log('****************************************');
                    //JSTACK.Nova.createsecuritygroup( model.get("name"), model.get("description"), options.success, options.error, this.getRegion());
-                   OTHERCLOUD.API.createSecurityGroup(model.get("name"),'bj',model.get("description"),options.success, options.error);
+                   OTHERCLOUD.API.createSecurityGroup(model.get("name"),this.getRegion(),model.get("description"),options.success, options.error);
                    break;
                case "createSecurityGroupRule":
                //console.log(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id);
                    //JSTACK.Nova.createsecuritygrouprule(options.ip_protocol, options.from_port, options.to_port, options.cidr, options.group_id, options.parent_group_id, options.success, options.error, this.getRegion());
-                   OTHERCLOUD.API.createSecurityGroupRule(model.get('instanceId'),'bj','ingress',options.ruleId,
+                   OTHERCLOUD.API.createSecurityGroupRule(model.get('instanceId'),this.getRegion(),'ingress',options.ruleId,
                        options.ipProtocol,options.cidrIp,options.from_port,options.to_port,'accept',options.success, options.error);
                    break;
                 case "deleteSecurityGroupRule":
@@ -101,9 +99,6 @@ var SecurityGroup = Backbone.Model.extend({
 
     parse: function(resp) {
         resp.id = resp.orderId + '-' + resp.orderItemId + '-' + resp.instanceId;
-        console.log('2222222222222222222222222222222222222222');
-        console.log(JSON.stringify(resp,4,4));
-        console.log('2222222222222222222222222222222222222222');
 /*        if (resp.security_group !== undefined) {
             return resp.security_group;
         } else {
@@ -128,7 +123,7 @@ var SecurityGroups = Backbone.Collection.extend({
     sync: function(method, model, options) {
         if(method === "read") {
             //JSTACK.Nova.getsecuritygrouplist(options.success, options.error, this.getRegion());
-            OTHERCLOUD.API.describeSecurityGroup(options.success, options.error);
+            OTHERCLOUD.API.describeSecurityGroup( this.getRegion(),options.success, options.error);
         }
     },
 

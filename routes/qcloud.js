@@ -168,7 +168,7 @@ router.use(function (req,res,next) {
 router.post('/cvm/:id/start',function (req,res) {
 
     var options = {
-        Region: 'bj',
+        Region: JSON.parse(req.body).regionId,
         Action: 'StartInstances',
         'instanceIds.0': req.params.id
     }
@@ -176,15 +176,17 @@ router.post('/cvm/:id/start',function (req,res) {
     capi.request(options, {
         serviceType: 'cvm'
     }, function(error, data) {
-        console.log(data);
-        res.send({code:0});
+        if(error)
+            res.status(500).send(error);
+        else
+            res.send({code:0});
     })
 });
 
 router.post('/cvm/:id/stop',function (req,res) {
 
     var options = {
-        Region: 'bj',
+        Region: JSON.parse(req.body).regionId,
         Action: 'StopInstances',
         'instanceIds.0': req.params.id
     }
@@ -192,15 +194,17 @@ router.post('/cvm/:id/stop',function (req,res) {
     capi.request(options, {
         serviceType: 'cvm'
     }, function(error, data) {
-        console.log(data);
-        res.send({code:0});
+        if(error)
+            res.status(500).send(error);
+        else
+            res.send({code:0});
     })
 });
 
 router.post('/cvm/:id/reboot',function (req,res) {
 
     var options = {
-        Region: 'bj',
+        Region: JSON.parse(req.body).regionId,
         Action: 'RestartInstances',
         'instanceIds.0': req.params.id
     }
@@ -208,8 +212,10 @@ router.post('/cvm/:id/reboot',function (req,res) {
     capi.request(options, {
         serviceType: 'cvm'
     }, function(error, data) {
-        console.log(data);
-        res.send({code:0});
+        if(error)
+            res.status(500).send(error);
+        else
+            res.send({code:0});
     })
 });
 
@@ -227,7 +233,7 @@ router.get('/securityGroupRule',function(req, res) {
         serviceType: 'dfw'
     }, function(error, data) {
         if(error){
-            console.log(error);
+            res.status(500).send(error);
         }else{
            // console.log(JSON.stringify(data,4,4));
             res.send(data);
@@ -236,8 +242,6 @@ router.get('/securityGroupRule',function(req, res) {
 });
 
 router.post('/securityGroup/:sgId/securityGroupRule',function (req,res) {
-    console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG');
-    console.log(req.body);
     var reqForm = {
         Region: JSON.parse(req.body).Region,
         Action: 'CreateSecurityGroupPolicy',
@@ -338,17 +342,24 @@ function decrypt(str){
 }
 
 router.get('/cvm', function(req, res) {
-    var userId = req.userId;
     var adminAccessToken = req.adminAccessToken;
-
+    console.log(req);
+    var query = {
+        userId : req.userId,
+        provider: 'qcloud',
+        productName:'cvm',
+        region: req.query.regionId
+    }
     req.userId = undefined;
     req.adminAccessToken = undefined;
 
     var options = {
         headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
-        url:     config.delivery.baseUrl + '/v1/hybrid/instance?userId='+ userId + '&provider=qcloud&productName=cvm',
+        url:     config.delivery.baseUrl + '/v1/hybrid/instance?' + qs.stringify(query),
     }
-
+    console.log('99999999999999999999999');
+    console.log(options);
+    console.log('99999999999999999999999');
     request.get(options, function(e, response, body) {
             Promise.map(JSON.parse(body).instances, function (item) {
             return asyncDescribeCvm(item);
@@ -366,6 +377,7 @@ router.get('/keypair',function(req, res) {
         userId:req.userId,
         provider:'qcloud',
         productName:'keypair',
+        region:req.query.regionId,
         del:0
     }
 
@@ -513,6 +525,7 @@ router.get('/securityGroup',function(req, res) {
         userId:req.userId,
         provider:'qcloud',
         productName:'securitygroup',
+        region:req.query.regionId,
         del:0
     }
     //console.log(reqForm);
