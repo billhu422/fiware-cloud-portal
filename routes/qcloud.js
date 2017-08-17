@@ -369,7 +369,10 @@ router.get('/cvm', function(req, res) {
         userId : req.userId,
         provider: 'qcloud',
         productName:'cvm',
-        region: req.query.regionId
+        region: req.query.regionId,
+        instanceId:req.query.instanceId,
+        orderId:req.query.orderId,
+        orderItemId:req.query.orderItemId
     }
     req.userId = undefined;
     req.adminAccessToken = undefined;

@@ -1,0 +1,201 @@
+<script id="instanceOverviewTemplate" type="text/html">
+<!--
+Description: Instance Detail Overview
+src: templates/root/nova/instanceDetail/overview.html
+-->
+
+<div id="consult_volume" class="help_page">
+
+    <div class="entity_consult">
+        <div class="entity_detail">
+            <div id="volume_details1" class="active row-fluid">
+                <div class="status span4">
+                    <h4>Info</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Name: </strong>&nbsp;<%= model.get("instanceName") %>
+                        </li>
+                        <li>
+                            <strong>ID: </strong>&nbsp;<%= model.get("unInstanceId") %>
+                        </li>
+                        <li>
+                            <strong>Status: </strong>&nbsp;<%= model.get("status") %>
+                        </li>
+                    </ul>
+                </div>
+                <div class="status span4">
+                    <h4>Specs</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>RAM: </strong>&nbsp;<%=flavor.get("mem")%>MB
+                        </li>
+                        <li>
+                            <strong>VCPUs: </strong>&nbsp;<%=flavor.get("cpu")%> VCPU
+                        </li>
+                        <li>
+                            <strong>Disk: </strong>&nbsp;<%=flavor.get("diskInfo")%>GB
+                        </li>
+                    </ul>
+                </div>
+                <div class="specs span4">
+                    <h4>IP Addresses</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <%
+                        if (JSTACK.Keystone.getendpoint(UTILS.Auth.getCurrentRegion(), "network") !== undefined) {
+                            if (model.get("addresses") != null) {
+                                addresses = model.get("addresses");
+                                for (var i in addresses) {
+                                    var ips = addresses[i];
+                                    for (var j in ips) {
+                                        var ip = ips[j].addr;
+                                         %>
+                        <li>
+                            <em><%=i%></em>: <%=ip%>
+                        </li>
+                                    <%
+                                    }
+                                }
+                            }
+                        } else {
+                            if ((model.get("addresses") != null) && (model.get("addresses")["public"] !== null || model.get("addresses")["private"] !== null)) {
+                                addresses = model.get("addresses")["public"];
+                                for (var addr_idx in addresses) {
+                                    %>
+                        <li>
+                            <em>Public</em>: <%=addresses[addr_idx].addr%>
+                        </li>
+                                    <%
+                                }
+                                addresses = model.get("addresses")["private"];
+                                for (var addr_idx2 in addresses) {
+                                    %>
+                        <li>
+                            <em>Private</em>: <%=addresses[addr_idx2].addr%>
+                        </li>
+                                    <%
+                                }
+                            }
+                        }%>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div id="volume_details2" style="margin-top: 25px;" class="active row-fluid">
+                <div class="status span4">
+                    <h4>Security Groups</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <%
+                         for (var idx in security_groups) {
+                        %>
+                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis" class="tip" data-tooltip="<%=security_groups[idx].name%>">
+                            <%=security_groups[idx].name%>
+                        </li>
+
+                        <%}%>
+                    </ul>
+                </div>
+                <div class="status span4">
+                    <h4>Meta</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <strong>Key name: </strong>&nbsp;<%=model.get("key_name")!==undefined?model.get("key_name"):"<em>None</em>"%>
+                        </li>
+                        <li>
+                            <strong>Image Name: </strong>&nbsp;<a href="#nova/images/<%=image.get("id")%>"><%=image.get("name")%></a>
+                        </li>
+                        <% 
+                        var metadata = model.get("metadata");
+                        if (model.has("metadata")) {
+                            for (var key in metadata) {
+                                if (metadata.hasOwnProperty(key)) {
+                        %>
+                        <li>
+                            <strong><%=key%>: </strong>&nbsp;<%= metadata[key]%>
+                        </li>
+                        <%
+                                }
+                            }
+                        }
+                        %>
+                    </ul>
+                </div>
+                <div class="specs span4">
+                    <h4>Volumes</h4>
+                    <hr class="header_rule">
+                    <ul>
+                        <%
+                         for (var idx in volumes) {
+                        %>
+                        <li style="width: 300px; overflow: hidden; text-overflow: ellipsis">
+                            <%=volumes[idx].device%>
+                        </li>
+
+                        <%}%>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div id="volume_details3" style="margin-top: 25px;" class="active row-fluid">
+                <div class="status span4">
+                    <div>
+                        <h4>Installed Software</h4>
+                <%
+                if (image.get('sdc_aware')) {
+                %>
+
+                        <button id="editSoftware" class="pull-right btn btn-small btn-white btn-create" style="margin-top: -40px;" data-i18n="Edit">Edit</button>
+                    </div>
+                    <hr class="header_rule">
+                    <div id="software-subview-inst" class="software-tier" style="width:100%;">
+                        <div style="float:left;width:65%">
+                           <ul>
+                            <%
+                            installedSoftware.forEach(function(product) {
+                            %>
+                                <li><%=product.name%> <%=product.version%></li>
+                            <%
+                            });
+                            %>
+                           </ul>
+                        </div>
+                        <div style="float:left;width:35%">
+                           <ul>
+                            <%
+                            installedSoftware.forEach(function(product) {
+                            %>
+                                <li><%=product.status%></li>
+                            <%
+                            });
+                            %>
+                           </ul>
+                        </div>
+                   </div>
+                       
+                <%
+                } else {
+                %>
+                    </div>
+                    <hr class="header_rule">
+                    <ul>
+                        <li>
+                            <em>Image </em><%=image.get("name")%><em> does not allow Software Management with SDC.</em>
+                        </li>
+                    </ul>
+
+                <%
+                };
+                %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>

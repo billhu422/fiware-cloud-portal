@@ -160,7 +160,10 @@ var Instance = Backbone.Model.extend({
                 JSTACK.Nova.updateserver(model.get("id"), model.get("name"), options.success, options.error, this.getRegion());
                 break;
             case "read":
-                JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error, this.getRegion());
+                //JSTACK.Nova.getserverdetail(model.get("id"), options.success, options.error, this.getRegion());
+                console.log('aaaaaaaaaaaaa');
+                console.log(model);
+                OTHERCLOUD.API.readQcloudIns(this.getRegion(),model.get("id"),options.success, options.error);
                 break;
             case "reboot":
                 OTHERCLOUD.API.rebootQcloudIns(model.get("unInstanceId"),this.getRegion(),options.success,options.error);

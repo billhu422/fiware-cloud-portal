@@ -11,15 +11,16 @@ var InstanceOverviewView = Backbone.View.extend({
     },
 
     initialize: function() {
-
+        console.log(this);
         var self = this;
         this.options = this.options || {};
-
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx');
         this.model.bind("change", this.onInstanceDetail, this);
         this.model.fetch();
-
-        this.options.sdcs.bind("change", this.render, this);
-        this.options.sdcs.fetch();
+        self.checkAll();
+        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzz');
+/*        this.options.sdcs.bind("change", this.render, this);
+        this.options.sdcs.fetch();*/
 
         var options = {};
         options.callback_sec = function(resp) {
@@ -43,7 +44,7 @@ var InstanceOverviewView = Backbone.View.extend({
     },
 
     onInstanceDetail: function() {
-        var self = this;
+        /*var self = this;
         this.options.flavor = new Flavor();
         this.options.flavor.set({id: this.model.get("flavor").id});
         this.options.flavor.bind("change", function() {
@@ -58,7 +59,7 @@ var InstanceOverviewView = Backbone.View.extend({
             self.checkAll();
         }, this);
         this.options.image.fetch();
-        this.options.flavor.fetch();
+        this.options.flavor.fetch();*/
         this.checkAll();
     },
 
@@ -82,9 +83,9 @@ var InstanceOverviewView = Backbone.View.extend({
     checkAll: function() {
         var self = this;
         //if (this.flavorResp && this.imageResp && this.vncResp && this.logResp) {
-        if (this.flavorResp || this.imageResp) {
+        //if (this.flavorResp || this.imageResp) {
             this.render();
-        }
+        //}
     },
 
     render: function () {
@@ -122,9 +123,13 @@ var InstanceOverviewView = Backbone.View.extend({
         if (self.options.volumes) {
             volumes = self.options.volumes.volumeAttachments;
         }
-
-        var template = self._template({security_groups: security_groups, volumes: volumes, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
+        console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyy');
+/*        var template = self._template({security_groups: security_groups, volumes: volumes, model:self.model, flavor:self.options.flavor, image:self.options.image, installedSoftware: installedSoftware});
+        $(self.el).empty().html(template);*/
+        console.log(self.model);
+        var template = self._template({model:self.model});
         $(self.el).empty().html(template);
+
 
         return this;
     }

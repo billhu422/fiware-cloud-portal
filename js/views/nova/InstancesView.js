@@ -161,14 +161,14 @@ var NovaInstancesView = Backbone.View.extend({
         }, {
             name: "IP Address",
             tooltip: "IP 地址",
-            size: "10%",
+            size: "20%",
             hidden_phone: true,
             hidden_tablet: false
         }, {
             name: "Size",
             //tooltip: "Server's RAM, number of virtual CPUs, and user disk",
             tooltip: "实例的内存，VCPU数量以及硬盘空间",
-            size: "25%",
+            size: "15%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
@@ -261,10 +261,10 @@ var NovaInstancesView = Backbone.View.extend({
                 id: instance1.id,
                 cells: [{
                     value: instance1.get("id"),
-                    link: "#nova/instances/" + "112233" + "/detail",
+                    link: "#nova/instances/" + instance1.get("id") + "/detail",
                     tooltip: "实例名称"
                 }, {
-                    value: instance1.get("lanIp")
+                    value: instance1.get("lanIp") + '(私)' + instance1.get("wanIpSet")[0] + '(公)'
                 }, {
                     value: instance1.get("cpu") + " VCPU" + "|" + instance1.get("mem") + "GB RAM"   
                 }, {

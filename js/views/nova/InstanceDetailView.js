@@ -17,9 +17,9 @@ var InstanceDetailView = Backbone.View.extend({
         this.render();
 
         this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs, sdcCatalog: this.options.sdcCatalog});
-        this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
-        this.vncView = new InstanceConnectionView({el: '#instance_details__vnc', model: this.model});
-        this.monitoringView = new InstanceMonitoringView({el: '#instance_details__monit', model: this.model});
+//        this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
+//        this.vncView = new InstanceConnectionView({el: '#instance_details__vnc', model: this.model});
+//        this.monitoringView = new InstanceMonitoringView({el: '#instance_details__monit', model: this.model});
     
         this.delegateEvents({
             'click #overviewBtn': "showOverview",
@@ -121,7 +121,7 @@ var InstanceDetailView = Backbone.View.extend({
             $(self.el).empty().html(template);
         }
 
-        if (this.options.subview == 'log') {
+/*        if (this.options.subview == 'log') {
             this.showLogs();
 
         } else if (this.options.subview == 'vnc') {
@@ -133,7 +133,7 @@ var InstanceDetailView = Backbone.View.extend({
 
         $("#instance_vnc").unbind();
         $("#instance_logs").unbind();
-        $("#instance_monitoring").unbind();
+        $("#instance_monitoring").unbind();*/
         return this;
     }
 });

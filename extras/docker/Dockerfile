@@ -10,7 +10,7 @@ RUN apt-get update && \
 	apt-get install git ruby1.9.1 -y && \
 	gem install sass  &&\
     apt-get install curl && \
-    apt-get install lrzsz vim -y 
+    apt-get install lrzsz vim -y &&  cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # Download latest version of the code and install npm dependencies
 RUN git clone https://github.com/billhu422/fiware-cloud-portal.git && \
