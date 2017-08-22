@@ -5,12 +5,14 @@ var AccessAndSecurityView = Backbone.View.extend({
     keypairsView: undefined,
     securityGroupsView: undefined,
     floatingIPsView: undefined,
+    newGFIPView: undefined,
 
     initialize: function() {
         this.render();
         this.floatingIPsView = new NovaFloatingIPsView({model: UTILS.GlobalModels.get("floatingIPsModel"), el: '#floating_ips'});
         this.secuirtyGroupsView = new NovaSecurityGroupsView({model: UTILS.GlobalModels.get("securityGroupsModel"), el: '#security_groups'});
         this.keyparisView = new NovaKeypairsView({model: UTILS.GlobalModels.get("keypairsModel"), el: '#keypairs'});
+        this.newGFIPView = new NovaGFIPView({model: UTILS.GlobalModels.get("gFIPLModels"), el: '#gf_ips'});
     },
 
     close: function(e) {

@@ -1,0 +1,42 @@
+<script id="whiteListTemplate" type="text/html">
+    <div id="whitelist" style="position:absolute;height:100%; overflow:auto">
+
+            <div id="w_whitelist-table"></div>
+
+        <form id="w_whitelist_form" onsubmit="return false" style="border-top: 1px solid #f5f5f5">
+               <div>
+                <span class="pull-left"><h5>增加规则</h5></span>
+               </div>
+
+                <table class="table table-without-margins without-borders table-striped table-scrolled ov" >
+                    <tr>
+                        <td >ID/名称</td>
+                        <td >URL</td>
+                        <td >操作</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            *<input type="text"  name="ip" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <td>
+                           * <input type="text"  name="url" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <td>
+                            <input type="submit" id="w_whiteList_add" class="btn btn-blue" value="增加"  >
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                           * 必填
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
+        </form>
+    </div>
+</script>

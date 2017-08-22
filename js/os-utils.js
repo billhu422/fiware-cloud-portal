@@ -11,6 +11,9 @@ UTILS.AUTHORS = 'GING';
 UTILS.GlobalModels = (function(U, undefined) {
 
     models= {
+        gFIPLModels:undefined,
+
+
         loginModel:undefined,
         instancesModel: undefined,
         volumesModel: undefined,
@@ -39,6 +42,9 @@ UTILS.GlobalModels = (function(U, undefined) {
     var foregroundTime = 7;
 
     var initialize = function() {
+        models.gFIPLModels = new GFIPLModels();
+
+
         models.loginModel = new LoginStatus();
         models.flavors = new Flavors();
         models.instancesModel = new Instances();
@@ -93,6 +99,9 @@ UTILS.GlobalModels = (function(U, undefined) {
         if (Object.keys(timers).length === 0) {
             models.quotas.set({id: UTILS.Auth.getCurrentTenant().id});
             var seconds = backgroundTime;
+            add_fetch("gFIPLModels", seconds);
+
+
             add_fetch("instancesModel", seconds);
             add_fetch("softwares", seconds);
             add_fetch("softwareCatalogs", seconds);

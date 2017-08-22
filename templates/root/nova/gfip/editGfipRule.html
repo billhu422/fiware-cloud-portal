@@ -1,0 +1,64 @@
+<script id="editGFIPRuleTemplate" type="text/html">
+    <div id="edit_rule" class="modal hide">
+        <div class="modal-header">
+            <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>编辑高仿ip信息</h3>
+        </div>
+        <div class="modal-body clearfix">
+            <div id="iprule-table"></div>
+        </div>
+        <form id="gfipRule_form" onsubmit="return false" style="border-top: 1px solid #f5f5f5">
+            <div class="modal-body clearfix">
+                <h5>增加规则</h5>
+                <table class="table table-without-margins without-borders table-striped table-scrolled ov" >
+                    <tr>
+                        <td >协议</td>
+                        <td >转发端口</td>
+                        <td >源站端口</td>
+                        <td >源IPs</td>
+                    </tr>
+                    <tr>
+                        <td>
+                          * <select name="protocol" style="width: 80%" required >
+                                <option value="udp">udp</option>
+                                <option value="tcp">tcp</option>
+                            </select>
+                        </td>
+                        <td>
+                            *<input type="number"  name="virtualPort" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <td>
+                           * <input type="number"  name="sourcePort" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <td>
+                            <textarea  type="number" rows="3" cols="20" name="ipList" style="width: 80%" ></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            请用回车分隔多个IP，<br>
+                            最多可输入本IP转发目<br>
+                            标区域内20个公网IP
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="pull-left">* 必填</span>
+                <input type="submit" id="gfipRule_add" class="btn btn-blue pull-right" value="增加"  >
+                <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">返回</a>
+            </div>
+        </form>
+    </div>
+</script>

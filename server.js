@@ -16,6 +16,9 @@ var qs = require("qs");
 var users = require('./routes/users');
 var qcloud = require('./routes/qcloud');
 
+//引入gifp接口
+var gfipserver = require('./routes/gfipServer');
+
 var oauth_config = config.oauth;
 var useIDM = config.useIDM;
 var keystone_config = config.keystone;
@@ -255,6 +258,9 @@ app.set('view engine', 'ejs');
 
 app.use('/users', users);
 app.use('/hybrid/qcloud/',qcloud);
+
+//引入高仿ip接口
+app.use('/gfip',gfipserver);
 
 app.get('/', function(req, res) {
 

@@ -1,0 +1,51 @@
+<script id="editWhiteListTemplate" type="text/html">
+    <div id="edit_whitelist" class="modal hide">
+        <div class="modal-header">
+            <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3>编辑高仿ip白名单</h3>
+        </div>
+        <div class="modal-body clearfix">
+            <div id="whitelist-table"></div>
+        </div>
+        <form id="whitelist_form" onsubmit="return false" style="border-top: 1px solid #f5f5f5">
+            <div class="modal-body clearfix">
+                <h5>增加规则</h5>
+                <table class="table table-without-margins without-borders table-striped table-scrolled ov" >
+                    <tr>
+                        <td >ID/名称</td>
+                        <td >URL</td>
+                        <!--
+                        <td >操作</td>
+                        -->
+                    </tr>
+                    <tr>
+                        <!--
+                        <td>
+                          * <select name="protocol" style="width: 80%" required >
+                                <option value="udp">udp</option>
+                                <option value="tcp">tcp</option>
+                            </select>
+                        </td>
+                        -->
+                        <td>
+                            *<input type="text"  name="ip" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <td>
+                           * <input type="text"  name="url" required style="width: 80%" placeholder="必填" />
+                        </td>
+                        <!--
+                        <td>
+                            <textarea  type="number" rows="3" cols="20" name="ipList" style="width: 80%" ></textarea>
+                        </td>
+                        -->
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="pull-left">* 必填</span>
+                <input type="submit" id="whiteList_add" class="btn btn-blue pull-right" value="增加"  >
+                <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">返回</a>
+            </div>
+        </form>
+    </div>
+</script>

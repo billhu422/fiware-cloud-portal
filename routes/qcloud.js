@@ -696,4 +696,60 @@ router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
         });
 });
 
+
+/******************************************高仿ip列表 begin********************************/
+//获取高仿ip列表
+router.get('/getGFIPList',function(req, resp) {
+    console.log("list-----list!!!!");
+
+    /*console.log(req.userId); */
+
+var result = {gfips:[
+        {"id":"bgpip-000001","lbid":"lb-xxxxxxxx1","name":"80Gbps","region":"gz",
+            "boundIP":"1.2.3.4","bandwidth":"10000Mbps","elasticLimit":"10000Mbps","overloadCount":"100",
+            "status":"idle","expire":"2016-03-02 01:23:45","locked":"yes","transTarget":"nqcloud","transRules":12},
+        {"id":"bgpip-000002","lbid":"lb-xxxxxxxx2","name":"160Gbps","region":"sh",
+            "boundIP":"1.2.3.4","bandwidth":"10000Mbps","elasticLimit":"10000Mbps","overloadCount":"100",
+            "status":"idle","expire":"2016-03-02 01:23:45","locked":"yes","transTarget":"nqcloud","transRules":12},
+    ]};
+resp.send(JSON.stringify(result));
+
+/*
+    var userId = req.userId;
+    var adminAccessToken = req.adminAccessToken;
+
+    req.userId = undefined;
+    req.adminAccessToken = undefined;
+
+    var options = {
+       headers: {'content-type' : 'application/json','Authorization': 'Bearer ' + adminAccessToken },
+       url:     config.delivery.baseUrl + '/v1/hybrid/instance?userId='+ userId + '&provider=qcloud&productName=bgpip',
+    }
+
+    request.get(options, function(e, response, body) {
+            Promise.map(JSON.parse(body).instances, function (item) {
+                    //return asyncDescribeGFIPInfo(item);
+                return item.instanceId;
+            })
+            .then(function(allResults){
+                //res.send('{"code":0,"gfips":' + JSON.stringify(allResults) + '}');
+                return compareBFIP(allResults);
+            })
+            .then(function(allResults){
+                res.send('{"code":0,"gfips":' + JSON.stringify(allResults) + '}');
+            })
+    });
+   //console.log(JSON.stringify(result));
+    //resp.send(JSON.stringify(result));
+*/
+});
+
+
+/******************************************高仿ip列表 end**********************************/
+
+
+
+
+
+
 module.exports = router;
