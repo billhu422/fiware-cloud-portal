@@ -41,11 +41,11 @@ var NovaGFIPView = Backbone.View.extend({
             }
         };
         btns.push ({
-                label: "编辑高仿ip信息",
+                label: "编辑高防ip信息",
                 action: "editInfo",
                 activatePattern: oneSelected
             },  {
-                label: "编辑高仿ip规则",
+                label: "编辑高防ip规则",
                 action: "editRule",
                 activatePattern: oneSelected
             }
@@ -171,7 +171,7 @@ var NovaGFIPView = Backbone.View.extend({
             case 'detail':
                 //subview = new AllocateIPView({el: 'body', pools: this.options.pools, model: self.model});
                 if(!this.getOneSelectedID()){
-                    alert("请之选择一个高仿ip!");
+                    alert("请之选择一个高防ip!");
                     return;
                 }
                 var mode = null;
@@ -190,7 +190,7 @@ var NovaGFIPView = Backbone.View.extend({
                 //subview = new AssociateIPView({el: 'body',  model: floa, instances: this.options.instances});
                 //subview = new AssociateIPView({el: 'body',  model: floa, instances: this.options.instances});
                 if(!this.getOneSelectedID()){
-                    alert("请之选择一个高仿ip!");
+                    alert("请之选择一个高防ip!");
                     return;
                 }
                 var mode = null;
@@ -206,7 +206,7 @@ var NovaGFIPView = Backbone.View.extend({
                 break;
             case 'editRule':
                 if(!this.getOneSelectedID()){
-                    alert("请之选择一个高仿ip!");
+                    alert("请之选择一个高防ip!");
                     return;
                 }
                 var mode = null;
@@ -223,7 +223,7 @@ var NovaGFIPView = Backbone.View.extend({
                 break;
             case 'editWhiteList':
                 if(!this.getOneSelectedID()){
-                    alert("请之选择一个高仿ip!");
+                    alert("请之选择一个高防ip!");
                     return;
                 }
                 var mode = null;
