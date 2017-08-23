@@ -701,7 +701,8 @@ router.get('/securityGroup/:sgId/securityGroupRule',function(req, res) {
 //获取高仿ip列表
 router.get('/getGFIPList',function(req, resp) {
     console.log("list-----list!!!!");
-
+    var regionId = req.param("regionId");
+    console.log("regionId=="+regionId);
     /*console.log(req.userId); */
 
 var result = {gfips:[

@@ -8,6 +8,7 @@ var EditGFIPInfoView = Backbone.View.extend({
         'submit #form_gaofangipInfo': 'updateGFIPInfo',
         'click #threshold_button':'editThreshold',
         'click #cc_protect_button':'editCCprotect',
+        'click #elastic_protect_button':'editElasticProtect',
         'click .modal-backdrop': 'close'
     },
 
@@ -15,6 +16,7 @@ var EditGFIPInfoView = Backbone.View.extend({
            //this.model.set({'cc_protect':0,'threshold':100});
     },
 
+    
     proRender:function(){
         while($('#edit_info').html()!=null||$('.modal-backdrop').html()!=null){
             $('#edit_info').remove();
@@ -36,15 +38,16 @@ var EditGFIPInfoView = Backbone.View.extend({
     editThreshold: function(){
         var value = $("#threshold").val();
         this.model.updateThreshold(value,this);
-        // this.model.set({'threshold':value});
-        // alert(value);
     },
 
     editCCprotect: function(){
         var value=$('#cc_protect').val();
         this.model.updateCCStatus(value,this);
-        // this.model.set({'cc_protect':value});
-        // alert(value);
+    },
+
+    editElasticProtect: function(){
+        var value=$('#elastic_protect').val();
+        this.model.updateElasticProtect(value,this);
     },
 
     close: function(e) {

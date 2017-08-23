@@ -45,6 +45,7 @@ var GFIPLModel = Backbone.Model.extend({
       var options =  options || {};
       options.id = id;
       options.obj = obj;
+      options.regionId = this.getRegion();
       this._action("detail",options);
     },
 
@@ -52,6 +53,7 @@ var GFIPLModel = Backbone.Model.extend({
         var options = options || {};
         options.context = context;
         options.obj = obj;
+        options.regionId = this.getRegion();
         this._action("update",options);
     },
 
@@ -59,6 +61,7 @@ var GFIPLModel = Backbone.Model.extend({
         var options = options || {};
         options.value = value;
         options.obj = obj;
+        options.regionId = this.getRegion();
         this._action('updateThreshold',options);
     },
 
@@ -66,7 +69,16 @@ var GFIPLModel = Backbone.Model.extend({
         var options = options || {};
         options.value = value;
         options.obj = obj;
+        options.regionId = this.getRegion();
         this._action('updateCCStatus',options);
+    },
+
+    updateElasticProtect:function(value,obj){
+        var options = options || {};
+        options.value = value;
+        options.obj = obj;
+        options.regionId = this.getRegion();
+        this._action('updateElasticProtect',options);
     },
 
     sync: function(method, model, options) {
@@ -83,6 +95,10 @@ var GFIPLModel = Backbone.Model.extend({
             case "updateCCStatus":
                 OTHERCLOUD.API.updateCCStatus(model, options.success, options.error,options, this.getRegion());
                 break;
+            case "updateElasticProtect":
+            OTHERCLOUD.API.updateElasticProtect(model, options.success, options.error,options, this.getRegion());
+            break;
+
         }
     },
 
@@ -160,6 +176,7 @@ var GFIPLModels = Backbone.Collection.extend({
 
     sync: function(method, model, options) {
         if (method === "read") {
+            //alert("region="+this.getRegion());
             OTHERCLOUD.API.getGFIPList(model, options.success, options.error, this.getRegion());
         }
     },

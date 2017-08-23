@@ -161,9 +161,11 @@ gifpserver.post("/gfipRule/del",function(req,resp){
 });
 
 //修改高仿ip
-gifpserver.post("/gfip/update",function(req,resp){
+gifpserver.post("/gfipInfo/update",function(req,resp){
 
     console.log('root app gfip rule update');
+    var json = JSON.parse(req.body);
+    console.log('regionId = '+json.regionId);
     /*
     var json = JSON.parse(req.body);
     var result = {"gfip":{}};
@@ -297,6 +299,8 @@ gifpserver.post("/elastic/protection",function(req,resp){
 
             var json = JSON.parse(req.body);
             var threshold = json.threshold;
+            console.log('tanxing=================');
+            console.log('regionId = '+json.regionId);
 
             var capi = new Capi({
                 SecretId: config.qcloud.SecretIdc,
@@ -318,9 +322,10 @@ gifpserver.post("/elastic/protection",function(req,resp){
             capi.request(params, {
                      serviceType: 'csec'
             }, function(error, data) {
-                     resp.send(JSON.stringify(result2));
+                     //resp.send(JSON.stringify(result2));
             });
 
+            resp.send(JSON.stringify(json));
 
 });
 
@@ -330,6 +335,7 @@ gifpserver.post("/cc/protection",function(req,resp){
 
             var json = JSON.parse(req.body);
             var status = json.status;
+            console.log('regionId = '+json.regionId);
             console.log("cc_protection  status !!!---------------------------"+status);
 
             var capi = new Capi({
@@ -353,9 +359,10 @@ gifpserver.post("/cc/protection",function(req,resp){
             capi.request(params, {
                      serviceType: 'csec'
             }, function(error, data) {
-                     resp.send(JSON.stringify(result2));
+                     //resp.send(JSON.stringify(result2));
             });
 
+            resp.send(JSON.stringify(json));
 });
 
 
@@ -367,6 +374,7 @@ gifpserver.post("/cc/threshold",function(req,resp){
             var threshold = json.threshold;
 
             console.log("cc_threshold  threshold !!!---------------------------"+threshold);
+            console.log('regionId = '+json.regionId);
             var capi = new Capi({
                 SecretId: config.qcloud.SecretIdc,
                 SecretKey: config.qcloud.SecretKeyc,
@@ -387,8 +395,12 @@ gifpserver.post("/cc/threshold",function(req,resp){
             capi.request(params, {
                      serviceType: 'csec'
             }, function(error, data) {
-                     resp.send(JSON.stringify(result2));
+                     //resp.send(JSON.stringify(result2));
             });
+
+
+
+            resp.send(JSON.stringify(json));
 });
 
 //获取白名单列表

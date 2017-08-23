@@ -15,11 +15,33 @@
                         <tr><td>CC防护峰值</td><td><input name="id" disabled=disabled value='<%= model.get("id") %>' /></td></tr>
                         <tr><td>当前状态</td><td><input name="status" disabled=disabled value='<%= model.get("status") %>' /></td></tr>
                         <tr><td>到期时间</td><td><input name="expire" disabled=disabled value='<%= model.get("expire") %>' /></td></tr>
+                        <tr><td></td><td><input type="submit" class="btn btn-blue pull-right" value="修改"  ></td></tr>
+                    </table>
+                </div>
+                 </form>
+                <div class="modal-body clearfix" style="border-top: 1px solid #f5f5f5">
+                    <table class="table table-without-margins without-borders table-striped table-scrolled ov">
+                        <tr><td>当前状态:</td><td>
+                            <select id="elastic_protect" name="elastic_protect" style="width: 50%">
+                                <% if (model.get("elastic_protect")==1) { %>
+                                     <option selected="selected" value="1">开启</option>
+                                <% } else { %>
+                                     <option value="1">开启</option>
+                                <% }  %>
+                                 <% if (model.get("elastic_protect")==0) { %>
+                                     <option selected="selected" value="0">未开启</option>
+                                <% } else { %>
+                                    <option value="0">未开启</option>
+                                <% }  %>
+                            </select>
+                            <button id="elastic_protect_button" class="btn btn-blue pull-right">确定</button>
+                        </td></tr>
+                        <tr><td></td><td>想要提升防御可免费开启弹性防护</td></tr>
                     </table>
                 </div>
                 <div class="modal-body clearfix" style="border-top: 1px solid #f5f5f5">
                     <table class="table table-without-margins without-borders table-striped table-scrolled ov">
-                        <tr><td>当前状态:</td><td>
+                         <tr><td>CC防护:</td><td>
                             <select id="cc_protect" name="cc_protect" style="width: 50%">
                                 <% if (model.get("cc_protect")==1) { %>
                                      <option selected="selected" value="1">开启</option>
@@ -34,11 +56,7 @@
                             </select>
                             <button id="cc_protect_button" class="btn btn-blue pull-right">确定</button>
                         </td></tr>
-                        <tr><td></td><td>想要提升防御可免费开启弹性防护</td></tr>
-                    </table>
-                </div>
-                <div class="modal-body clearfix" style="border-top: 1px solid #f5f5f5">
-                    <table class="table table-without-margins without-borders table-striped table-scrolled ov">
+                        <tr><td></td><td>对于敏感业务，可将业务URL添加URL白名单，<br>对于业务不做CC攻击检测和防护</td></tr>
                         <tr><td>http请求阀值:</td><td>
                             <select id="threshold" name="threshold" style="width: 50%">
                                 <% if (model.get("threshold")==240) { %>
@@ -68,10 +86,10 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-blue pull-right" value="修改"  >
+                  <!--  <input type="submit" class="btn btn-blue pull-right" value="修改"  > -->
                     <a id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
                 </div>
-               </form>
+              <!-- </form> -->
             </div>
 
 </script>
