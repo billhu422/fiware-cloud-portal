@@ -22,6 +22,7 @@ var capi = new Capi({
 gifpserver.get('/gfipRule/list',function(req,resp){
 
     console.log('root app gfip rule');
+    console.log("rule list===="+req.param("regionId"));
 
      var result = {gfipRules:[
          {"id":"rule-00000001","protocol":"TCP","virtualPort":"80","sourcePort":"80","ipList":"1.2.3.4；1.1.1.1"},
@@ -87,6 +88,8 @@ gifpserver.get('/gfipRule/list',function(req,resp){
 gifpserver.post("/gfipRule/del",function(req,resp){
 
     console.log('root app gfip rule del');
+    var json = JSON.parse(req.body);
+    console.log('rule del==='+json.regionId);
 
     new Promise(function(resolve,reject){
         //删除规则
@@ -216,6 +219,9 @@ gifpserver.post("/gfipInfo/update",function(req,resp){
 
 //增加高仿ip规则
 gifpserver.post("/gfipRule/add",function(req,resp){
+
+    var json = JSON.parse(req.body);
+    console.log("add rule======"+json.regionId);
 
     var id = req.body.ruleId;
 

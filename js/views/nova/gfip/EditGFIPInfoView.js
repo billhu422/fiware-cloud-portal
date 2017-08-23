@@ -16,7 +16,7 @@ var EditGFIPInfoView = Backbone.View.extend({
            //this.model.set({'cc_protect':0,'threshold':100});
     },
 
-    
+
     proRender:function(){
         while($('#edit_info').html()!=null||$('.modal-backdrop').html()!=null){
             $('#edit_info').remove();

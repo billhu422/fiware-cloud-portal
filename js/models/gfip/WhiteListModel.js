@@ -111,6 +111,7 @@ var WhiteListModels = Backbone.Collection.extend({
         var options = options || {};
         options.parent_id = parent_id;
         options.obj = obj;
+        options.regionId = this.getRegion();
         return this._action('getWhiteList', options);
     },
 
@@ -120,6 +121,7 @@ var WhiteListModels = Backbone.Collection.extend({
             var options = options || {};
             options.url = url;
             options.obj = obj;
+            options.regionId = this.getRegion();
             return this._action('delWhiteList', options);
         }
 
@@ -129,6 +131,7 @@ var WhiteListModels = Backbone.Collection.extend({
         var options = options || {};
         options.context = context;
         options.obj = obj;
+        options.regionId = this.getRegion();
         return this._action('addWhiteList', options);
     },
 

@@ -39,6 +39,7 @@ var GFIPRuleModel = Backbone.Model.extend({
         options.cidr = cidr;
         options.group_id = group_id;
         options.parent_group_id = parent_group_id;
+        options.regionId = this.getRegion();
         return this._action('createSecurityGroupRule', options);
     },
 
@@ -46,6 +47,7 @@ var GFIPRuleModel = Backbone.Model.extend({
         console.log("Delete security group rule");
         options = options || {};
         options.secGroupRuleId = sec_group_rule_id;
+        options.regionId = this.getRegion();
         return this._action('deleteSecurityGroupRule', options);
     },
 
@@ -53,6 +55,7 @@ var GFIPRuleModel = Backbone.Model.extend({
         console.log("Get security groups for server");
         options = options || {};
         options.serverId = server_id;
+        options.regionId = this.getRegion();
         return this._action('getSecurityGroupforServer', options);
     },
 
@@ -111,6 +114,7 @@ var GFIPRuleModels = Backbone.Collection.extend({
         var options = options || {};
         options.parent_id = parent_id;
         options.obj = obj;
+        options.regionId = this.getRegion();
         return this._action('getList', options);
     },
 
@@ -120,6 +124,7 @@ var GFIPRuleModels = Backbone.Collection.extend({
             var options = options || {};
             options.ruleId = ruleId;
             options.obj = obj;
+            options.regionId = this.getRegion();
             return this._action('delRule', options);
         }
     },
@@ -128,6 +133,7 @@ var GFIPRuleModels = Backbone.Collection.extend({
         var options = options || {};
         options.context = context;
         options.obj = obj;
+        options.regionId = this.getRegion();
         return this._action('addRule', options);
     },
 
