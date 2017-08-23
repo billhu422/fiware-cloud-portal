@@ -59,8 +59,8 @@
                         <tr><td></td><td>对于敏感业务，可将业务URL添加URL白名单，<br>对于业务不做CC攻击检测和防护</td></tr>
                         <tr><td>http请求阀值:</td><td>
                             <select id="threshold" name="threshold" style="width: 50%">
-                                <% if (model.get("threshold")==240) { %>
-                                    <option  selected="selected" value="240">240Qag</option>
+                                <% if (model.get("threshold")==0) { %>
+                                    <option  selected="selected" value="0">0Qag</option>
                                 <% } else { %>
                                     <option value="240">240Qag</option>
                                 <% }  %>
