@@ -23,6 +23,7 @@ var EditWhiteListView = Backbone.View.extend({
     },
 
     delWhiteList:function(e){
+        $('body').spin("modal");
         var whiteId = $(e.target).attr("attrId");
         var url = "";
         for(var i=0;i<this.model.length;i++){
@@ -63,6 +64,7 @@ var EditWhiteListView = Backbone.View.extend({
     },
 
     addWhiteList: function() {
+        $('body').spin("modal");
         var param = $('#w_whitelist_form').serialize();
         param = param.replace(/&/g, "','" );
         param = param.replace(/=/g, "':'" );

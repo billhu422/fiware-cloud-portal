@@ -49,10 +49,11 @@ var GFIPLModel = Backbone.Model.extend({
       this._action("detail",options);
     },
 
-    updateInfo: function(context,obj){
+    updateInfo: function(context,obj,body){
         var options = options || {};
         options.context = context;
         options.obj = obj;
+        options.body = body;
         options.regionId = this.getRegion();
         this._action("update",options);
     },

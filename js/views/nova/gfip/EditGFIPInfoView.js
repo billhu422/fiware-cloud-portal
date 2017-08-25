@@ -36,16 +36,19 @@ var EditGFIPInfoView = Backbone.View.extend({
     },
 
     editThreshold: function(){
+        $('body').spin("modal");
         var value = $("#threshold").val();
         this.model.updateThreshold(value,this);
     },
 
     editCCprotect: function(){
+        $('body').spin("modal");
         var value=$('#cc_protect').val();
         this.model.updateCCStatus(value,this);
     },
 
     editElasticProtect: function(){
+        $('body').spin("modal");
         var value=$('#elastic_protect').val();
         this.model.updateElasticProtect(value,this);
     },
@@ -64,13 +67,16 @@ var EditGFIPInfoView = Backbone.View.extend({
     },
 
     updateGFIPInfo: function() {
+        $('body').spin("modal");
         var context = $('#form_gaofangipInfo').serialize();
         context = decodeURIComponent(context,true);
         context = context.replace(/&/g, "','" );
         context = context.replace(/=/g, "':'" );
         context = "({'" +context + "'})" ;
         var p = eval(context);
-        this.model.updateInfo(p,this);
+        this.model.updateInfo(p,this,$('body'));
+
     }
+
 })
 

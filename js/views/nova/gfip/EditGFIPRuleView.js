@@ -28,6 +28,7 @@ var EditGFIPRuleView = Backbone.View.extend({
     },
 
     delRule:function(e){
+        $('body').spin("modal");
         var ruleId = $(e.target).attr("attrId");
         this.model.delRule(ruleId,this);
     },
@@ -64,6 +65,7 @@ var EditGFIPRuleView = Backbone.View.extend({
     },
 
     addRule: function() {
+        $('body').spin("modal");
         var param = $('#gfipRule_form').serialize();
         param = param.replace(/&/g, "','" );
         param = param.replace(/=/g, "':'" );
