@@ -16,6 +16,15 @@
 
     "Instances & Volumes": "实例 & 存储",
     "Images & Snapshots": "镜像 & 快照",
+    "Attachements":"附件",
+    "Size(GB)":"容量(GB)",
+
+    "Visibility":"可见",
+    "Disk Format":"盘格式",
+    "Edit Image":"编辑镜像",
+    "Delete Image":"删除镜像",
+
+    "User Disk":"用户盘",
 
     "System Panel": "系统面板",
     "Manage Compute": "管理计算 Manage Compute",
@@ -119,5 +128,49 @@
     "September": "九月",
     "October": "十月",
     "November": "十一月",
-    "December": "十二月"
+    "December": "十二月",
+
+
+    "Edit Security Group Rules":"编辑安全组规则",
+    "Security Group Rules":"安全组规则",
+    "Add Rule":"增加规则",
+    "Delete Rule":"删除规则",
+    "IP Protocol":"IP协议",
+    "From Port *":"源端口 *",
+    "From Port":"源端口",
+    "Source":"源",
+    "Action":"操作",
+    "To Port *":"目的端口 *",
+    "To Port":"目的端口",
+    "Source Group":"源安全组",
+    "* Mandatory fields.":"* 必填",
+    "Required field.":"必填",
+    "Edit Rules":"编辑规则",
+    "Delete Rules":"删除安全组",
+
+    "Create Security Group":"新建安全组",
+    "Name *":"名称 *",
+    "Description *":"描述 *",
+    "Description":"描述",
+    "From here you can create a new security group":"在这里，你可以新建安全组",
+    "Cancel":"取消",
+
+    "KeyName":"密钥名称",
+    "Keypair Name *":"密钥名称 *",
+    "Keypair Name":"密钥名称",
+    "Keypair Id":"密钥ID",
+    "Create Keypair":"新建密钥",
+    "Download Keypair":"下载私钥",
+    "Keypairs are ssh credentials which are injected into images when they are launched. Creating a new key pair registers the public key and downloads the private key (a .pem file).":"当虚拟机实力被创建时，公钥被注入实例中。创建密钥是注册公钥并且下载私钥（pem文件）",
+    "Protect and use the key as you would any normal ssh private key.":"保证ssh私钥的安全",
+    "Import Keypair":"导入公钥",
+    "Keypairs are ssh credentials which are injected into images when they are launched.":"当虚拟机实力被创建时，公钥被注入实例中。",
+    "Importing a new key pair registers the public key in order to be used with the associated private key.":"导入公钥就是注册公钥，这个公钥关联了私钥。",
+    "Public Key":"公钥",
+    "Delete Keypairs":"删除密钥",
+
+    "Project Info":"信息"
+
+
+
 }

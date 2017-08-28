@@ -7,37 +7,37 @@
     <form id="form" onSubmit="return false;">
         <div class="modal-header">
             <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-            <h3>Create Security Group</h3>
+            <h3 data-i18n="Create Security Group">Create Security Group</h3>
         </div>
         <div class="modal-body clearfix">
             <div class="left">
                 <fieldset>
                     <div class="control-group form-field clearfix">
-                        <label for="name">Name *</label>
+                        <label for="name" data-i18n="Name *">Name *</label>
                         <span class="help-block"></span>
                         <div class="input">
-                            <input type="text" name="name" value="" id="name" rel="tooltip" pattern="^[a-z0-9_\-]{1,87}$"  data-placement="right" placeholder="Lower case letters, numbers, underscores and hyphens." required/>
+                            <input type="text" name="name" value="" id="name" rel="tooltip" pattern="^[a-z0-9_\-]{1,87}$"  data-placement="right" placeholder="小写字母，数字，下划线和连字符。" required/>
                         </div>
                     </div>
                     <div class="control-group form-field clearfix">
-                        <label for="description">Description *</label>
+                        <label for="description" data-i18n="Description *">Description *</label>
                         <span class="help-block"></span>
                         <div class="input">
-                            <input type="text" name="description" value="" id="description" required placeholder="This field is required."/>
+                            <input type="text" name="description" value="" id="description" required placeholder="必填"/>
                         </div>
                 </fieldset>
             </div>
             <div class="right">
-                <h3>Description</h3>
-                <p>
+                <h3 data-i18n="Description">Description</h3>
+                <p data-i18n="From here you can create a new security group">
                     From here you can create a new security group
                 </p>
             </div>
         </div>
         <div class="modal-footer">
-            <p class="mandatoryMess">* Mandatory fields.</p>
-            <input type="submit" class="btn btn-blue pull-right" value="Create Security Group">
-            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+            <p class="mandatoryMess" data-i18n="* Mandatory fields.">* Mandatory fields.</p>
+            <input type="submit" class="btn btn-blue pull-right" data-i18n="Create Security Group" value="新建安全组">
+            <a id="cancelBtn" class="close btn seconday cancel close" data-dismiss="modal" data-i18n="Cancel">Cancel</a>
         </div>
     </form>
 </div>

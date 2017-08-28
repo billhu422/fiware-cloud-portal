@@ -22,10 +22,10 @@ var InstanceDetailView = Backbone.View.extend({
 //        this.monitoringView = new InstanceMonitoringView({el: '#instance_details__monit', model: this.model});
     
         this.delegateEvents({
-            'click #overviewBtn': "showOverview",
-            'click #instance_vnc': 'showVNC',
-            'click #instance_logs': 'showLogs',
-            'click #instance_monitoring': 'showMonitoring'
+            'click #overviewBtn': "showOverview"
+//            'click #instance_vnc': 'showVNC',
+//            'click #instance_logs': 'showLogs',
+//            'click #instance_monitoring': 'showMonitoring'
         });
 
         this.model.fetch();
@@ -37,16 +37,16 @@ var InstanceDetailView = Backbone.View.extend({
             this.options.subview = "overview";
         }
         $('#instance_details__overview').addClass('active');
-        $('#instance_details__vnc').removeClass('active');
+/*        $('#instance_details__vnc').removeClass('active');
         $('#instance_details__log').removeClass('active');
         $('#instance_details__monit').removeClass('active');
         $('#overview').addClass('active');
         $('#vnc').removeClass('active');
         $('#log').removeClass('active');
-        $('#monitoring').removeClass('active');
+        $('#monitoring').removeClass('active');*/
     },
 
-    showVNC: function() {
+/*    showVNC: function() {
         if (this.options) {
             this.options.subview = "vnc";
         }
@@ -86,28 +86,28 @@ var InstanceDetailView = Backbone.View.extend({
         $('#vnc').removeClass('active');
         $('#log').removeClass('active');
         $('#monitoring').addClass('active');
-    },
+    },*/
 
     onClose: function() {
         this.undelegateEvents();
         this.unbind();
 
         this.overviewView.close();
-        this.logView.close();
+/*        this.logView.close();
         this.vncView.close();
-        this.monitoringView.close();
+        this.monitoringView.close();*/
     },
 
     close: function(e) {
         this.undelegateEvents();
         $('#instance_details__overview').removeClass('active');
-        $('#instance_details__log').removeClass('active');
+/*        $('#instance_details__log').removeClass('active');
         $('#instance_details__vnc').removeClass('active');
         $('#instance_details__monit').removeClass('active');
         $('#overview').removeClass('active');
         $('#log').removeClass('active');
         $('#vnc').removeClass('active');
-        $('#monitoring').removeClass('active');
+        $('#monitoring').removeClass('active');*/
         this.onClose();
     },
 

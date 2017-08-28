@@ -339,8 +339,8 @@ var OSRouter = Backbone.Router.extend({
             {type: 'regions'},
             {name: '计算', type: 'title'},
             {name: '实例', iconcss: "icon_nav-instances", active: false, url: '#nova/instances/'},
-            {name: 'Images', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
-            {name: 'Flavors', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
+            {name: '镜像', iconcss: "icon_nav-images", active: false, url: '#nova/images/'},
+            {name: '规格', iconcss: "icon_nav-flavors", active: false, url: '#nova/flavors/'},
             {name: '安全', iconcss: "icon_nav-security", active: false, url: '#nova/access_and_security/'},
             //{name: 'GaoFangIP', iconcss: "icon_nav-security", active: false, url: '#nova/gaofangip/'},
             {name: '快照', iconcss: "icon_nav-snapshots", active: false, url: '#nova/snapshots/'},
@@ -472,14 +472,14 @@ var OSRouter = Backbone.Router.extend({
     },
 
     nova_images: function(self) {
-        self.showNovaRoot(self, 'Images');
+        self.showNovaRoot(self, '镜像');
         var tenant = localStorage.getItem('tenant-id');
         var view = new ImagesView({model: UTILS.GlobalModels.get("images"), tenant: tenant, el: '#content'});
         self.newContentView(self,view);
     },
 
     nova_image: function(self, id) {
-        self.showNovaRoot(self, 'Images');
+        self.showNovaRoot(self, '镜像');
         var image = new ImageVM();
         image.set({"id": id});
         var tenant = localStorage.getItem('tenant-id');
@@ -488,13 +488,13 @@ var OSRouter = Backbone.Router.extend({
     },
 
     nova_flavors: function(self) {
-        self.showNovaRoot(self, 'Flavors');
+        self.showNovaRoot(self, '规格');
         var view = new FlavorView({model: UTILS.GlobalModels.get("flavors"), isProjectTab: true, el: '#content'});
         self.newContentView(self,view);
     },
 
     nova_snapshots: function(self) {
-        self.showNovaRoot(self, 'Snapshots');
+        self.showNovaRoot(self, '快照');
         var view = new NovaSnapshotsView({el: '#content'});
         self.newContentView(self,view);
     },
@@ -541,7 +541,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     nova_volumes: function(self) {
-        self.showNovaRoot(self, 'Volumes');
+        self.showNovaRoot(self, '存储卷');
         var view = new NovaVolumesView({model: UTILS.GlobalModels.get("volumesModel"), el: '#content'});
         self.newContentView(self,view);
 
@@ -562,7 +562,7 @@ var OSRouter = Backbone.Router.extend({
     },
 
     consult_volume: function(self, id) {
-        self.showNovaRoot(self, 'Volumes');
+        self.showNovaRoot(self, '存储');
         var volume = new Volume();
         volume.set({"id": id});
         var view = new VolumeDetailView({model: volume, el: '#content'});

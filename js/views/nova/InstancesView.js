@@ -14,11 +14,12 @@ var NovaInstancesView = Backbone.View.extend({
 
     getMainButtons: function() {
         // main_buttons: [{label:label, url: #url, action: action_name}]
-        return [{
+/*        return [{
             //label: "Launch New Instance",
             label: "创建新实例",
             url: "#nova/images/"
-        }];
+        }];*/
+        return [];
     },
 
     getDropdownButtons: function() {
@@ -266,7 +267,7 @@ var NovaInstancesView = Backbone.View.extend({
                 }, {
                     value: instance1.get("lanIp") + '(私)' + instance1.get("wanIpSet")[0] + '(公)'
                 }, {
-                    value: instance1.get("cpu") + " VCPU" + "|" + instance1.get("mem") + "GB RAM"   
+                    value: instance1.get("cpu") + " VCPU" + "|" + instance1.get("mem") + "GB RAM" + "|" + instance1.get("diskInfo").rootSize + "GB Disk"
                 }, {
                     value: "空"
                 }, {

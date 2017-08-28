@@ -43,14 +43,14 @@ var NovaKeypairsView = Backbone.View.extend({
             type: "checkbox",
             size: "5%"
         }, {
-            name: "Name",
-            tooltip: "Keypair's name",
+            name: "Keypair Id",
+            tooltip: "Keypair's Id",
             size: "60%",
             hidden_phone: false,
             hidden_tablet: false
         }, {
-            name: "Fingerprint",
-            tooltip: "Keypair's unique fingerprint",
+            name: "KeyName",
+            tooltip: "Keypair's name",
             size: "35%",
             hidden_phone: false,
             hidden_tablet: false
@@ -64,9 +64,9 @@ var NovaKeypairsView = Backbone.View.extend({
             var entry = {
                 id: keypair.get('id'),
                 cells: [{
-                    value: keypair.get("KeyId") + '/' + keypair.get("KeyName")
+                    value: keypair.get("KeyId")
                 }, {
-                    value: keypair.get("Description")
+                    value: keypair.get("KeyName")
                 }]
             };
             entries.push(entry);

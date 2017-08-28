@@ -6,7 +6,7 @@
     -->
     <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times</a>
-        <h3>Create Keypair</h3>
+        <h3 data-i18n="Create Keypair">Create Keypair</h3>
     </div>
 
     <form id="create_keypair_form" class="" action="" method="">
@@ -16,11 +16,11 @@
                 <fieldset>
 
                     <div class="control-group form-field clearfix">
-                        <label for="id_name">Keypair Name *</label>
+                        <label for="id_name" data-i18n="Keypair Name *">Keypair Name *</label>
 
                         <span class="help-block" style="display: none; "></span>
                         <div class="input">
-                            <input id="id_name" type="text" name="name" maxlength="20" required placeholder="Keypair Name">
+                            <input id="id_name" type="text" name="name" maxlength="20" required placeholder="密钥名称">
                         </div>
                     </div>
 
@@ -28,20 +28,20 @@
             <div id="downloadKeypair"><a class='downloadKeypair'></a></div>
             </div>
             <div class="right">
-                <h3>Description</h3>
-                <p>
+                <h3 data-i18n="Description">Description</h3>
+                <p data-i18n="Keypairs are ssh credentials which are injected into images when they are launched. Creating a new key pair registers the public key and downloads the private key (a .pem file).">
                     Keypairs are ssh credentials which are injected into images when they are launched. Creating a new key pair registers the public key and downloads the private key (a .pem file).
                 </p>
-                <p>
+                <p data-i18n="Protect and use the key as you would any normal ssh private key.">
                     Protect and use the key as you would any normal ssh private key.
                 </p>
             </div>
 
         </div>
-        <div class="modal-footer">
-            <p class="mandatoryMess">* Mandatory fields.</p>
-            <input id="createBtn1" class="btn btn-blue pull-right" type="submit" value="Create Keypair">
-            <a id="cancelBtn1" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        <div class="modal-footer" >
+            <p class="mandatoryMess" data-i18n="* Mandatory fields.">* Mandatory fields.</p>
+            <input id="createBtn1" class="btn btn-blue pull-right" type="submit" value="新建密钥">
+            <a id="cancelBtn1" class="close btn seconday cancel close" data-dismiss="modal" data-i18n="Cancel">Cancel</a>
         </div>
     </form>
 </div>

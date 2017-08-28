@@ -7,30 +7,30 @@
 
     <div class="modal-header">
         <a id="close" href="#" class="close" data-dismiss="modal">×</a>
-        <h3>Project Info</h3>
+        <h3 data-i18n="Project Info">Project Info</h3>
     </div>
     <form id="project_info_form" onSubmit="return false;" >
         <div class="modal-body clearfix">
             <div class="left">
-                <h3>Credentials</h3>
+                <!--<h3 data-i18n="Credentials">Credentials</h3>-->
                 <br>
                 <p>
-                User name: <strong><%=  username %></strong>
+                用户名: <strong><%=  username %></strong>
                 </p>
                 <p>
-                Tenant name: <strong><%= tenant_name %></strong>
+                租户名: <strong><%= tenant_name %></strong>
                 </p>
                 <p>
-                Tenant id: <strong><%= tenant_id %></strong>
+                租户ID: <strong><%= tenant_id %></strong>
                 </p>
                 <p>
-                Region: <strong><%= current_region %></strong>
+                区域 <strong><%= current_region %></strong>
                 </p>
-                <p>
+<!--                <p>
                 Authentication URL: <strong><%= auth_url %></strong>
-                </p>
+                </p>-->
             </div>
-            <div class="right">
+<!--            <div class="right">
                 <h3>Description</h3>
                 <p>
                 The information shown here, refers to the main variables of authentication required to access Openstack services from the console.
@@ -45,14 +45,14 @@
                 </ul>
 
                 </p>
-            </div>
+            </div>-->
         </div>
 
         <div class="modal-footer">
-            <input type="submit" class="btn btn-blue pull-right" value="Download openrc file"/>
+            <!--<input type="submit" class="btn btn-blue pull-right" value="Download openrc file"/>-->
             
             <!-- Hay que cambiar la url a la que dirige el cancel -->
-            <a href="#" id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">Cancel</a>
+            <a href="#" id="cancelBtn" class="btn secondary cancel close" data-dismiss="modal">取消</a>
         </div>
     </form>
 </div>

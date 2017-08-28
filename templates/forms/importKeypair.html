@@ -6,21 +6,21 @@
     -->
     <div class="modal-header">
         <a id="close" href="#" class="close" data-dismiss="modal">&times;</a>
-        <h3>Import Keypair</h3>
+        <h3 data-i18n="Import Keypair">Import Keypair</h3>
     </div>
     <form action="" id="import_keypair_form">
     <div class="modal-body clearfix">
         <div class="left">
             <fieldset>
                 <div class="control-group form-field clearfix">
-                    <label for="name">Keypair Name</label>
+                    <label for="name" data-i18n="Keypair Name">Keypair Name</label>
                     <span class="help-block"></span>
                     <div class="input">
                         <input type="text" name="name" value="" id="name" />
                     </div>
                 </div>
                 <div class="control-group form-field clearfix">
-                    <label for="name">Public Key</label>
+                    <label for="name" data-i18n="Public Key">Public Key</label>
                     <span class="help-block"></span>
                     <div class="input">
                         <textarea type="text" rows="10" cols="40" name="public_key" value="" id="public_key" style="resize: none;"></textarea>
@@ -29,16 +29,18 @@
             </fieldset>
         </div>
         <div class="right">
-            <h3>Description</h3>
-            <p>
-                Keypairs are ssh credentials which are injected into images when they are launched. 
+            <h3 data-i18n="Description">Description</h3>
+            <p data-i18n="Keypairs are ssh credentials which are injected into images when they are launched.">
+                Keypairs are ssh credentials which are injected into images when they are launched.
+            </p>
+            <p data-i18n="Importing a new key pair registers the public key in order to be used with the associated private key.">
                 Importing a new key pair registers the public key in order to be used with the associated private key.
             </p>
         </div>
     </div>
     <div class="modal-footer">
-        <a id="importBtn" class="btn btn-blue pull-right" data-dismiss="modal">Import Keypair</a>
-        <a id="cancelImportBtn" class="close btn seconday cancel close" data-dismiss="modal">Cancel</a>
+        <a id="importBtn" class="btn btn-blue pull-right" data-dismiss="modal" data-i18n="Import Keypair">Import Keypair</a>
+        <a id="cancelImportBtn" class="close btn seconday cancel close" data-dismiss="modal" data-i18n="Cancel">Cancel</a>
     </div>
     </form>
 </div>

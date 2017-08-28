@@ -7,22 +7,22 @@
     <form id="rulesForm" onSubmit="return false;">
         <div class="modal-header">
             <a id="closeModal" href="#" class="close" data-dismiss="modal">&times;</a>
-            <h3>Edit Security Group Rules</h3>
+            <h3 data-i18n="Edit Security Group Rules" >Edit Security Group Rules</h3>
         </div>
 
         <div id="messHeader" class="modal-body clearfix">
 
             <%var securityGroupsModel = model.get(securityGroupId);%>
 
-    	    <div class='table_header'><h3 class='table_title'>Security Group Rules</h3></div>
+    	    <div class='table_header'><h3 class='table_title' data-i18n="Security Group Rules">Security Group Rules</h3></div>
 
             <div id="edit_security_group_rules"></div>
 
-            <div class='table_header'><h3 class='table_title'>Add Rule</h3></div>
+            <div class='table_header'><h3 class='table_title' data-i18n="Add Rule">Add Rule</h3></div>
 
         	<fieldset class="row-fluid">
     	    	<div class="control-group form-field span3 inline IPProtocolSelect">
-    				    <label for="id_name">IP Protocol</label>
+    				    <label for="id_name"  data-i18n="IP Protocol" >IP Protocol</label>
     				 	<select id="container_switcher" tabindex="1">
     				 		<option value="TCP">TCP</option>
     				 		<option value="UDP">UDP</option>
@@ -31,24 +31,24 @@
     			</div>
 
     			<div class="control-group form-field span2 inline-block fromPort">
-    				    <label for="from_port">From Port *</label>
+    				    <label for="from_port" data-i18n="From Port *">From Port *</label>
     				    <div class="input">
-    				      	<input id="from_port" rel="tooltip" data-placement="right" type="number" name="fromPort" value="" required placeholder="Required field." maxlength="255" min="-1" max="65535">
+    				      	<input id="from_port" rel="tooltip" data-placement="right" type="number" name="fromPort" value="" data-i18n="[required placeholder]Required field." required placeholder="Required field." maxlength="255" min="-1" max="65535">
     				    </div>
     			</div>
 
     			<div class="control-group form-field span2 inline toPort">
-    				    <label for="to_port">To Port *</label>
+    				    <label for="to_port" data-i18n="To Port *" >To Port *</label>
     				    <div class="input">
-    				      	<input id="to_port" type="number" rel="tooltip" data-placement="right" name="toPort" value="" required placeholder="Required field." maxlength="255" min="-1" max="65535">
+    				      	<input id="to_port" type="number" rel="tooltip" data-placement="right" name="toPort" value="" data-i18n="[required placeholder]Required field." required placeholder="Required field." maxlength="255" min="-1" max="65535">
     				    </div>
     			</div>
 
     			<div class="control-group form-field span3 inline-block secGroupSelect">
-    				    <label for="id_name">Source Group</label>
+    				    <label for="id_name" data-i18n="Source Group">Source Group</label>
     				 	<select id="container_switcher" tabindex="1">
     				 		<option value="CIDR">CIDR</option>
-    				 		<optgroup label='Security Group'>
+<!--   				 		<optgroup label='Security Group'>
     				 		<% var securityGroupName, securityGroupId;
     					 		for (var index in model.models) {
     					 		var secGroupName = model.models[index].get('name');
@@ -58,7 +58,7 @@
     					 	%>
     				 		<option value="<%= securityGroupId%>"><%= securityGroupName%></option>
     				 		<% } } %>
-    				 		</optgroup>
+    				 		</optgroup>-->
     				   	</select>
     			</div>
 
@@ -76,7 +76,7 @@
         <div class="log-messages-modal" id="log-messages-rules"></div>
 
         <div class="modal-footer">
-            <p class="mandatoryMess">* Mandatory fields.</p>
+            <p class="mandatoryMess" data-i18n="* Mandatory fields.">* Mandatory fields.</p>
             <input type="submit" class="btn btn-blue pull-right" name='<%= securityGroupsModel.get('id')%>' value="Add Rule">
             <a id="cancel" class="close btn seconday cancel close" data-dismiss="modal">Close</a>
         </div>
