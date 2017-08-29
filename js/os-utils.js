@@ -206,6 +206,7 @@ UTILS.Auth = (function(U, undefined) {
     var tenants = [];
     var access_token_;
     var regions_;
+    var trans_regions_;
     var current_region_;
     var is_idm_ = false;
     var regions_sanity_ = {};
@@ -270,7 +271,8 @@ UTILS.Auth = (function(U, undefined) {
             return ['Spain2'];
         }
        */
-        return regions_.sort();
+        //return regions_.sort();
+        return regions_;
     };
 
     var updateRegionsStatus = function(callback, error) {
@@ -295,7 +297,8 @@ UTILS.Auth = (function(U, undefined) {
     };
 
     var getCurrentRegion = function() {
-        return current_region_;
+
+        return trans_regions_[current_region_];
     };
 
     var switchRegion = function(regId) {
@@ -507,10 +510,18 @@ UTILS.Auth = (function(U, undefined) {
             console.log('911111111111111111');
             return regions_.sort();
         },undefined);*/
-        regions_.push('ap-beijing');
-        regions_.push('ap-shangshai');
-        regions_.push('ap-guangzhou');
-        regions_.push('ap-shenzhen');
+        regions_.push('北京');
+        regions_.push('上海');
+        regions_.push('广州');
+        regions_.push('深圳');
+
+        trans_regions_ = {
+            '北京':"ap-beijing",
+            '上海':"ap-shanghai",
+            '广州':"ap-guangzhou",
+            '深圳':"ap-shenzhen"
+        };
+
         return regions_.sort();
     }
 

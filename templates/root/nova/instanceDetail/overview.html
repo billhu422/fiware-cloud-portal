@@ -10,17 +10,17 @@ src: templates/root/nova/instanceDetail/overview.html
         <div class="entity_detail">
             <div id="volume_details1" class="active row-fluid">
                 <div class="status span4">
-                    <h4>Info</h4>
+                    <h4  data-i18n="Info">Info</h4>
                     <hr class="header_rule">
                     <ul>
                         <li>
-                            <strong>Name: </strong>&nbsp;<%= model.get("instanceInfos")[0].instanceName %>
+                            <strong>名称: </strong>&nbsp;<%= model.get("instanceInfos")[0].instanceName %>
                         </li>
                         <li>
                             <strong>ID: </strong>&nbsp;<%= model.get("instanceInfos")[0].unInstanceId %>
                         </li>
                         <li>
-                            <strong>Status: </strong>&nbsp;<%= model.get("instanceInfos")[0].status %>
+                            <strong>状态: </strong>&nbsp;<%= model.get("instanceInfos")[0].status %>
                         </li>
                     </ul>
                 </div>

@@ -15,7 +15,7 @@ var InstanceDetailView = Backbone.View.extend({
         this.options.sdcCatalog = UTILS.GlobalModels.get("softwareCatalogs");
 
         this.render();
-
+        
         this.overviewView = new InstanceOverviewView({el: '#instance_details__overview', model: this.model, sdcs: this.options.sdcs, sdcCatalog: this.options.sdcCatalog});
 //        this.logView = new InstanceLogView({el: '#instance_details__log', model: this.model});
 //        this.vncView = new InstanceConnectionView({el: '#instance_details__vnc', model: this.model});

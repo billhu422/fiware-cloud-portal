@@ -16,8 +16,12 @@
 
     "Instances & Volumes": "实例 & 存储",
     "Images & Snapshots": "镜像 & 快照",
-    "Attachements":"附件",
-    "Size(GB)":"容量(GB)",
+    "Attachments":"附件",
+    "Size (GB)":"容量 (GB)",
+    "Create Volume":"创建存储卷",
+    "Edit Attachments":"编辑附件",
+    "Create Backup":"新建备份",
+    "Delete Volumes":"删除存储卷",
 
     "Visibility":"可见",
     "Disk Format":"盘格式",
@@ -25,6 +29,14 @@
     "Delete Image":"删除镜像",
 
     "User Disk":"用户盘",
+
+    "Instance Snapshots":"实例快照",
+    "Volume Snapshots":"存储卷快照",
+    "Volume Backups":"存储卷备份",
+    "Delete Snapshots":"删除快照",
+    "Identifier of the corresponding volume":"相关存储卷ID",
+    "Restore Backup":"备份恢复",
+    "Delete Backups":"删除备份",
 
     "System Panel": "系统面板",
     "Manage Compute": "管理计算 Manage Compute",
@@ -45,6 +57,7 @@
     "Quotas": "配额",
     "Quota": "配额",
     "User Settings": "用户设置",
+
 
     "Select a month to query its usage:": "根据月份查询用量",
     "Active Instances:": "活跃的实例 Active Instances",
